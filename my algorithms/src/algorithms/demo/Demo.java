@@ -1,5 +1,8 @@
 package algorithms.demo;
 
+import java.io.IOException;
+
+import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.search.Astar;
 import algorithms.search.Bfs;
@@ -25,9 +28,21 @@ public class Demo {
 		 */
 		Maze3dSearchableAdapter maze = new Maze3dSearchableAdapter(10, 10, 10);
 		maze.print();
-		
 		System.out.println("start Position: " + maze.getStartPosition());
 		System.out.println("goal Position: " + maze.getGoalPosition());
+		
+		try {
+			Maze3d  maze2 = new Maze3d(maze.getMaze().toByteArray());
+			maze2.print();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		
+		
 		Bfs<Position> bfs = new Bfs<Position>();
 		System.out.println("Bfs:");
 		Solution<Position> solution1 = bfs.search(maze);

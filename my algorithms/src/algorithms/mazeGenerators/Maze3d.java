@@ -1,9 +1,13 @@
 package algorithms.mazeGenerators;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * The Class Maze3d.
@@ -68,6 +72,16 @@ public class Maze3d {
 		this.length = length;
 		this.width = width;
 
+	}
+	
+	public Maze3d(byte[] byteArray) {
+		
+		
+		int[] intArray = ByteBuffer.wrap(byteArray).asIntBuffer().array();
+		
+		for (int i : intArray) {
+			System.out.println(i);
+		}
 	}
 
 	/**
@@ -551,48 +565,32 @@ public class Maze3d {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		
-		for (int i = 0; i < this.height; i++) {
-			for (int j = 0; j < this.length; j++) {
-				for (int k = 0; k < this.width; k++) {
-					dos.writeInt(maze[i][j][k]);
-				}
-			}
-		}
-		byte[] maze= baos.toByteArray();
-		dos.flush();
+		
 		
 		int [] array1= this.getStartPosition().split();
 		for (int i = 0; i < array1.length; i++) {
-			dos.writeInt(array1[i]);	
+			dos.write(array1[i]);	
 		}
-		byte[] start = baos.toByteArray();
-		dos.flush();
-
+		
 		int []array2= this.getGoalPosition().split();
 		for (int j = 0; j < array2.length; j++) {
-			dos.writeInt(array2[j]);
+			dos.write(array2[j]);
 		}
-		byte[] goal = baos.toByteArray();
-		dos.flush();
+		dos.write(height);
+		dos.write(length);
+		dos.write(width);
 		
-		dos.writeInt(height);
-		byte [] height= baos.toByteArray();
-		dos.flush();
+		for (int i = 0; i < this.height; i++) {
+			for (int j = 0; j < this.length; j++) {
+				for (int k = 0; k < this.width; k++) {
+					dos.write(maze[i][j][k]);
+				}
+			}
+		}
 		
-		dos.writeInt(length);
-		byte [] length= baos.toByteArray();
-		
-		dos.writeInt(width);
-		byte [] width= baos.toByteArray();
-		dos.flush();
-	
-		baos.write(start);
-		baos.write(goal);
-		baos.write(height);
-		baos.write(length);
-		baos.write(width);
-		baos.write(maze);
 		byte [] retVal = baos.toByteArray();
+		System.out.println(Arrays.toString(retVal));
+		
 		return retVal;
 	}
 }
