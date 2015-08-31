@@ -74,7 +74,7 @@ public class Maze3d {
 
 	}
 	
-	public Maze3d(byte[] byteArray) {
+	/*public Maze3d(byte[] byteArray) {
 		
 		
 		int[] intArray = ByteBuffer.wrap(byteArray).asIntBuffer().array();
@@ -82,7 +82,7 @@ public class Maze3d {
 		for (int i : intArray) {
 			System.out.println(i);
 		}
-	}
+	}*/
 
 	/**
 	 * Gets the maze.
