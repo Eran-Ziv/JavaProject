@@ -10,7 +10,7 @@ import algorithms.search.Solution;
 /**
  * The program implements maze game. we solve it with 2 algorithms: bfs & Astar
  * 
- * @author ziv bruhian
+ * @author ziv bruhian & Eran Reuveni
  * @version 1.0
  * @since 24/8/2015
  */
