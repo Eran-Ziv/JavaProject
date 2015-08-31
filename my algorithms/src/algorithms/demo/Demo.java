@@ -17,7 +17,7 @@ import algorithms.search.Solution;
 
 public class Demo {
 
-	public  void Run() {
+	public static  void Run() {
 
 		/**
 		 * Run. Creates a new 3D maze, and solves it using both A star and BFS.
@@ -25,6 +25,7 @@ public class Demo {
 		 */
 		Maze3dSearchableAdapter maze = new Maze3dSearchableAdapter(10, 10, 10);
 		maze.print();
+		
 		System.out.println("start Position: " + maze.getStartPosition());
 		System.out.println("goal Position: " + maze.getGoalPosition());
 		Bfs<Position> bfs = new Bfs<Position>();
@@ -50,5 +51,8 @@ public class Demo {
 
 	}
 
-	
+	public static void main(String[] args){
+		Run();
+		
+	}
 }
