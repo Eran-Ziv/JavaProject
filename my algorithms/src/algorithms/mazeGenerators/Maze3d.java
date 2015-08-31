@@ -6,6 +6,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -74,15 +75,40 @@ public class Maze3d {
 
 	}
 	
-	/*public Maze3d(byte[] byteArray) {
+	public Maze3d(byte[] byteArray) {
 		
-		
-		int[] intArray = ByteBuffer.wrap(byteArray).asIntBuffer().array();
-		
-		for (int i : intArray) {
-			System.out.println(i);
+		int [] start = new int[3];
+		int [] goal = new int[3];
+		int currentSize = start.length ;
+		for (int i = 0; i < currentSize; i++) {
+			start[i] = (int)byteArray[i];
 		}
-	}*/
+		currentSize = start.length + goal.length;
+		int j=0;
+		for (int i = 3; i < currentSize; i++) {
+			goal[j] = (int) byteArray[i];
+			j++;
+		}
+		currentSize = start.length + goal.length;
+		
+		this.GoalPosition = new Position(goal[0], goal[1], goal[2]);
+		this.StartPosition = new Position(start[0], start[1], start[2]);
+		
+		this.height = (int) byteArray[currentSize++];
+		this.length = (int) byteArray[currentSize++];
+		this.width = (int) byteArray[currentSize++];
+		
+		this.maze = new int[this.height][this.length][this.width];
+		
+		for (int i = 0; i < this.height; i++) {
+			for (int w = 0; w < this.length; w++) {
+				for (int k = 0; k < this.width; k++) {
+					this.maze[i][w][k] = byteArray[currentSize++];
+				}
+			}
+			
+		}
+	}
 
 	/**
 	 * Gets the maze.
@@ -565,8 +591,6 @@ public class Maze3d {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
 		
-		
-		
 		int [] array1= this.getStartPosition().split();
 		for (int i = 0; i < array1.length; i++) {
 			dos.write(array1[i]);	
@@ -589,7 +613,7 @@ public class Maze3d {
 		}
 		
 		byte [] retVal = baos.toByteArray();
-		System.out.println(Arrays.toString(retVal));
+		
 		
 		return retVal;
 	}

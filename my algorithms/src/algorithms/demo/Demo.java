@@ -33,6 +33,8 @@ public class Demo {
 		
 		try {
 			Maze3d  maze2 = new Maze3d(maze.getMaze().toByteArray());
+			System.out.println("start Position: " + maze2.getStartPosition());
+			System.out.println("goal Position: " + maze2.getGoalPosition());
 			maze2.print();
 		} catch (IOException e) {
 			e.printStackTrace();
