@@ -1,6 +1,13 @@
 package algorithms.demo;
 
+import io.MyCompressorOutputStream;
+import io.MyDecompressorInputStream;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
@@ -30,22 +37,41 @@ public class Demo {
 		maze.print();
 		System.out.println("start Position: " + maze.getStartPosition());
 		System.out.println("goal Position: " + maze.getGoalPosition());
-		
+
 		try {
 			Maze3d  maze2 = new Maze3d(maze.getMaze().toByteArray());
 			System.out.println("start Position: " + maze2.getStartPosition());
 			System.out.println("goal Position: " + maze2.getGoalPosition());
 			maze2.print();
+			
+			
+			OutputStream out=new MyCompressorOutputStream(
+					new FileOutputStream("1.txt"));
+			out.write(maze2.toByteArray());
+			out.flush();
+			out.close();
+			InputStream in=new MyDecompressorInputStream(
+					new FileInputStream("1.txt"));
+					byte b[]=new byte[maze2.toByteArray().length];
+					in.read(b);
+					in.close();
+					Maze3d loaded=new Maze3d(b);
+					System.out.println("start Position: " + maze2.getStartPosition());
+					System.out.println("goal Position: " + maze2.getGoalPosition());
+					System.out.println(loaded.equals(maze2));
+					
+					loaded.print();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
-		
-		Bfs<Position> bfs = new Bfs<Position>();
+
+
+
+
+
+
+		/*Bfs<Position> bfs = new Bfs<Position>();
 		System.out.println("Bfs:");
 		Solution<Position> solution1 = bfs.search(maze);
 		solution1.print();
@@ -64,12 +90,12 @@ public class Demo {
 		Solution<Position> solution3 = manhattan.search(maze);
 		solution3.print();
 		System.out.println(manhattan.getNumberOfNodesEvaluated());
-		System.out.println("---------End of manhattanAstar---------");
+		System.out.println("---------End of manhattanAstar---------");*/
 
 	}
 
 	public static void main(String[] args){
 		Run();
-		
+
 	}
 }
