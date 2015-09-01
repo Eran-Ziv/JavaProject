@@ -56,8 +56,8 @@ public class Demo {
 					in.read(b);
 					in.close();
 					Maze3d loaded=new Maze3d(b);
-					System.out.println("start Position: " + maze2.getStartPosition());
-					System.out.println("goal Position: " + maze2.getGoalPosition());
+					System.out.println("start Position: " + loaded.getStartPosition());
+					System.out.println("goal Position: " + loaded.getGoalPosition());
 					System.out.println(loaded.equals(maze2));
 					
 					loaded.print();

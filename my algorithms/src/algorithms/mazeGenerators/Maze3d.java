@@ -74,9 +74,9 @@ public class Maze3d {
 		this.width = width;
 
 	}
-	
+
 	public Maze3d(byte[] byteArray) {
-		
+
 		int [] start = new int[3];
 		int [] goal = new int[3];
 		int currentSize = start.length ;
@@ -90,23 +90,23 @@ public class Maze3d {
 			j++;
 		}
 		currentSize = start.length + goal.length;
-		
+
 		this.GoalPosition = new Position(goal[0], goal[1], goal[2]);
 		this.StartPosition = new Position(start[0], start[1], start[2]);
-		
+
 		this.height = (int) byteArray[currentSize++];
 		this.length = (int) byteArray[currentSize++];
 		this.width = (int) byteArray[currentSize++];
-		
+
 		this.maze = new int[this.height][this.length][this.width];
-		
+
 		for (int i = 0; i < this.height; i++) {
 			for (int w = 0; w < this.length; w++) {
 				for (int k = 0; k < this.width; k++) {
 					this.maze[i][w][k] = byteArray[currentSize++];
 				}
 			}
-			
+
 		}
 	}
 
@@ -495,6 +495,23 @@ public class Maze3d {
 
 	}
 
+	public boolean equals(Maze3d maze) {
+		if(this.getStartPosition().equals(maze.getStartPosition())&&this.getGoalPosition().equals(maze.getGoalPosition()))
+			if(this.getHeight()==maze.getHeight()&&this.getLength()==maze.getLength()&&this.getWidth()==maze.getWidth())
+				for (int i = 0; i < this.maze.length; i++) {
+					for (int j = 0; j < this.maze.length; j++) {
+						for (int k = 0; k < this.maze.length; k++) {
+							if(this.maze[i][j][k]==maze.maze[i][j][k])
+								return true;
+								
+						}
+						
+					}
+					
+				}
+		return false;
+	}
+
 	/**
 	 * Gets the cross section by z.
 	 *
@@ -586,16 +603,16 @@ public class Maze3d {
 	}
 
 	public byte[] toByteArray() throws IOException{
-       
-		
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(baos);
-		
+
 		int [] array1= this.getStartPosition().split();
 		for (int i = 0; i < array1.length; i++) {
 			dos.write(array1[i]);	
 		}
-		
+
 		int []array2= this.getGoalPosition().split();
 		for (int j = 0; j < array2.length; j++) {
 			dos.write(array2[j]);
@@ -603,7 +620,7 @@ public class Maze3d {
 		dos.write(height);
 		dos.write(length);
 		dos.write(width);
-		
+
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.length; j++) {
 				for (int k = 0; k < this.width; k++) {
@@ -611,10 +628,10 @@ public class Maze3d {
 				}
 			}
 		}
-		
+
 		byte [] retVal = baos.toByteArray();
-		
-		
+
+
 		return retVal;
 	}
 }
