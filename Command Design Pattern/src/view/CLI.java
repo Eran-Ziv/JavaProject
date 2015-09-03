@@ -46,11 +46,13 @@ public class CLI extends Thread {
 	synchronized public void run()  {
 		String line;
 		Command command;
+		String [] args;
 		try {
 			while ((line= in.readLine())!="exit"){
-				if(commands.containsKey(line)/*to do*/){
-					command= commands.get(line);
-					this.runInThread(command);
+				args= line.split(" ");
+				if(commands.containsKey(args[0])/*to do*/){
+					command= commands.get(args[0]);
+					this.runInThread(command,args);
 				}
 				else{
 					out.write("Invalid command");
@@ -61,10 +63,10 @@ public class CLI extends Thread {
 		}
 	}
 
-	private void runInThread (Command c) {
+	private void runInThread (Command c, String [] args) {
 		new Thread(new Runnable() {
 			public void run() {
-				c.doCommand();
+				c.doCommand(args);
 			}
 		}).start();
 	}
