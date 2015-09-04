@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Scanner;
+
 
 import controller.Command;
 
@@ -43,7 +43,7 @@ public class CLI extends Thread {
 
 
 
-	synchronized public void run()  {
+	 public void run()  {
 		String line;
 		Command command;
 		String [] args;
@@ -52,6 +52,7 @@ public class CLI extends Thread {
 				args= line.split(" ");
 				if(commands.containsKey(args[0])/*to do*/){
 					command= commands.get(args[0]);
+					
 					this.runInThread(command,args);
 				}
 				else{
