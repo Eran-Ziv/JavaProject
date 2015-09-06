@@ -13,26 +13,19 @@ public class MyView implements View {
 
 
 	public MyView(Controller controller) {
-		super();
 		this.controller = controller;
 	}
-	
 
 	public Controller getController() {
 		return controller;
 	}
 
-
-
 	public void setController(Controller controller) {
 		this.controller = controller;
 	}
 
-
-
 	@Override
 	public void dirCommand(String[] args) {
-
 
 		File file = new File(args[1]);
 		File[] listOfFiles = file.listFiles();
@@ -49,9 +42,9 @@ public class MyView implements View {
 	}
 
 	@Override
-	public void display(Maze3d maze) {
+	public void displayMaze(byte[] b) {
 
-		maze.print();
+		System.out.println(b.toString());
 
 	}
 
@@ -66,7 +59,6 @@ public class MyView implements View {
 		}
 		else if (axis=='y'){
 			maze.getCrossSectionByY(section);
-
 		}
 		else {
 			System.out.println("invalid axis");
@@ -76,8 +68,16 @@ public class MyView implements View {
 
 	@Override
 	public void displaySolution(Solution<Position> s) {
-		
+
 		s.print();
+
+	}
+
+
+	@Override
+	public void displayError() {
+
+		System.out.println("Error");
 
 	}
 }
