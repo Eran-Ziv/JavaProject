@@ -15,17 +15,27 @@ public class MyView implements View {
 		
 	}
 
-	public class Display implements Command{
+	@Override
+	public void dirCommand(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		@Override
-		public void doCommand(String[] args) {
-			
-		myController.getMyModel().getMazes();
-			
-			
-		}
+	@Override
+	public void display(String[] args) {
+		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void displayCrossSectionBy(String[] args) {
+		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void displaySolution(String[] args) {
+		// TODO Auto-generated method stub
 		
 	}
 }

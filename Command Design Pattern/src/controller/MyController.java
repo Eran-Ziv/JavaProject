@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.HashMap;
+
 import view.MyView;
 import view.View;
 import model.Model;
@@ -7,19 +9,39 @@ import model.MyModel;
 
 public class MyController implements Controller {
 
-	private MyModel myModel;
-	private MyView myView;
-	public MyModel getMyModel() {
-		return myModel;
+	private Model model;
+	private View view;
+	
+	
+	
+	public Model getModel() {
+		return model;
 	}
-	public void setMyModel(MyModel myModel) {
-		this.myModel = myModel;
+
+
+
+	public void setModel(Model model) {
+		this.model = model;
 	}
-	public MyView getMyView() {
-		return myView;
+
+
+
+	public View getView() {
+		return view;
 	}
-	public void setMyView(MyView myView) {
-		this.myView = myView;
+
+
+
+	public void setView(View view) {
+		this.view = view;
+	}
+
+
+
+	@Override
+	public HashMap<String, Command> getCommands() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

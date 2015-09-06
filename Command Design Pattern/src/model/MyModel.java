@@ -76,4 +76,45 @@ public class MyModel implements Model {
 
 	}
 
+	@Override
+	public void generateModel(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void saveModel(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void getModelSizeInMemory(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void getModelSizeInFile(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void loadModel(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void solveModel(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
