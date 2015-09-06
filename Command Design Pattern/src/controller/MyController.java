@@ -1,19 +1,22 @@
 package controller;
 
 import java.util.HashMap;
-
-import view.MyView;
 import view.View;
 import model.Model;
-import model.MyModel;
+
 
 public class MyController implements Controller {
 
 	private Model model;
 	private View view;
 	
-	
-	
+	public MyController(Model model, View view) {
+		this.model = model;
+		this.view = view;
+	}
+
+
+
 	public Model getModel() {
 		return model;
 	}

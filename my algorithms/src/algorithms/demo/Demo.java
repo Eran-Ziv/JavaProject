@@ -2,20 +2,13 @@ package algorithms.demo;
 
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import algorithms.mazeGenerators.Maze3d;
-import algorithms.mazeGenerators.Position;
-import algorithms.search.Astar;
-import algorithms.search.Bfs;
-import algorithms.search.MazeEuclideanDistance;
-import algorithms.search.MazeManhattanDistance;
-import algorithms.search.Solution;
+
 
 /**
  * The program implements maze game. we solve it with 2 algorithms: bfs & Astar

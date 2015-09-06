@@ -1,41 +1,83 @@
 package view;
 
-import controller.Command;
+import java.io.File;
+import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 import controller.Controller;
-import controller.MyController;
 
 public class MyView implements View {
 
-	
-	private MyController myController;
-	
-	
-	public MyView(MyController myController) {
-		
-		
+
+	private Controller controller;
+
+
+	public MyView(Controller controller) {
+		super();
+		this.controller = controller;
 	}
+	
+
+	public Controller getController() {
+		return controller;
+	}
+
+
+
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+
+
 
 	@Override
 	public void dirCommand(String[] args) {
-		// TODO Auto-generated method stub
-		
+
+
+		File file = new File(args[1]);
+		File[] listOfFiles = file.listFiles();
+		for (File files : listOfFiles) {
+			if (files.isFile()) {
+				System.out.println(files.getName());
+			}
+			if(files.isDirectory()){
+				System.out.println(files.getName());
+			}
+		}
+
+
 	}
 
 	@Override
-	public void display(String[] args) {
-		// TODO Auto-generated method stub
-		
+	public void display(Maze3d maze) {
+
+		maze.print();
+
 	}
 
 	@Override
-	public void displayCrossSectionBy(String[] args) {
-		// TODO Auto-generated method stub
-		
+	public void displayCrossSectionBy(Maze3d maze, char axis, int section ) {
+
+		if(axis=='z'){
+			maze.getCrossSectionByZ(section);
+		}
+		else if(axis=='x'){
+			maze.getCrossSectionByX(section);
+		}
+		else if (axis=='y'){
+			maze.getCrossSectionByY(section);
+
+		}
+		else {
+			System.out.println("invalid axis");
+		}
+
 	}
 
 	@Override
-	public void displaySolution(String[] args) {
-		// TODO Auto-generated method stub
+	public void displaySolution(Solution<Position> s) {
 		
+		s.print();
+
 	}
 }
