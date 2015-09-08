@@ -26,11 +26,12 @@ import algorithms.search.Solution;
 import controller.Command;
 import controller.Controller;
 
-public class MyModel implements Model<Position> { 
+public class MyModel implements Model { 
 
-	private Controller<Position> controller;
-	private HashMap<String, byte[]> mazes;
+	private Controller controller;
+	private HashMap<String, byte[]> nameToMaze;
 	private HashMap<String, String> nameToFileName;
+	private HashMap<String, Solution<Position>>nameToSolution;
 	
 	
 	@Override
@@ -39,7 +40,7 @@ public class MyModel implements Model<Position> {
 		
 		try {
 			byte[] byteArray = myAdapter.getMaze().toByteArray();
-			mazes.put(name, byteArray);
+			nameToMaze.put(name, byteArray);
 			return byteArray;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -56,7 +57,7 @@ public class MyModel implements Model<Position> {
 		try {
 			MyCompressorOutputStream myCompressor = new MyCompressorOutputStream(new FileOutputStream(fileName));
 			nameToFileName.put(name, fileName);
-			myCompressor.write(mazes.get(name));
+			myCompressor.write(nameToMaze.get(name));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Error file not found exeption, save model");
@@ -72,7 +73,7 @@ public class MyModel implements Model<Position> {
 	@Override
 	public int getModelSizeInMemory(String name) {
 		
-		int size = mazes.get(name).length;
+		int size = nameToMaze.get(name).length;
 		return size;
 	}
 
@@ -111,15 +112,20 @@ public class MyModel implements Model<Position> {
 	@Override
 	public Solution<Position> solveModel(String name, String algorithm, String heuristic) {
 		
-		byte[] byteArray = mazes.get(name);
+		if(nameToSolution.get(name) != null){
+			return nameToSolution.get(name); 
+		}
+		
+		
+		byte[] byteArray = nameToMaze.get(name);
 		Maze3d myMaze = new Maze3d(byteArray);
 		Heuristic myHeuristic;
 		Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 		
 		if(algorithm.toLowerCase().equals("bfs")){
 			Bfs <Position> myBfs = new Bfs<Position>();
-			
-			return myBfs.search(myAdapter);
+			nameToSolution.put(name, myBfs.search(myAdapter) );
+			return nameToSolution.get(name);
 		}
 		else if(algorithm.toLowerCase().equals("astar")){
 			

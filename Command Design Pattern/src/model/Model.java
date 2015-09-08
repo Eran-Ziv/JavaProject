@@ -2,7 +2,7 @@ package model;
 
 import algorithms.search.Solution;
 
-public interface Model<T> {
+public interface Model {
 
 	
 	byte[] generateModel(String name, int z, int x, int y);
@@ -10,6 +10,6 @@ public interface Model<T> {
 	int getModelSizeInMemory(String name);
 	long getModelSizeInFile(String name);
 	byte[] loadModel(String fileName, String name);
-	Solution<T> solveModel(String name, String algorithm, String heuristic);
+	<T> Solution<T> solveModel(String name, String algorithm, String heuristic);
 	
 }

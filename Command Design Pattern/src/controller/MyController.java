@@ -1,18 +1,14 @@
 package controller;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.HashMap;
-
-import algorithms.mazeGenerators.Position;
-import view.MyView;
 import view.View;
 import model.Model;
-import model.MyModel;
+
 
 public class MyController implements Controller {
 
-	private Model<Position> model;
+	private Model model;
 	private View  view;
 	HashMap<String, Command> commands;
 	
@@ -50,12 +46,18 @@ public class MyController implements Controller {
 		@Override
 		public void run() {
 			
+			String name;
+			String algorithm;
+			String heuristic ;
 			
+			
+	
+			model.solveModel(name, algorithm, heuristic);
 		}
 
 		@Override
 		public void close() throws IOException {
-			// TODO Auto-generated method stub
+			
 			
 		}
 
