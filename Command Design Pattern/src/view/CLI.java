@@ -43,7 +43,17 @@ public class CLI extends Thread {
 
 
 
-	 public void run()  {
+	 public HashMap<String, Command> getCommands() {
+		return commands;
+	}
+
+
+	public void setCommands(HashMap<String, Command> commands) {
+		this.commands = commands;
+	}
+
+
+	public void run()  {
 		String line;
 		Command command;
 		String [] args;

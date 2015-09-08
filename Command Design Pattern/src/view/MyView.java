@@ -1,15 +1,18 @@
 package view;
 
 import java.io.File;
-import algorithms.mazeGenerators.Maze3d;
-import algorithms.mazeGenerators.Position;
+import java.util.HashMap;
+
+import algorithms.mazeGenerators.State;
 import algorithms.search.Solution;
+import controller.Command;
 import controller.Controller;
 
 public class MyView implements View {
 
 
 	private Controller controller;
+	private CLI myCli;
 
 
 	public MyView(Controller controller) {
@@ -25,9 +28,9 @@ public class MyView implements View {
 	}
 
 	@Override
-	public void dirCommand(String[] args) {
+	public void dirCommand(String fileName) {
 
-		File file = new File(args[1]);
+		File file = new File(fileName);
 		File[] listOfFiles = file.listFiles();
 		for (File files : listOfFiles) {
 			if (files.isFile()) {
@@ -41,43 +44,59 @@ public class MyView implements View {
 
 	}
 
+	
 	@Override
-	public void displayMaze(byte[] b) {
+	public void displayModel(byte[] byteArray) {
+		
+		int height = byteArray[6];
+		int length= byteArray[7];
+		int width= byteArray[8];
+		int size=0;
+		
+		for (int i = 0; i < height; i++) {
+			System.out.println();
+			for (int j = 0; j < length; j++) {
+				System.out.println();
+				for (int k = 0; k < width; k++) {
+					System.out.println(byteArray[size++]);
+					if (k + 1 == width)
+						System.out.println();
+				}
+			}
+		}
+		System.out.println();
+		
+	}
+	
+	
+	@Override
+	public void displayCrossSectionBy(byte [] byteArray, char axis, int section ) {
 
-		System.out.println(b.toString());
+		
 
 	}
 
 	@Override
-	public void displayCrossSectionBy(Maze3d maze, char axis, int section ) {
-
-		if(axis=='z'){
-			maze.getCrossSectionByZ(section);
-		}
-		else if(axis=='x'){
-			maze.getCrossSectionByX(section);
-		}
-		else if (axis=='y'){
-			maze.getCrossSectionByY(section);
-		}
-		else {
-			System.out.println("invalid axis");
-		}
-
-	}
-
-	@Override
-	public void displaySolution(Solution<Position> s) {
+	public<T> void displaySolution(Solution<T> s) {
 
 		s.print();
-
+		
 	}
 
+	
+	@Override
+	public void setCommands(HashMap<String, Command> commands) {
+		
+		this.myCli.setCommands(commands);
+		
+	}
+	
 
 	@Override
-	public void displayError() {
-
-		System.out.println("Error");
-
+	public void displayError(String error) {
+		System.out.println(error);
+		
 	}
+
+	
 }

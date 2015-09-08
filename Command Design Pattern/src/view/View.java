@@ -1,15 +1,17 @@
 package view;
 
-import algorithms.mazeGenerators.Maze3d;
-import algorithms.mazeGenerators.Position;
+import java.util.HashMap;
+
+import controller.Command;
 import algorithms.search.Solution;
 
 public interface View {
 
-	public void dirCommand(String [] args);
-	public void displayMaze(byte[] b);
-	public void displayCrossSectionBy(Maze3d maze, char axis, int section);
-	public void displaySolution(Solution<Position> s);
-	public void displayError();
+	public void dirCommand(String  fileName);
+	public void displayModel(byte [] byteArray);
+	public void displayCrossSectionBy(byte [] byteArray, char axis, int section);
+	public <T> void displaySolution(Solution<T> solution);
+	public void setCommands(HashMap<String, Command>commands);
+	public void displayError(String error);
 	
 }
