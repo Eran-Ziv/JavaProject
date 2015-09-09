@@ -48,19 +48,18 @@ public class MyController implements Controller {
 
 		@Override
 		public void run() {
-
+			
+			model.addThreads(this);
 			String name = args[1];
 			String algorithm = args[2];
 			String heuristic = args[3] ;
-
-
-
 			model.solveModel(name, algorithm, heuristic);
 		}
 
 		@Override
 		public void close() throws IOException {
 
+			close=false;
 			this.close();
 		}
 
@@ -68,11 +67,13 @@ public class MyController implements Controller {
 		public void doCommand(String[] args) {
 			//TODO- validate args.
 			args[2]=args[2].toLowerCase();
-			if(model.getNameToModel(args[1]) != null&& (args[2].equals("bfs")||args[2].equals("astar"))){
+			if(model.getNameToModel(args[1]) != null&& (args[2].equals("bfs")||args[2].equals("astar"))/*heuristic valid*/){
 				this.args = args;
 				this.close = true;
 				this.run();
 			}
+			else
+				view.displayError("invalid paramters");
 
 		}
 
@@ -87,22 +88,36 @@ public class MyController implements Controller {
 		@Override
 		public void run() {
 
-
+			model.addThreads(this);
+			String name = args[1];
+			int height=Integer.parseInt(args[2]);
+			int length=Integer.parseInt(args[3]);
+			int width=Integer.parseInt(args[4]);
+			model.generateModel(name, height, length, width);
 		}
 
 		@Override
 		public void close() throws IOException {
-			// TODO Auto-generated method stub
+
+			close=false;
+			this.close();
 
 		}
 
 		@Override
 		public void doCommand(String[] args) {
 			//TODO- validate args
-			this.args = args;
-			this.close = true;
-			this.run();
+			int height=Integer.parseInt(args[2]);
+			int length=Integer.parseInt(args[3]);
+			int width=Integer.parseInt(args[4]);
+			if(model.getNameToModel(args[1]) != null && height>0 && length>0 && width>0){
 
+				this.args = args;
+				this.close = true;
+				this.run();
+			}
+			else
+				view.displayError("invalid parameters");
 		}
 	}
 
@@ -162,6 +177,7 @@ public class MyController implements Controller {
 		@Override
 		public void doCommand(String[] args) {
 
+			
 			model.saveModel(args[2], args[3]);
 
 		}
@@ -195,6 +211,25 @@ public class MyController implements Controller {
 
 			model.getModelSizeInFile(args[1]);
 
+		}
+
+	}
+
+	public class Exit implements Command{
+
+		@Override
+		public void doCommand(String[] args) {
+
+			model.exit();
+			for (Closeable c : model.getThreads()) {
+				try {
+					c.close();
+				} catch (IOException e) {
+					view.displayError("Could not close file/thread");
+					e.printStackTrace();
+				}
+				
+			}
 		}
 
 	}

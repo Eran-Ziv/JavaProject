@@ -1,17 +1,25 @@
 package model;
 
+import java.io.Closeable;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+
 import algorithms.search.Solution;
 
 public interface Model {
 
 	
-	byte[] generateModel(String name, int z, int x, int y);
-	void saveModel(String name, String fileName);
-	int getModelSizeInMemory(String name);
-	long getModelSizeInFile(String name);
-	byte[] loadModel(String fileName, String name);
-	<T> Solution<T> solveModel(String name, String algorithm, String heuristic);
-	byte[]  getNameToModel(String name);
-	byte[] CrossSectionBy(String name,char dimention , int section );
+	public byte[] generateModel(String name, int z, int x, int y);
+	public void saveModel(String name, String fileName);
+	public int getModelSizeInMemory(String name);
+	public long getModelSizeInFile(String name);
+	public byte[] loadModel(String fileName, String name);
+	public <T> Solution<T> solveModel(String name, String algorithm, String heuristic);
+	public byte[]  getNameToModel(String name);
+	public byte[] CrossSectionBy(String name,char dimention , int section );
+	public void addThreads(Closeable c);
+	public void addFiles(FileInputStream file);
+	public ArrayList<Closeable> getThreads();
+	public void exit();
 	
 }

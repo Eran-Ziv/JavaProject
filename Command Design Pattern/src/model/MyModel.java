@@ -2,12 +2,16 @@ package model;
 
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
+
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+
 import algorithms.demo.Maze3dSearchableAdapter;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
@@ -25,6 +29,35 @@ public class MyModel implements Model {
 	private HashMap<String, byte[]> nameToMaze;
 	private HashMap<String, String> nameToFileName;
 	private HashMap<String, Solution<Position>>nameToSolution;
+	private ArrayList<Closeable> threads ;
+	private ArrayList<FileInputStream> files ;
+
+	public Controller getController() {
+		return controller;
+	}
+
+
+	public void setController(Controller controller) {
+		this.controller = controller;
+	}
+	
+	public void addThreads(Closeable c) {
+		threads.add(c);
+	}
+
+	
+	public void addFiles(FileInputStream file) {
+		files.add(file);
+	}
+
+	public ArrayList<Closeable> getThreads() {
+		return threads;
+	}
+
+
+	public void setThreads(ArrayList<Closeable> threads) {
+		this.threads = threads;
+	}
 
 
 	@Override
@@ -200,6 +233,25 @@ public class MyModel implements Model {
 		}
 		
 		return byteArray;
+	}
+
+
+	@Override
+	public void exit() {
+		
+		for (FileInputStream file : files) {
+			
+			try {
+				
+				file.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
+
+	
 }
