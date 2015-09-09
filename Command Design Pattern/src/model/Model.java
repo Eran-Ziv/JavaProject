@@ -11,5 +11,7 @@ public interface Model {
 	long getModelSizeInFile(String name);
 	byte[] loadModel(String fileName, String name);
 	<T> Solution<T> solveModel(String name, String algorithm, String heuristic);
+	byte[]  getNameToModel(String name);
+	byte[] CrossSectionBy(String name,char dimention , int section );
 	
 }
