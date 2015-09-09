@@ -221,15 +221,7 @@ public class MyController implements Controller {
 		public void doCommand(String[] args) {
 
 			model.exit();
-			for (Closeable c : model.getThreads()) {
-				try {
-					c.close();
-				} catch (IOException e) {
-					view.displayError("Could not close file/thread");
-					e.printStackTrace();
-				}
-				
-			}
+			
 		}
 
 	}

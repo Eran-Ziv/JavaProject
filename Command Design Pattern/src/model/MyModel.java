@@ -244,7 +244,18 @@ public class MyModel implements Model {
 			try {
 				
 				file.close();
+				files.remove(file);
 				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		for (Closeable c : threads) {
+			
+			try {
+				c.close();
+				threads.remove(c);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
