@@ -21,26 +21,29 @@ import algorithms.search.Heuristic;
 import algorithms.search.MazeEuclideanDistance;
 import algorithms.search.MazeManhattanDistance;
 import algorithms.search.Solution;
-import controller.Controller;
+
 
 public class MyModel implements Model { 
 
-	private Controller controller;
+	
 	private HashMap<String, byte[]> nameToMaze;
 	private HashMap<String, String> nameToFileName;
 	private HashMap<String, Solution<Position>>nameToSolution;
 	private ArrayList<Closeable> threads ;
 	private ArrayList<FileInputStream> files ;
 
-	public Controller getController() {
-		return controller;
-	}
-
-
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
 	
+	
+	public MyModel() {
+		
+		this.nameToMaze = new HashMap<>();
+		this.nameToFileName = new HashMap<>();
+		this.nameToSolution = new HashMap<>();
+		this.threads = new ArrayList<>();
+		this.files = new ArrayList<>();
+	}
+
+
 	public void addThreads(Closeable c) {
 		threads.add(c);
 	}
@@ -94,6 +97,15 @@ public class MyModel implements Model {
 		}
 
 	}
+	
+	public  Solution<Position> getSolution(String name){
+		
+		if(nameToSolution.get(name) != null){
+			return nameToSolution.get(name); 
+		}
+		return null;
+		
+	}
 
 
 	@Override
@@ -136,13 +148,9 @@ public class MyModel implements Model {
 
 
 	@Override
-	public Solution<Position> solveModel(String name, String algorithm, String heuristic) {
+	public void solveModel(String name, String algorithm, String heuristic) {
 
-		if(nameToSolution.get(name) != null){
-			return nameToSolution.get(name); 
-		}
-
-
+		
 		byte[] byteArray = nameToMaze.get(name);
 		Maze3d myMaze = new Maze3d(byteArray);
 		Heuristic myHeuristic;
@@ -151,7 +159,7 @@ public class MyModel implements Model {
 		if(algorithm.toLowerCase().equals("bfs")){
 			Bfs <Position> myBfs = new Bfs<Position>();
 			nameToSolution.put(name, myBfs.search(myAdapter) );
-			return nameToSolution.get(name);
+			
 		}
 		else if(algorithm.toLowerCase().equals("astar")){
 
@@ -163,11 +171,12 @@ public class MyModel implements Model {
 			}
 
 			Astar<Position> myAstar = new Astar<Position>(myHeuristic);
+			nameToSolution.put(name, myAstar.search(myAdapter) );
 
-			return myAstar.search(myAdapter);
+			
 		}
 
-		return null;
+		
 	}
 
 

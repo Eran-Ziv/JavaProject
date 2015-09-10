@@ -13,5 +13,6 @@ public interface View {
 	public <T> void displaySolution(Solution<T> solution);
 	public void setCommands(HashMap<String, Command>commands);
 	public void displayError(String error);
+	public void start();
 	
 }

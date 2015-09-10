@@ -14,11 +14,11 @@ public class CLI extends Thread {
 	private BufferedReader in;
 	private HashMap<String,Command> commands;
 
-	public CLI(PrintWriter out, BufferedReader in, HashMap<String,Command> commands) {
+	public CLI(PrintWriter out, BufferedReader in) {
 
 		this.out = out;
 		this.in = in;
-		this.commands= commands;
+		
 	}
 
 
@@ -57,16 +57,19 @@ public class CLI extends Thread {
 		String line;
 		Command command;
 		String [] args;
+		System.out.println("Insert command");
 		try {
 			while ((line= in.readLine())!="exit"){
+				System.out.println("aaaaaa");
 				args= line.split(" ");
 				if(commands.containsKey(args[0])/*to do*/){
 					command= commands.get(args[0]);
 					
-					this.runInThread(command,args);
+					command.doCommand(args);
+					System.out.println("Enter command:");
 				}
 				else{
-					out.write("Invalid command");
+					System.out.println("invalid args");
 				}
 			}
 		} catch (IOException e) {
@@ -74,13 +77,7 @@ public class CLI extends Thread {
 		}
 	}
 
-	private void runInThread (Command c, String [] args) {
-		new Thread(new Runnable() {
-			public void run() {
-				c.doCommand(args);
-			}
-		}).start();
-	}
+	
 
 
 

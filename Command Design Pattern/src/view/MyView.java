@@ -9,21 +9,16 @@ import controller.Controller;
 public class MyView implements View {
 
 
-	private Controller controller;
+	
 	private CLI myCli;
 
 
-	public MyView(Controller controller) {
-		this.controller = controller;
+	public MyView(CLI myCli) {
+		this.myCli = myCli;
+		
 	}
 
-	public Controller getController() {
-		return controller;
-	}
-
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
+	
 
 	@Override
 	public void dirCommand(String fileName) {
@@ -104,6 +99,11 @@ public class MyView implements View {
 	public void displayError(String error) {
 		System.out.println(error);
 
+	}
+	
+	public void start() {
+		myCli.run();
+		
 	}
 
 

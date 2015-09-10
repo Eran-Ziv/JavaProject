@@ -14,7 +14,8 @@ public interface Model {
 	public int getModelSizeInMemory(String name);
 	public long getModelSizeInFile(String name);
 	public byte[] loadModel(String fileName, String name);
-	public <T> Solution<T> solveModel(String name, String algorithm, String heuristic);
+	public void solveModel(String name, String algorithm, String heuristic);
+	public <T> Solution getSolution(String name);
 	public byte[]  getNameToModel(String name);
 	public byte[] CrossSectionBy(String name,char dimention , int section );
 	public void addThreads(Closeable c);
