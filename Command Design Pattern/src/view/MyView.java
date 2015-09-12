@@ -1,20 +1,28 @@
 package view;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.HashMap;
-import algorithms.search.Solution;
+
+import algorithm.generic.Solution;
 import controller.Command;
-import controller.Controller;
+
 
 public class MyView implements View {
 
 
 	
 	private CLI myCli;
+	private Maze3dDisplayerAdapter myMaze3dDisplayer;
+	private Maze2dDisplayerAdapter myMaze2dDisplayer;
+	
 
 
-	public MyView(CLI myCli) {
-		this.myCli = myCli;
+	public MyView(PrintWriter out, BufferedReader in) {
+		this.myCli = new CLI(out, in);
+		this.myMaze2dDisplayer = new Maze2dDisplayerAdapter(out);
+		this.myMaze3dDisplayer = new Maze3dDisplayerAdapter(out);
 		
 	}
 
@@ -37,56 +45,6 @@ public class MyView implements View {
 
 	}
 
-
-	@Override
-	public void displayModel(byte[] byteArray) {
-
-		int height = byteArray[6];
-		int length= byteArray[7];
-		int width= byteArray[8];
-		int size=0;
-
-		for (int i = 0; i < height; i++) {
-			System.out.println();
-			for (int j = 0; j < length; j++) {
-				System.out.println();
-				for (int k = 0; k < width; k++) {
-					System.out.println(byteArray[size++]);
-					if (k + 1 == width)
-						System.out.println();
-				}
-			}
-		}
-		System.out.println();
-
-	}
-
-
-	@Override
-	public void displayCrossSectionBy(byte [] byteArray) {
-
-		int size= byteArray[0];
-		int length=byteArray[1];
-		int k=2;
-		for (int i = 0; i < size; i++) {
-			System.out.println();
-			for (int j = 0; j < length; j++) {
-				System.out.println(byteArray[k++]);
-
-			}
-
-		}
-		System.out.println();
-	}
-
-	@Override
-	public<T> void displaySolution(Solution<T> s) {
-
-		s.print();
-
-	}
-
-
 	@Override
 	public void setCommands(HashMap<String, Command> commands) {
 
@@ -103,6 +61,34 @@ public class MyView implements View {
 	
 	public void start() {
 		myCli.run();
+		
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> void displayModel(Drawable<T> draw) {
+		myMaze3dDisplayer.getDisplayer((Drawable<int[][][]>) draw);
+		myMaze3dDisplayer.display();
+		
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> void displayCrossSectionBy(Drawable<T> draw) {
+		myMaze2dDisplayer.getDisplayer((Drawable<int[][]>) draw);
+		myMaze2dDisplayer.display();
+		
+	}
+
+
+
+	@Override
+	public <T> void displaySolution(Solution<T> solution) {
+		solution.print();
 		
 	}
 

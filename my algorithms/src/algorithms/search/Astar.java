@@ -2,8 +2,10 @@ package algorithms.search;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import algorithm.generic.Solution;
+import algorithm.generic.State;
 import algorithms.mazeGenerators.Searchable;
-import algorithms.mazeGenerators.State;
 
 /**
  * The Class Astar. A* uses a best-first search and finds a least-cost path from

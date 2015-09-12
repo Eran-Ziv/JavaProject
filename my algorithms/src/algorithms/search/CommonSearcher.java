@@ -2,8 +2,10 @@ package algorithms.search;
 
 import java.util.HashSet;
 import java.util.PriorityQueue;
+
+import algorithm.generic.Solution;
+import algorithm.generic.State;
 import algorithms.mazeGenerators.Searchable;
-import algorithms.mazeGenerators.State;
 
 /**
  * The Class CommonSearcher.

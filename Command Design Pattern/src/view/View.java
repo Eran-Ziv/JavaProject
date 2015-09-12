@@ -2,14 +2,14 @@ package view;
 
 import java.util.HashMap;
 
+import algorithm.generic.Solution;
 import controller.Command;
-import algorithms.search.Solution;
 
 public interface View {
 
 	public void dirCommand(String  fileName);
-	public void displayModel(byte [] byteArray);
-	public void displayCrossSectionBy(byte [] byteArray);
+	public <T> void displayModel(Drawable<T> draw);
+	public <T> void displayCrossSectionBy(Drawable<T> draw);
 	public <T> void displaySolution(Solution<T> solution);
 	public void setCommands(HashMap<String, Command>commands);
 	public void displayError(String error);

@@ -1,6 +1,6 @@
 package algorithms.search;
 
-import algorithms.mazeGenerators.State;
+import algorithm.generic.State;
 
 /**
  * The Interface Heuristic.

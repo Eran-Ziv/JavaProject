@@ -2,8 +2,9 @@ package algorithms.search;
 
 import java.util.ArrayList;
 
+import algorithm.generic.Solution;
+import algorithm.generic.State;
 import algorithms.mazeGenerators.Searchable;
-import algorithms.mazeGenerators.State;
 
 /**
  * The Class Bfs. It starts at the tree root (or some arbitrary node of a graph,

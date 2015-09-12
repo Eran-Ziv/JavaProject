@@ -1,7 +1,8 @@
 package algorithms.search;
 
+import algorithm.generic.Solution;
+import algorithm.generic.State;
 import algorithms.mazeGenerators.Searchable;
-import algorithms.mazeGenerators.State;
 
 /**
  * The Interface Searcher.

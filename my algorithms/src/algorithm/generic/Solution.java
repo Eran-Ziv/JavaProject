@@ -1,8 +1,6 @@
-package algorithms.search;
+package algorithm.generic;
 
 import java.util.ArrayList;
-
-import algorithms.mazeGenerators.State;
 
 /**
  * The Class Solution.

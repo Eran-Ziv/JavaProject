@@ -2,6 +2,8 @@ package algorithms.mazeGenerators;
 
 import java.util.ArrayList;
 
+import algorithm.generic.State;
+
 /**
  * Interface Serachable
  */

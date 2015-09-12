@@ -3,8 +3,14 @@ package controller;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.HashMap;
+
+import algorithm.generic.Solution;
+import algorithms.demo.Maze2dSearchableAdapter;
+import algorithms.demo.Maze3dSearchableAdapter;
+import algorithms.mazeGenerators.Maze2d;
+import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
-import algorithms.search.Solution;
+import algorithms.mazeGenerators.Searchable;
 import view.View;
 import model.Model;
 
@@ -45,13 +51,12 @@ public class MyController implements Controller {
 		this.view.start();
 	}
 
-	// TODO- all the commands must be validated first, this is just the actions.
-
+	
 	public class SolveModelCommand implements Command, Closeable, Runnable{
 
 		String [] args;
 		boolean close;
-		
+
 
 		@Override
 		public void run() {
@@ -64,7 +69,7 @@ public class MyController implements Controller {
 				heuristic = args[3];
 			}
 			else{
-				
+
 				heuristic = "default";
 			}
 			model.solveModel(name, algorithm, heuristic);
@@ -106,11 +111,17 @@ public class MyController implements Controller {
 		public void run() {
 
 			model.addThreads(this);
-			String name = args[2];
-			int height=Integer.parseInt(args[3]);
-			int length=Integer.parseInt(args[4]);
-			int width=Integer.parseInt(args[5]);
-			model.generateModel(name, height, length, width);
+			String name = args[3];
+			String [] params = new String[3];
+			params[0] = args[4];
+			params[1] = args[5];
+			params[2] = args[6];
+
+			try {
+				model.generateModel(name,params);
+			} catch (Exception e) {
+				view.displayError("Invalid arguments");
+			}
 		}
 
 		@Override
@@ -120,132 +131,164 @@ public class MyController implements Controller {
 			this.close();
 
 		}
+	
 
 		@Override
 		public void doCommand(String[] args) {
-			//TODO- validate args
-			int height=Integer.parseInt(args[3]);
-			int length=Integer.parseInt(args[4]);
-			int width=Integer.parseInt(args[5]);
-			if(height>0 && length>0 && width>0){
 
-				this.args = args;
-				this.close = true;
-				this.run();
-			}
-			else
+			try{
+				int height=Integer.parseInt(args[4]);
+				int length=Integer.parseInt(args[5]);
+				int width=Integer.parseInt(args[6]);
+				if(height>0 && length>0 && width>0){
+
+					this.args = args;
+					this.close = true;
+					this.run();
+				}
+			} catch (NumberFormatException e) {
+			
 				view.displayError("invalid parameters");
-		}
-	}
-
-	public class DirCommand implements Command{
-
-		@Override
-		public void doCommand(String[] args) {
-
-			String fileName= args[1];
-			view.dirCommand(fileName);
-
-
-		}
-	}
-
-	public class DisplayModelCommand implements Command{
-
-		@Override
-		public void doCommand(String[] args) {
-			System.out.println("ddd");
-			byte [] byteArray =null;
-			switch (args[1]) {
-			case "maze":
-				byteArray = model.getNameToModel(args[2]);
-				if(byteArray!=null)
-					view.displayModel(byteArray);
-				else
-					view.displayError(" invaild name. ");
-				break;
-
-			case "solution":
-				
-				Solution<Position> solution= model.getSolution(args[1]);
-				if (solution!=null)
-					view.displaySolution(solution);
-				else 
-					view.displayError(" invaild args.");
-				break;
-
-			case "cross":
-
-				byteArray = model.CrossSectionBy(args[7], args[4].charAt(0),Integer.parseInt(args[5]));
-				if(byteArray!=null)
-					view.displayCrossSectionBy(byteArray);
-				else
-					view.displayError(" invaild args.");
-				break;
-
-			default:
-				view.displayError(" invaild args.");
-				break;
 			}
 		}
 	}
 
+		public class DirCommand implements Command{
 
-	public class SaveModelCommand implements Command{
+			@Override
+			public void doCommand(String[] args) {
 
-		@Override
-		public void doCommand(String[] args) {
+				try{
+					if(args[1] != null){
+						String fileName= args[1];
+						view.dirCommand(fileName);
+					}
+				}
+				catch (ArrayIndexOutOfBoundsException e){
+					view.displayError("Error, no arguments");
+
+				}
 
 
-			model.saveModel(args[2], args[3]);
-
-		}
-	}
-
-	public class LoadModelCommand implements Command{
-
-		@Override
-		public void doCommand(String[] args) {
-
-			model.loadModel(args[2], args[3]);
-
-		}
-	}
-
-	public class ModelSizeInMemoryCommand implements Command{
-
-		@Override
-		public void doCommand(String[] args) {
-
-			model.getModelSizeInMemory(args[1]);
-
+			}
 		}
 
-	}
+		public class DisplayModelCommand implements Command{
 
-	public class ModelSizeInFileCommand implements Command{
+			@Override
+			public void doCommand(String[] args) {
+				Searchable<Position> myMazeSearchableAdapter; 
+				Maze3dDrawableAdapter myMaze3dDrawAdapter;
+				Maze2dDrawableAdapter myMaze2dDrawAdapter;
 
-		@Override
-		public void doCommand(String[] args) {
+				switch (args[1]) {
+				case "maze":
 
-			model.getModelSizeInFile(args[1]);
+					myMazeSearchableAdapter = model.getNameToModel(args[2]);
+					if(myMazeSearchableAdapter != null){
+						Maze3d myMaze = ((Maze3dSearchableAdapter) myMazeSearchableAdapter).getMaze();
+						myMaze3dDrawAdapter = new Maze3dDrawableAdapter(myMaze); 
+						view.displayModel(myMaze3dDrawAdapter);
+					}
+					else{
+						view.displayError("Invalid values");	
+					}
+
+					break;
+
+				case "solution":
+
+					Solution<Position> solution= model.getSolution(args[2]);
+					if (solution!=null)
+						view.displaySolution(solution);
+					else 
+						view.displayError(" invaild args.");
+					break;
+
+				case "cross":
+
+					String name = args[7];
+					String dimention = args[4];
+					int section = Integer.parseInt(args[5]);
+
+					myMazeSearchableAdapter = model.CrossSectionBy(name, dimention, section);
+					if(myMazeSearchableAdapter != null){
+						Maze2d myMaze2d = ((Maze2dSearchableAdapter) myMazeSearchableAdapter).getMyMaze();
+						myMaze2dDrawAdapter = new Maze2dDrawableAdapter(myMaze2d); 
+						view.displayModel(myMaze2dDrawAdapter);
+					}
+					else{
+						view.displayError("Invalid values");	
+					}
+
+				default:
+					view.displayError(" invaild args.");
+					break;
+				}
+			}
+		}
+
+
+
+		public class SaveModelCommand implements Command{
+
+			@Override
+			public void doCommand(String[] args) {
+
+
+				model.saveModel(args[2], args[3]);
+
+			}
+		}
+
+		public class LoadModelCommand implements Command{
+
+			@Override
+			public void doCommand(String[] args) {
+
+				model.loadModel(args[2], args[3]);
+
+			}
+		}
+
+		public class ModelSizeInMemoryCommand implements Command{
+
+			@Override
+			public void doCommand(String[] args) {
+
+				model.getModelSizeInMemory(args[1]);
+
+			}
 
 		}
 
-	}
+		public class ModelSizeInFileCommand implements Command{
 
-	public class Exit implements Command{
+			@Override
+			public void doCommand(String[] args) {
 
-		@Override
-		public void doCommand(String[] args) {
+				model.getModelSizeInFile(args[1]);
 
-			model.exit();
+			}
 
 		}
 
+		public class Exit implements Command{
+
+			@Override
+			public void doCommand(String[] args) {
+
+				model.exit();
+				//view.exit();
+
+			}
+
+		}
+		
 	}
 
 
 
 
-}
+	
+

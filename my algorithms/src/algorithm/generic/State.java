@@ -1,4 +1,4 @@
-package algorithms.mazeGenerators;
+package algorithm.generic;
 
 /**
  * The Class State.

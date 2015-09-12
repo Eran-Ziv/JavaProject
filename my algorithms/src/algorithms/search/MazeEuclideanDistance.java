@@ -1,7 +1,7 @@
 package algorithms.search;
 
+import algorithm.generic.State;
 import algorithms.mazeGenerators.Position;
-import algorithms.mazeGenerators.State;
 
 /**
  * The Class MazeEuclideanDistance.

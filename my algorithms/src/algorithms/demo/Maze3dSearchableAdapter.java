@@ -2,11 +2,11 @@ package algorithms.demo;
 
 import java.util.ArrayList;
 
+import algorithm.generic.State;
 import algorithms.mazeGenerators.DfsMaze3dGenerator;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.Searchable;
-import algorithms.mazeGenerators.State;
 
 /**
  * The Class Maze3dSearchableAdapter.

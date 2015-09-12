@@ -54,22 +54,30 @@ public class CLI extends Thread {
 
 
 	public void run()  {
+		out.flush();
 		String line;
 		Command command;
 		String [] args;
-		System.out.println("Insert command");
+		out.println("Insert command");
+		out.flush();
+		
+		
 		try {
 			while ((line= in.readLine())!="exit"){
-				System.out.println("aaaaaa");
+				
 				args= line.split(" ");
 				if(commands.containsKey(args[0])/*to do*/){
 					command= commands.get(args[0]);
 					
 					command.doCommand(args);
-					System.out.println("Enter command:");
+					
+					out.println("Enter command:");
+					out.flush();
 				}
 				else{
-					System.out.println("invalid args");
+					
+					out.print("invalid args");
+					out.flush();
 				}
 			}
 		} catch (IOException e) {
