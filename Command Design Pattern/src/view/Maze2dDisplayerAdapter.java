@@ -20,17 +20,18 @@ public class Maze2dDisplayerAdapter implements Displayer<int[][]> {
 
 	@Override
 	public void display() {
+		out.flush();
 		for (int i = 0; i < draw.length; i++) {
 			for (int j = 0; j < draw[i].length; j++) {
 				out.flush();
 
-				out.println(draw[i][j]);	
+				out.print(draw[i][j]);	
 			}
-			out.flush();
-			out.println("\n");
+			
+			out.print("\n");
 		}
-		out.flush();
-		out.println("\n\n");
+		
+		out.print("\n\n");
 	}
 
 

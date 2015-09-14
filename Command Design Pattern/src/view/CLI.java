@@ -66,7 +66,7 @@ public class CLI extends Thread {
 			while ((line= in.readLine())!="exit"){
 				
 				args= line.split(" ");
-				if(commands.containsKey(args[0])/*to do*/){
+				if(commands.containsKey(args[0])){
 					command= commands.get(args[0]);
 					
 					command.doCommand(args);

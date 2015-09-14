@@ -97,16 +97,13 @@ public class MyModel implements Model {
 
 
 	@Override
-	public int getModelSizeInMemory(String name) {
+	public int getModelSizeInMemory(String name) throws IOException {
 
 		int size;
-		try {
-			size = nameToMaze.get(name).toByteArray().length;
-			return size;
-		} catch (IOException e) {
-			System.out.println("Error feching model size");
-		}
-		return 0;
+
+		size = nameToMaze.get(name).toByteArray().length;
+		return size;
+
 	}
 
 
@@ -144,7 +141,6 @@ public class MyModel implements Model {
 				myHeuristic = new MazeEuclideanDistance();
 			}
 
-			@SuppressWarnings("unchecked")
 			Astar<Position> myAstar = new Astar<Position>(myHeuristic);
 			nameToSolution.put(name, myAstar.search(myAdapter) );
 		}
@@ -176,37 +172,21 @@ public class MyModel implements Model {
 	}
 
 	@Override
-	public void loadModel(String fileName, String name) {
+	public void loadModel(String fileName, String name) throws IOException, FileNotFoundException{
 
-		
+
 		ArrayList<Byte> myStream = new ArrayList<Byte>();
-		byte [] byteArray = new byte[100];
+		byte [] byteArray = new byte[1024];
 
-		try {
-			MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(fileName));
-			while(myDecompressor.read(byteArray) > 0){
-				
-				for (byte b : byteArray) {
-					myStream.add(b);
-				}
-			}
 
-			myDecompressor.close();
+		MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(fileName));
+		while(myDecompressor.read(byteArray) > 0){
 
-		} catch (FileNotFoundException e) {
-			System.out.println("Error, file not found loading model");
-		} catch (IOException e) {
-
-			System.out.println("Error reading model");
-		} finally {
-
-			try {
-				myDecompressor.close();
-			} catch (IOException e) {
-				System.out.println("Error closing file");
+			for (byte b : byteArray) {
+				myStream.add(b);
 			}
 		}
-
+		myDecompressor.close();
 		byte[] data = new byte[myStream.size()];
 		for (int i = 0; i < data.length; i++) {
 			data[i] = (byte) myStream.get(i);
@@ -240,14 +220,14 @@ public class MyModel implements Model {
 				break;
 
 			case "x":
-				if(section>0&&section>maze3d.getLength())
-					maze2d= new Maze2d(maze3d.getCrossSectionByZ(section));
+				if(section > 0 && section < maze3d.getLength())
+					maze2d= new Maze2d(maze3d.getCrossSectionByX(section));
 
 				break;
 
 			case "y":
 				if(section>0&&section>maze3d.getWidth())
-					maze2d= new Maze2d(maze3d.getCrossSectionByZ(section));
+					maze2d= new Maze2d(maze3d.getCrossSectionByY(section));
 
 				break;
 
@@ -284,25 +264,16 @@ public class MyModel implements Model {
 	}
 
 	@Override
-	public void generateModel(String name, String [] params) throws Exception {
-		
-		try{
-			int z = Integer.parseInt(params[0]) ;
-			int x = Integer.parseInt(params[1]) ;
-			int y = Integer.parseInt(params[2]) ;
-			
-			DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
-			Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
+	public void generateModel(String name, String [] params) {
 
-			this.nameToMaze.put(name, myAdapter.getMaze());
+		int z = Integer.parseInt(params[0]) ;
+		int x = Integer.parseInt(params[1]) ;
+		int y = Integer.parseInt(params[2]) ;
 
-		}catch (Exception e){
-			throw new NumberFormatException();
-		}
+		DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
+		Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
 
-			
-
-		}
-
+		this.nameToMaze.put(name, myAdapter.getMaze());
 
 	}
+}

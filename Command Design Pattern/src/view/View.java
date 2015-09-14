@@ -12,7 +12,7 @@ public interface View {
 	public <T> void displayCrossSectionBy(Drawable<T> draw);
 	public <T> void displaySolution(Solution<T> solution);
 	public void setCommands(HashMap<String, Command>commands);
-	public void displayError(String error);
+	public void displayString(String toPrint);
 	public void start();
 	
 }
