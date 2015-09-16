@@ -35,7 +35,6 @@ public class MyModel implements Model {
 	private HashMap<String, Maze3d> nameToMaze;
 	private HashMap<String, String> nameToFileName;
 	private HashMap<String, Solution<Position>>nameToSolution;
-	private ArrayList<Closeable> threads ;
 	MyCompressorOutputStream myCompressor;
 	MyDecompressorInputStream myDecompressor;
 
@@ -44,22 +43,11 @@ public class MyModel implements Model {
 		this.nameToMaze = new HashMap<>();
 		this.nameToFileName = new HashMap<>();
 		this.nameToSolution = new HashMap<>();
-		this.threads = new ArrayList<>();
 		this.myCompressor = null;
 		this.myDecompressor = null;
 	}
 
-	public void addThreads(Closeable close) {
-		threads.add(close);
-	}
-
-	public ArrayList<Closeable> getThreads() {
-		return threads;
-	}
-
-	public void setThreads(ArrayList<Closeable> threads) {
-		this.threads = threads;
-	}
+	
 
 	@Override
 	public void saveModel(String name, String fileName) {
@@ -148,26 +136,12 @@ public class MyModel implements Model {
 	}
 
 	@Override
-	public void exit() {
+	public void exit() throws IOException {
 
-		if(myCompressor != null){
-			try {
-				myCompressor.close();
-			} catch (IOException e) {
-				System.out.println("Error closing file");
-			}
-		}
-
-		for (Closeable c : threads) {
-
-			try {
-				c.close();
-				threads.remove(c);
-			} catch (IOException e) {
-
-				System.out.println("Error closing threads");
-			}
-		}
+		if(myCompressor!=null)
+			myCompressor.close();
+		if(myDecompressor!=null)
+			myDecompressor.close();
 
 	}
 

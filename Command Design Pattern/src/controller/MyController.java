@@ -43,6 +43,7 @@ public class MyController implements Controller {
 		commands.put("load", new LoadModelCommand());
 		commands.put("file", new ModelSizeInFileCommand());//size
 		commands.put("maze", new ModelSizeInMemoryCommand());//size
+		commands.put("exit", new ExitCommand());
 
 		return commands;
 	}
@@ -53,42 +54,37 @@ public class MyController implements Controller {
 	}
 
 
-	public class SolveModelCommand implements Command, Closeable, Runnable{
+	public class SolveModelCommand implements Command,  Runnable{
 
 		String [] args;
-		boolean close;
+		Thread myThread;
 
 
 		@Override
 		public void run() {
 
 
-			model.addThreads(this);
+			
 			String name = args[1];
 			String algorithm = args[2];
 			String heuristic;
+		
+				try {
 
-			try {
+					heuristic = args[3];
+					model.solveModel(name, algorithm, heuristic);
 
-				heuristic = args[3];
-				model.solveModel(name, algorithm, heuristic);
+				}catch (ArrayIndexOutOfBoundsException e){
 
-			}catch (ArrayIndexOutOfBoundsException e){
-
-				heuristic = "default";
-				model.solveModel(name, algorithm, heuristic);
+					heuristic = "default";
+					model.solveModel(name, algorithm, heuristic);
+				}
 			}
-
-		} 
-
+		
 
 
-		@Override
-		public void close() throws IOException {
 
-			close=false;
-			this.close();
-		}
+		
 
 		@Override
 		public void doCommand(String[] args) {
@@ -98,9 +94,10 @@ public class MyController implements Controller {
 			}
 
 			if(args.length >= 3){
-				this.close = true;
+				
 				this.args = args;
-				this.run();
+				myThread = new Thread(this);
+				myThread.start();
 			}
 			else
 				view.displayString("invalid paramters");
@@ -110,37 +107,33 @@ public class MyController implements Controller {
 	}
 
 
-	public class GenerateModelCommand implements Command, Closeable, Runnable{
+	public class GenerateModelCommand implements Command,  Runnable{
 
 		String [] args;
-		Boolean close;
+		Thread myThread;
 
 		@Override
 		public void run() {
 
-			model.addThreads(this);
+			
 
+		
+				try {
+					String name = args[3];
+					String [] params = new String[3];
+					params[0] = args[4];
+					params[1] = args[5];
+					params[2] = args[6];
 
-			try {
-				String name = args[3];
-				String [] params = new String[3];
-				params[0] = args[4];
-				params[1] = args[5];
-				params[2] = args[6];
-
-				model.generateModel(name,params);
-			} catch (ArrayIndexOutOfBoundsException e) {
-				view.displayString("Invalid arguments");
-			}
+					model.generateModel(name,params);
+					
+				} catch (ArrayIndexOutOfBoundsException e) {
+					view.displayString("Invalid arguments");
+				}
+			
 		}
 
-		@Override
-		public void close() throws IOException {
-
-			close=false;
-			this.close();
-
-		}
+		
 
 
 		@Override
@@ -154,8 +147,10 @@ public class MyController implements Controller {
 				if(height>0 && length>0 && width>0){
 
 					this.args = args;
-					this.close = true;
-					this.run();
+
+					myThread = new Thread(this);
+					myThread.start();
+					
 				}
 			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
 
@@ -263,8 +258,11 @@ public class MyController implements Controller {
 		@Override
 		public void doCommand(String[] args) {
 
-
-			model.saveModel(args[2], args[3]);
+			try{
+				model.saveModel(args[2], args[3]);}
+			catch (ArrayIndexOutOfBoundsException e){
+				view.displayString("Invalid input");
+			}
 
 		}
 	}
@@ -294,7 +292,7 @@ public class MyController implements Controller {
 				int size;
 				try {
 					size = model.getModelSizeInMemory(args[2]);
-					view.displayString("Maze size in memory: " + size + "bytes");
+					view.displayString("Maze size in memory: " + size + " bytes");
 				} catch (IOException e) {
 
 					view.displayString("Invalid arguments");
@@ -319,13 +317,17 @@ public class MyController implements Controller {
 
 	}
 
-	public class Exit implements Command{
+	public class ExitCommand implements Command{
 
 		@Override
 		public void doCommand(String[] args) {
 
-			model.exit();
-			//view.exit();
+			try {
+				model.exit();
+			} catch (IOException e) {
+				view.displayString("Can't close thread");
+			}
+			
 
 		}
 

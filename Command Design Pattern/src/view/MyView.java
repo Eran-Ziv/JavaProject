@@ -69,7 +69,7 @@ public class MyView implements View {
 	}
 
 	public void start() {
-		myCli.run();
+		myCli.start();
 
 	}
 

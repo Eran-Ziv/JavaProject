@@ -55,15 +55,17 @@ public class CLI extends Thread {
 
 	public void run()  {
 		out.flush();
-		String line;
+		String line=null;
 		Command command;
-		String [] args;
+		String [] args=null;
+		String [] args1={"exit","Default"};
 		out.println("Insert command");
 		out.flush();
 		
 		
 		try {
-			while ((line= in.readLine())!="exit"){
+			
+			while (!(line= in.readLine()).equals("exit")){
 				
 				args= line.split(" ");
 				if(commands.containsKey(args[0])){
@@ -77,11 +79,17 @@ public class CLI extends Thread {
 				else{
 					
 					out.print("invalid args");
+					out.println("Re-enter command:");
 					out.flush();
 				}
 			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		finally{
+			command= commands.get("exit");
+			command.doCommand(args1);
 		}
 	}
 
