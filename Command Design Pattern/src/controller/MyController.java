@@ -64,32 +64,32 @@ public class MyController implements Controller {
 		public void run() {
 
 
-			
+
 			String name = args[1];
 			String algorithm = args[2];
 			String heuristic;
-		
-				try {
 
-					heuristic = args[3];
-					model.solveModel(name, algorithm, heuristic);
+			try {
 
-				}catch (ArrayIndexOutOfBoundsException e){
+				heuristic = args[3];
+				model.solveModel(name, algorithm, heuristic);
 
-					heuristic = "default";
-					model.solveModel(name, algorithm, heuristic);
-					
-					}
-				
-				if(model.getSolution(name) == null){
-					view.displayString("The model " + name + " does not exist." );
-				}
+			}catch (ArrayIndexOutOfBoundsException e){
+
+				heuristic = "default";
+				model.solveModel(name, algorithm, heuristic);
+
 			}
-		
+
+			if(model.getSolution(name) == null){
+				view.displayString("The model " + name + " does not exist." );
+			}
+		}
 
 
 
-		
+
+
 
 		@Override
 		public void doCommand(String[] args) {
@@ -99,7 +99,7 @@ public class MyController implements Controller {
 			}
 
 			if(args.length >= 3){
-				
+
 				this.args = args;
 				myThread = new Thread(this);
 				myThread.start();
@@ -120,25 +120,25 @@ public class MyController implements Controller {
 		@Override
 		public void run() {
 
-			
 
-		
-				try {
-					String name = args[3];
-					String [] params = new String[3];
-					params[0] = args[4];
-					params[1] = args[5];
-					params[2] = args[6];
 
-					model.generateModel(name,params);
-					
-				} catch (ArrayIndexOutOfBoundsException e) {
-					view.displayString("Invalid arguments");
-				}
-			
+
+			try {
+				String name = args[3];
+				String [] params = new String[3];
+				params[0] = args[4];
+				params[1] = args[5];
+				params[2] = args[6];
+
+				model.generateModel(name,params);
+
+			} catch (ArrayIndexOutOfBoundsException e) {
+				view.displayString("Invalid arguments");
+			}
+
 		}
 
-		
+
 
 
 		@Override
@@ -155,7 +155,7 @@ public class MyController implements Controller {
 
 					myThread = new Thread(this);
 					myThread.start();
-					
+
 				}
 			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
 
@@ -316,8 +316,12 @@ public class MyController implements Controller {
 		@Override
 		public void doCommand(String[] args) {
 
-			long size = model.getModelSizeInFile(args[1]);
-            view.displayString("Maze size in file: " + size + " bytes");
+			try{
+				long size = model.getModelSizeInFile(args[2]);
+				view.displayString("Maze size in file: " + size + " bytes");
+			}catch(ArrayIndexOutOfBoundsException e){
+				view.displayString("Invalid args");
+			}
 		}
 
 	}
@@ -332,7 +336,7 @@ public class MyController implements Controller {
 			} catch (IOException e) {
 				view.displayString("Can't close thread");
 			}
-			
+
 
 		}
 
