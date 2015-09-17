@@ -2,8 +2,6 @@ package model;
 
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
-
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -25,7 +22,7 @@ import algorithms.search.Bfs;
 import algorithms.search.Heuristic;
 import algorithms.search.MazeEuclideanDistance;
 import algorithms.search.MazeManhattanDistance;
-import algorithms.search.Searcher;
+
 
 
 
@@ -98,10 +95,10 @@ public class MyModel implements Model {
 	@Override
 	public long getModelSizeInFile(String name) {
 
-		String fileName = nameToFileName.get(name);
-		if(fileName != null){
+		
+		if(name != null){
 
-			File myFile = new File(fileName);
+			File myFile = new File(name);
 			return myFile.length();
 		}
 		else
