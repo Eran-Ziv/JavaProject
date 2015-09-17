@@ -78,6 +78,11 @@ public class MyController implements Controller {
 
 					heuristic = "default";
 					model.solveModel(name, algorithm, heuristic);
+					
+					}
+				
+				if(model.getSolution(name) == null){
+					view.displayString("The model " + name + " does not exist." );
 				}
 			}
 		
@@ -311,8 +316,8 @@ public class MyController implements Controller {
 		@Override
 		public void doCommand(String[] args) {
 
-			model.getModelSizeInFile(args[1]);
-
+			long size = model.getModelSizeInFile(args[1]);
+            view.displayString("Maze size in file: " + size + " bytes");
 		}
 
 	}

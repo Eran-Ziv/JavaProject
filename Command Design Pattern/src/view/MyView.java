@@ -65,6 +65,7 @@ public class MyView implements View {
 	public void displayString(String toPrint) {
 		out.flush();
 		out.println(toPrint);
+		out.flush();
 
 	}
 

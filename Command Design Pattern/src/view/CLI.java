@@ -78,8 +78,8 @@ public class CLI extends Thread {
 				}
 				else{
 					
-					out.print("invalid args");
-					out.println("Re-enter command:");
+					out.print("invalid args ");
+					out.println("re-enter command:");
 					out.flush();
 				}
 			}

@@ -47,7 +47,7 @@ public class MyModel implements Model {
 		this.myDecompressor = null;
 	}
 
-	
+
 
 	@Override
 	public void saveModel(String name, String fileName) {
@@ -113,24 +113,27 @@ public class MyModel implements Model {
 
 		Maze3d myMaze = nameToMaze.get(name);
 		Heuristic myHeuristic;
-		Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 
-		if(algorithm.toLowerCase().equals("bfs")){
-			Bfs <Position> myBfs = new Bfs<Position>();
-			nameToSolution.put(name, myBfs.search(myAdapter) );
+		if(myMaze != null){
+			Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 
-		}
-		else if(algorithm.toLowerCase().equals("astar")){
+			if(algorithm.toLowerCase().equals("bfs")){
+				Bfs <Position> myBfs = new Bfs<Position>();
+				nameToSolution.put(name, myBfs.search(myAdapter) );
 
-			if(heuristic.toLowerCase().equals("manhattan")){
-				myHeuristic = new MazeManhattanDistance();
 			}
-			else{
-				myHeuristic = new MazeEuclideanDistance();
-			}
+			else if(algorithm.toLowerCase().equals("astar")){
 
-			Astar<Position> myAstar = new Astar<Position>(myHeuristic);
-			nameToSolution.put(name, myAstar.search(myAdapter) );
+				if(heuristic.toLowerCase().equals("manhattan")){
+					myHeuristic = new MazeManhattanDistance();
+				}
+				else{
+					myHeuristic = new MazeEuclideanDistance();
+				}
+
+				Astar<Position> myAstar = new Astar<Position>(myHeuristic);
+				nameToSolution.put(name, myAstar.search(myAdapter) );
+			}
 		}
 
 	}
@@ -250,4 +253,14 @@ public class MyModel implements Model {
 		this.nameToMaze.put(name, myAdapter.getMaze());
 
 	}
+
+
+
+	public HashMap<String, Solution<Position>> getNameToSolution() {
+		return nameToSolution;
+	}
+
+
+	
+	
 }
