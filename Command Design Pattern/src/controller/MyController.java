@@ -1,10 +1,7 @@
 package controller;
 
-import java.io.Closeable;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
-
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -16,21 +13,38 @@ import view.View;
 import model.Model;
 
 
+/**
+ * The Class MyController.
+ * Specific impementation of Controller {@see Controller}
+ * Uses maze3d {@see Maze3d} for model.
+ */
 public class MyController implements Controller {
 
+	/** The model. */
 	private Model model;
+	
+	/** The view. */
 	private View  view;
+	
+	/** The commands. */
 	HashMap<String, Command> commands;
 
+	/**
+	 * Instantiates a new my controller.
+	 *
+	 * @param myView the my view
+	 * @param myModel the my model
+	 */
 	public MyController(View myView, Model myModel) {
 
 		this.view = myView;
 		this.model = myModel;
 		view.setCommands(getCommands());
-
 	}
 
-
+	/* (non-Javadoc)
+	 * @see controller.Controller#getCommands()
+	 */
 	public HashMap<String, Command> getCommands() {
 
 		this.commands = new HashMap<String, Command>();
@@ -48,22 +62,31 @@ public class MyController implements Controller {
 		return commands;
 	}
 
+	/* (non-Javadoc)
+	 * @see controller.Controller#start()
+	 */
 	public void start () {
 
 		this.view.start();
 	}
 
-
+	/**
+	 * The Class SolveModelCommand.
+	 * Solves the maze at a diffrent thread using the model.
+	 */
 	public class SolveModelCommand implements Command,  Runnable{
 
+		/** The args. */
 		String [] args;
+		
+		/** The my thread. */
 		Thread myThread;
 
-
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run() {
-
-
 
 			String name = args[1];
 			String algorithm = args[2];
@@ -86,11 +109,9 @@ public class MyController implements Controller {
 			}
 		}
 
-
-
-
-
-
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -106,24 +127,30 @@ public class MyController implements Controller {
 			}
 			else
 				view.displayString("invalid paramters");
-
 		}
 
 	}
 
-
+	/**
+	 * The Class GenerateModelCommand.
+	 * Generates the maze at a diffrent thread.
+	 */
 	public class GenerateModelCommand implements Command,  Runnable{
 
+		/** The args. */
 		String [] args;
+		
+		/** The my thread. */
 		Thread myThread;
 
+		/* (non-Javadoc)
+		 * @see java.lang.Runnable#run()
+		 */
 		@Override
 		public void run() {
 
-
-
-
 			try {
+
 				String name = args[3];
 				String [] params = new String[3];
 				params[0] = args[4];
@@ -135,12 +162,11 @@ public class MyController implements Controller {
 			} catch (ArrayIndexOutOfBoundsException e) {
 				view.displayString("Invalid arguments");
 			}
-
 		}
 
-
-
-
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -152,11 +178,11 @@ public class MyController implements Controller {
 				if(height>0 && length>0 && width>0){
 
 					this.args = args;
-
 					myThread = new Thread(this);
 					myThread.start();
 
 				}
+
 			} catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
 
 				view.displayString("invalid parameters");
@@ -164,8 +190,15 @@ public class MyController implements Controller {
 		}
 	}
 
+	/**
+	 * The Class DirCommand.
+	 * 
+	 */
 	public class DirCommand implements Command{
 
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -182,9 +215,14 @@ public class MyController implements Controller {
 		}
 	}
 
-
+	/**
+	 * The Class DisplayModelCommand.
+	 */
 	public class DisplayModelCommand implements Command{
 
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 			Searchable<Position> myMaze3dSearchableAdapter; 
@@ -256,10 +294,14 @@ public class MyController implements Controller {
 		}
 	}
 
-
-
+	/**
+	 * The Class SaveModelCommand.
+	 */
 	public class SaveModelCommand implements Command{
 
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -268,12 +310,17 @@ public class MyController implements Controller {
 			catch (ArrayIndexOutOfBoundsException e){
 				view.displayString("Invalid input");
 			}
-
 		}
 	}
 
+	/**
+	 * The Class LoadModelCommand.
+	 */
 	public class LoadModelCommand implements Command{
 
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -282,13 +329,20 @@ public class MyController implements Controller {
 			} catch (IOException e) {
 				view.displayString("File not found.");
 
-
+			}catch(ArrayIndexOutOfBoundsException c){
+				view.displayString("Invalid input");
 			}
 		}
 	}
 
+	/**
+	 * The Class ModelSizeInMemoryCommand.
+	 */
 	public class ModelSizeInMemoryCommand implements Command{
 
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -306,13 +360,17 @@ public class MyController implements Controller {
 			else{
 				view.displayString("No such name exist");
 			}
-
 		}
-
 	}
 
+	/**
+	 * The Class ModelSizeInFileCommand.
+	 */
 	public class ModelSizeInFileCommand implements Command{
 
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -323,11 +381,16 @@ public class MyController implements Controller {
 				view.displayString("Invalid args");
 			}
 		}
-
 	}
 
+	/**
+	 * The Class ExitCommand.
+	 */
 	public class ExitCommand implements Command{
 
+		/* (non-Javadoc)
+		 * @see controller.Command#doCommand(java.lang.String[])
+		 */
 		@Override
 		public void doCommand(String[] args) {
 
@@ -336,19 +399,6 @@ public class MyController implements Controller {
 			} catch (IOException e) {
 				view.displayString("Can't close thread");
 			}
-
-
 		}
-
 	}
-
 }
-
-
-
-
-
-
-
-
-

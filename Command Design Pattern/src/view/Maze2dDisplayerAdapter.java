@@ -2,15 +2,30 @@ package view;
 
 import java.io.PrintWriter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Maze2dDisplayerAdapter.
+ */
 public class Maze2dDisplayerAdapter implements Displayer<int[][]> {
 
+	/** The draw. */
 	int[][] draw;
-	PrintWriter out;
 	
+	/** The out. */
+	PrintWriter out;
+
+	/**
+	 * Instantiates a new maze2d displayer adapter.
+	 *
+	 * @param out the out
+	 */
 	public Maze2dDisplayerAdapter(PrintWriter out) {
 		this.out = out;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see view.Displayer#getDisplayer(view.Drawable)
+	 */
 	@Override
 	public void getDisplayer(Drawable<int[][]> draw) {
 
@@ -18,6 +33,9 @@ public class Maze2dDisplayerAdapter implements Displayer<int[][]> {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.Displayer#display()
+	 */
 	@Override
 	public void display() {
 		out.flush();
@@ -27,12 +45,11 @@ public class Maze2dDisplayerAdapter implements Displayer<int[][]> {
 
 				out.print(draw[i][j]);	
 			}
-			
+
 			out.print("\n");
 		}
-		
+
 		out.print("\n\n");
 	}
-
-
+	
 }

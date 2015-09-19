@@ -23,18 +23,30 @@ import algorithms.search.Heuristic;
 import algorithms.search.MazeEuclideanDistance;
 import algorithms.search.MazeManhattanDistance;
 
-
-
-
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MyModel.
+ */
 public class MyModel implements Model { 
 
-
+	/** The name to maze. */
 	private HashMap<String, Maze3d> nameToMaze;
+	
+	/** The name to file name. */
 	private HashMap<String, String> nameToFileName;
+	
+	/** The name to solution. */
 	private HashMap<String, Solution<Position>>nameToSolution;
+	
+	/** The my compressor. */
 	MyCompressorOutputStream myCompressor;
+	
+	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
 
+	/**
+	 * Instantiates a new my model.
+	 */
 	public MyModel() {
 
 		this.nameToMaze = new HashMap<>();
@@ -44,8 +56,9 @@ public class MyModel implements Model {
 		this.myDecompressor = null;
 	}
 
-
-
+	/* (non-Javadoc)
+	 * @see model.Model#saveModel(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void saveModel(String name, String fileName) {
 
@@ -68,9 +81,11 @@ public class MyModel implements Model {
 				System.out.println("Error closing file");
 			}
 		}
-
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#getSolution(java.lang.String)
+	 */
 	@SuppressWarnings("unchecked")
 	public  Solution<Position> getSolution(String name){
 
@@ -80,24 +95,25 @@ public class MyModel implements Model {
 		return null;
 	}
 
-
+	/* (non-Javadoc)
+	 * @see model.Model#getModelSizeInMemory(java.lang.String)
+	 */
 	@Override
 	public int getModelSizeInMemory(String name) throws IOException {
 
 		int size;
-
 		size = nameToMaze.get(name).toByteArray().length;
 		return size;
 
 	}
 
-
+	/* (non-Javadoc)
+	 * @see model.Model#getModelSizeInFile(java.lang.String)
+	 */
 	@Override
 	public long getModelSizeInFile(String name) {
 
-		
 		if(name != null){
-
 			File myFile = new File(name);
 			return myFile.length();
 		}
@@ -105,11 +121,14 @@ public class MyModel implements Model {
 			return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#solveModel(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void solveModel(String name, String algorithm, String heuristic) {
 
 		Maze3d myMaze = nameToMaze.get(name);
-		Heuristic myHeuristic;
+		Heuristic<Position> myHeuristic;
 
 		if(myMaze != null){
 			Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
@@ -117,7 +136,6 @@ public class MyModel implements Model {
 			if(algorithm.toLowerCase().equals("bfs")){
 				Bfs <Position> myBfs = new Bfs<Position>();
 				nameToSolution.put(name, myBfs.search(myAdapter) );
-
 			}
 			else if(algorithm.toLowerCase().equals("astar")){
 
@@ -132,9 +150,11 @@ public class MyModel implements Model {
 				nameToSolution.put(name, myAstar.search(myAdapter) );
 			}
 		}
-
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#exit()
+	 */
 	@Override
 	public void exit() throws IOException {
 
@@ -142,16 +162,16 @@ public class MyModel implements Model {
 			myCompressor.close();
 		if(myDecompressor!=null)
 			myDecompressor.close();
-
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#loadModel(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void loadModel(String fileName, String name) throws IOException, FileNotFoundException{
 
-
 		ArrayList<Byte> myStream = new ArrayList<Byte>();
 		byte [] byteArray = new byte[1024];
-
 
 		MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(fileName));
 		while(myDecompressor.read(byteArray) > 0){
@@ -170,10 +190,9 @@ public class MyModel implements Model {
 		nameToMaze.put(name, myMaze);
 	}
 
-
-
-
-
+	/* (non-Javadoc)
+	 * @see model.Model#CrossSectionBy(java.lang.String, java.lang.String, int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public  Searchable<Position> CrossSectionBy(String name, String dimention, int section) {
@@ -216,14 +235,11 @@ public class MyModel implements Model {
 		}catch (ArrayIndexOutOfBoundsException | NullPointerException a){
 			return null;
 		}
-
 	}
 
-
-
-
-
-
+	/* (non-Javadoc)
+	 * @see model.Model#getNameToModel(java.lang.String)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Searchable<Position> getNameToModel(String name) {
@@ -237,6 +253,9 @@ public class MyModel implements Model {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#generateModel(java.lang.String, java.lang.String[])
+	 */
 	@Override
 	public void generateModel(String name, String [] params) {
 
@@ -246,18 +265,16 @@ public class MyModel implements Model {
 
 		DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
 		Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
-
 		this.nameToMaze.put(name, myAdapter.getMaze());
-
 	}
 
-
-
+	/**
+	 * Gets the name to solution.
+	 *
+	 * @return the name to solution
+	 */
 	public HashMap<String, Solution<Position>> getNameToSolution() {
 		return nameToSolution;
 	}
 
-
-	
-	
 }
