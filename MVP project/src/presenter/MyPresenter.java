@@ -406,7 +406,13 @@ public class MyPresenter implements Presenter {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+		if(o == view)
+		{
+			if(arg!=null && !arg.toString().equals("error"))
+			{
+				
+			}
+		}
 		
 	}
 }

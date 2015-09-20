@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
-
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -69,6 +68,7 @@ public class MyModel extends Observable implements Model  {
 			nameToFileName.put(name, fileName);
 			this.myCompressor.write(nameToMaze.get(name).toByteArray());
 			myCompressor.close();
+			
 
 		} catch (FileNotFoundException e) {
 			System.out.println("Error file not found exeption, save model");
@@ -79,6 +79,7 @@ public class MyModel extends Observable implements Model  {
 		} finally {
 			try {
 				myCompressor.close();
+				notifyObservers("Maze has been saved");
 			} catch (IOException e) {
 				System.out.println("Error closing file");
 			}
@@ -92,8 +93,9 @@ public class MyModel extends Observable implements Model  {
 	public  Solution<Position> getSolution(String name){
 
 		if(nameToSolution.get(name) != null){
-			return nameToSolution.get(name); 
+			return nameToSolution.get(name);
 		}
+		notifyObservers("There is no solution");
 		return null;
 	}
 
@@ -120,6 +122,7 @@ public class MyModel extends Observable implements Model  {
 			return myFile.length();
 		}
 		else
+			notifyObservers("error");
 			return 0;
 	}
 
@@ -152,6 +155,7 @@ public class MyModel extends Observable implements Model  {
 				nameToSolution.put(name, myAstar.search(myAdapter) );
 			}
 		}
+		notifyObservers("Model has been solved");
 	}
 
 	/* (non-Javadoc)
@@ -164,6 +168,7 @@ public class MyModel extends Observable implements Model  {
 			myCompressor.close();
 		if(myDecompressor!=null)
 			myDecompressor.close();
+		notifyObservers("exit");
 	}
 
 	/* (non-Javadoc)
@@ -190,6 +195,7 @@ public class MyModel extends Observable implements Model  {
 
 		Maze3d myMaze = new Maze3d(data);
 		nameToMaze.put(name, myMaze);
+		notifyObservers("model Loaded ");
 	}
 
 	/* (non-Javadoc)
@@ -202,6 +208,7 @@ public class MyModel extends Observable implements Model  {
 		Maze3d maze3d=nameToMaze.get(name);
 
 		if(maze3d == null){
+			notifyObservers("Error");
 			return null;
 		}
 		try{
@@ -227,6 +234,7 @@ public class MyModel extends Observable implements Model  {
 				break;
 
 			default:
+				notifyObservers("Error");
 				return null;
 
 			}
@@ -235,6 +243,7 @@ public class MyModel extends Observable implements Model  {
 			return myMazeAdapter;
 
 		}catch (ArrayIndexOutOfBoundsException | NullPointerException a){
+			notifyObservers("Error");
 			return null;
 		}
 	}
@@ -251,7 +260,7 @@ public class MyModel extends Observable implements Model  {
 			Maze3dSearchableAdapter myMaze = new Maze3dSearchableAdapter(maze);
 			return  myMaze;
 		}
-
+		notifyObservers("Error");
 		return null;
 	}
 
@@ -268,6 +277,7 @@ public class MyModel extends Observable implements Model  {
 		DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
 		Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
 		this.nameToMaze.put(name, myAdapter.getMaze());
+		notifyObservers("Maze has been generated");
 	}
 
 	/**
