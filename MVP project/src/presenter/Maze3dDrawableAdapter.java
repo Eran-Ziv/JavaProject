@@ -1,0 +1,35 @@
+package presenter;
+
+import algorithms.mazeGenerators.Maze3d;
+import view.Drawable;
+
+
+/**
+ * The Class Maze3dDrawableAdapter.
+ * Object adapter for maze3d {@see Maze3d} and drawable interface{@see Drawable}
+ */
+public class Maze3dDrawableAdapter implements Drawable<int[][][]> {
+
+	/** The my maze. */
+	private Maze3d myMaze;
+
+	/**
+	 * Instantiates a new maze3d drawable adapter.
+	 *
+	 * @param myMaze the my maze
+	 */
+	public Maze3dDrawableAdapter(Maze3d myMaze) {
+		this.myMaze = myMaze;
+
+	}
+
+	/* (non-Javadoc)
+	 * @see view.Drawable#getData()
+	 */
+	@Override
+	public int[][][] getData() {
+
+		return this.myMaze.getMaze();
+	}
+
+}

@@ -17,11 +17,11 @@ import view.View;
 public class Run {
 
 	/**
-	 * The main method.
+	 * The test method.
 	 *
 	 * @param args the arguments
 	 */
-	public static void main(String[] args) {
+	public void test() {
 
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(System.out);
