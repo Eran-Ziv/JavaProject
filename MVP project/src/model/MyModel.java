@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -32,6 +35,7 @@ public class MyModel extends Observable implements Model  {
 
 	/** The name to maze. */
 	private HashMap<String, Maze3d> nameToMaze;
+
 	
 	/** The name to file name. */
 	private HashMap<String, String> nameToFileName;
@@ -44,15 +48,17 @@ public class MyModel extends Observable implements Model  {
 	
 	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
+	
+	private ExecutorService executor;
 
 	/**
 	 * Instantiates a new my model.
 	 */
 	public MyModel() {
 
-		this.nameToMaze = new HashMap<>();
-		this.nameToFileName = new HashMap<>();
-		this.nameToSolution = new HashMap<>();
+		this.nameToMaze = new HashMap<String, Maze3d>();
+		this.nameToFileName = new HashMap<String, String>();
+		this.nameToSolution = new HashMap<String, Solution<Position>>();
 		this.myCompressor = null;
 		this.myDecompressor = null;
 	}
@@ -131,30 +137,41 @@ public class MyModel extends Observable implements Model  {
 	 */
 	@Override
 	public void solveModel(String name, String algorithm, String heuristic) {
+		
+		Future<Solution> solution = executor.submit(new Callable<Solution>() {
+			
+			@Override
+			public Solution call() throws Exception {
+				Maze3d myMaze = nameToMaze.get(name);
+				Heuristic<Position> myHeuristic;
 
-		Maze3d myMaze = nameToMaze.get(name);
-		Heuristic<Position> myHeuristic;
+				if(myMaze != null){
+					Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 
-		if(myMaze != null){
-			Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
+					if(algorithm.toLowerCase().equals("bfs")){
+						Bfs <Position> myBfs = new Bfs<Position>();
+						nameToSolution.put(name, myBfs.search(myAdapter) );
+					}
+					else if(algorithm.toLowerCase().equals("astar")){
 
-			if(algorithm.toLowerCase().equals("bfs")){
-				Bfs <Position> myBfs = new Bfs<Position>();
-				nameToSolution.put(name, myBfs.search(myAdapter) );
-			}
-			else if(algorithm.toLowerCase().equals("astar")){
+						if(heuristic.toLowerCase().equals("manhattan")){
+							myHeuristic = new MazeManhattanDistance();
+						}
+						else{
+							myHeuristic = new MazeEuclideanDistance();
+						}
 
-				if(heuristic.toLowerCase().equals("manhattan")){
-					myHeuristic = new MazeManhattanDistance();
+						Astar<Position> myAstar = new Astar<Position>(myHeuristic);
+						nameToSolution.put(name, myAstar.search(myAdapter) );
+					}
 				}
-				else{
-					myHeuristic = new MazeEuclideanDistance();
-				}
-
-				Astar<Position> myAstar = new Astar<Position>(myHeuristic);
-				nameToSolution.put(name, myAstar.search(myAdapter) );
-			}
-		}
+	
+		
+		return nameToSolution.get(name);
+		
+}	
+			
+		});
 		notifyObservers("Model has been solved");
 	}
 
@@ -264,20 +281,29 @@ public class MyModel extends Observable implements Model  {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see model.Model#generateModel(java.lang.String, java.lang.String[])
-	 */
+	
+	
 	@Override
 	public void generateModel(String name, String [] params) {
 
-		int z = Integer.parseInt(params[0]) ;
-		int x = Integer.parseInt(params[1]) ;
-		int y = Integer.parseInt(params[2]) ;
+		Future<Maze3d> maze = executor.submit(new Callable<Maze3d>() {
 
-		DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
-		Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
-		this.nameToMaze.put(name, myAdapter.getMaze());
-		notifyObservers("Maze has been generated");
+			@Override
+			public Maze3d call() throws Exception {
+				
+				int z = Integer.parseInt(params[0]) ;
+				int x = Integer.parseInt(params[1]) ;
+				int y = Integer.parseInt(params[2]) ;
+
+				DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
+				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
+				nameToMaze.put(name,myAdapter.getMaze());
+				
+				return myAdapter.getMaze();
+			}	
+		
+		});
+		notifyObservers("Model has been generated");
 	}
 
 	/**

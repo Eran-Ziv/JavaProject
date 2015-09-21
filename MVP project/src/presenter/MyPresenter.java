@@ -3,6 +3,7 @@ package presenter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
+import java.util.concurrent.Callable;
 
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
@@ -17,7 +18,7 @@ import model.Model;
 
 /**
  * The Class MyController.
- * Specific impementation of Controller {@see Controller}
+ * Specific implementation of Controller {@see Controller}
  * Uses maze3d {@see Maze3d} for model.
  */
 public class MyPresenter implements Presenter {
@@ -64,19 +65,13 @@ public class MyPresenter implements Presenter {
 		return commands;
 	}
 
-	/* (non-Javadoc)
-	 * @see controller.Controller#start()
-	 */
-	public void start () {
-
-		this.view.start();
-	}
+	
 
 	/**
 	 * The Class SolveModelCommand.
 	 * Solves the maze at a diffrent thread using the model.
 	 */
-	public class SolveModelCommand implements Command,  Runnable{
+	public class SolveModelCommand implements Command,  Callable{
 
 		/** The args. */
 		String [] args;
@@ -115,7 +110,7 @@ public class MyPresenter implements Presenter {
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			for (int i = 0; i < args.length; i++) {
 				args[i] = args[i].toLowerCase();
@@ -124,11 +119,24 @@ public class MyPresenter implements Presenter {
 			if(args.length >= 3){
 
 				this.args = args;
-				myThread = new Thread(this);
-				myThread.start();
+				
 			}
 			else
 				view.displayString("invalid paramters");
+		}
+
+		
+
+		@Override
+		public void setArguments(String[] args) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public Object call() throws Exception {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	}
@@ -413,6 +421,12 @@ public class MyPresenter implements Presenter {
 				
 			}
 		}
+		
+	}
+
+	@Override
+	public void start() {
+		// TODO Auto-generated method stub
 		
 	}
 }

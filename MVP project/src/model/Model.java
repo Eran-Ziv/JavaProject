@@ -2,8 +2,6 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Observer;
-
 import algorithms.mazeGenerators.Searchable;
 
 // TODO: Auto-generated Javadoc
@@ -63,7 +61,7 @@ public interface Model {
 	 * @param name the name
 	 * @param params the params
 	 */
-	public  <T> void generateModel(String name, String[] params);
+	public  void generateModel(String name, String[] params);
 	
 	/**
 	 * Gets the solution.

@@ -16,7 +16,9 @@ public interface Command {
 	 *
 	 * @param args the args
 	 */
-	public void doCommand(String [] args);
+	public void doCommand();
+	
+	public void setArguments(String [] args);
 
 
 }
