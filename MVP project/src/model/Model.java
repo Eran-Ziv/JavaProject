@@ -2,6 +2,8 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import algorithm.generic.Solution;
 import algorithms.mazeGenerators.Searchable;
 
 // TODO: Auto-generated Javadoc
@@ -70,7 +72,7 @@ public interface Model {
 	 * @param name the name
 	 * @return the solution
 	 */
-	public <T> algorithm.generic.Solution<T> getSolution(String name);
+	public <T> Solution<T> getSolution(String name);
 	
 	/**
 	 * Gets the name to model.

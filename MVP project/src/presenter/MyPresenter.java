@@ -3,8 +3,6 @@ package presenter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
-import java.util.concurrent.Callable;
-
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -12,6 +10,7 @@ import algorithms.mazeGenerators.Maze2d;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.Searchable;
+import generic.Constant;
 import view.View;
 import model.Model;
 
@@ -25,10 +24,10 @@ public class MyPresenter implements Presenter {
 
 	/** The model. */
 	private Model model;
-	
+
 	/** The view. */
 	private View  view;
-	
+
 	/** The commands. */
 	HashMap<String, Command> commands;
 
@@ -66,45 +65,15 @@ public class MyPresenter implements Presenter {
 	}
 
 	
-
-	/**
-	 * The Class SolveModelCommand.
-	 * Solves the maze at a diffrent thread using the model.
-	 */
-	public class SolveModelCommand implements Command,  Callable{
+	public class SolveModelCommand implements Command{
 
 		/** The args. */
 		String [] args;
-		
+
 		/** The my thread. */
 		Thread myThread;
 
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-
-			String name = args[1];
-			String algorithm = args[2];
-			String heuristic;
-
-			try {
-
-				heuristic = args[3];
-				model.solveModel(name, algorithm, heuristic);
-
-			}catch (ArrayIndexOutOfBoundsException e){
-
-				heuristic = "default";
-				model.solveModel(name, algorithm, heuristic);
-
-			}
-
-			if(model.getSolution(name) == null){
-				view.displayString("The model " + name + " does not exist." );
-			}
-		}
+		
 
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
@@ -118,67 +87,52 @@ public class MyPresenter implements Presenter {
 
 			if(args.length >= 3){
 
-				this.args = args;
-				
+				String name = args[1];
+				String algorithm = args[2];
+				String heuristic;
+
+				try {
+
+					heuristic = args[3];
+					model.solveModel(name, algorithm, heuristic);
+
+				}catch (ArrayIndexOutOfBoundsException e){
+
+					heuristic = "default";
+					model.solveModel(name, algorithm, heuristic);
+
+				}
+
+				if(model.getSolution(name) == null){
+					view.displayString("The model " + name + " does not exist." );
+				}
+
 			}
 			else
 				view.displayString("invalid paramters");
 		}
 
-		
-
 		@Override
 		public void setArguments(String[] args) {
-			// TODO Auto-generated method stub
-			
-		}
+			this.args = args;
 
-		@Override
-		public Object call() throws Exception {
-			// TODO Auto-generated method stub
-			return null;
 		}
-
 	}
 
 	/**
 	 * The Class GenerateModelCommand.
 	 * Generates the maze at a diffrent thread.
 	 */
-	public class GenerateModelCommand implements Command,  Runnable{
+	public class GenerateModelCommand implements Command{
 
 		/** The args. */
 		String [] args;
-		
-		/** The my thread. */
-		Thread myThread;
-
-		/* (non-Javadoc)
-		 * @see java.lang.Runnable#run()
-		 */
-		@Override
-		public void run() {
-
-			try {
-
-				String name = args[3];
-				String [] params = new String[3];
-				params[0] = args[4];
-				params[1] = args[5];
-				params[2] = args[6];
-
-				model.generateModel(name,params);
-
-			} catch (ArrayIndexOutOfBoundsException e) {
-				view.displayString("Invalid arguments");
-			}
-		}
 
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			try{
 				int height=Integer.parseInt(args[4]);
@@ -187,9 +141,20 @@ public class MyPresenter implements Presenter {
 
 				if(height>0 && length>0 && width>0){
 
-					this.args = args;
-					myThread = new Thread(this);
-					myThread.start();
+					try {
+
+						String name = args[3];
+						String [] params = new String[3];
+						params[0] = args[4];
+						params[1] = args[5];
+						params[2] = args[6];
+
+						model.generateModel(name,params);
+
+					} catch (ArrayIndexOutOfBoundsException e) {
+						view.displayString("Invalid arguments");
+					}
+					
 
 				}
 
@@ -197,6 +162,12 @@ public class MyPresenter implements Presenter {
 
 				view.displayString("invalid parameters");
 			}
+		}
+
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
 		}
 	}
 
@@ -206,11 +177,13 @@ public class MyPresenter implements Presenter {
 	 */
 	public class DirCommand implements Command{
 
+		String[] args;
+		
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			try{
 				if(args[1] != null){
@@ -223,6 +196,12 @@ public class MyPresenter implements Presenter {
 
 			}
 		}
+
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
+		}
 	}
 
 	/**
@@ -230,11 +209,13 @@ public class MyPresenter implements Presenter {
 	 */
 	public class DisplayModelCommand implements Command{
 
+		String[] args;
+		
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 			Searchable<Position> myMaze3dSearchableAdapter; 
 			Searchable<Position> myMaze2dSearchableAdapter; 
 			Maze3dDrawableAdapter myMaze3dDrawAdapter;
@@ -302,6 +283,12 @@ public class MyPresenter implements Presenter {
 				view.displayString("Invalid values");
 			}
 		}
+
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
+		}
 	}
 
 	/**
@@ -309,17 +296,25 @@ public class MyPresenter implements Presenter {
 	 */
 	public class SaveModelCommand implements Command{
 
+		String[] args;
+		
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			try{
 				model.saveModel(args[2], args[3]);}
 			catch (ArrayIndexOutOfBoundsException e){
 				view.displayString("Invalid input");
 			}
+		}
+
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
 		}
 	}
 
@@ -328,11 +323,12 @@ public class MyPresenter implements Presenter {
 	 */
 	public class LoadModelCommand implements Command{
 
+		String[] args;
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			try {
 				model.loadModel(args[2], args[3]);
@@ -343,6 +339,11 @@ public class MyPresenter implements Presenter {
 				view.displayString("Invalid input");
 			}
 		}
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
+		}
 	}
 
 	/**
@@ -350,11 +351,13 @@ public class MyPresenter implements Presenter {
 	 */
 	public class ModelSizeInMemoryCommand implements Command{
 
+		String[] args;
+		
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			if(model.getNameToModel(args[2]) != null){
 
@@ -371,6 +374,12 @@ public class MyPresenter implements Presenter {
 				view.displayString("No such name exist");
 			}
 		}
+
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
+		}
 	}
 
 	/**
@@ -378,11 +387,13 @@ public class MyPresenter implements Presenter {
 	 */
 	public class ModelSizeInFileCommand implements Command{
 
+		String[] args;
+		
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			try{
 				long size = model.getModelSizeInFile(args[2]);
@@ -391,6 +402,12 @@ public class MyPresenter implements Presenter {
 				view.displayString("Invalid args");
 			}
 		}
+
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
+		}
 	}
 
 	/**
@@ -398,11 +415,13 @@ public class MyPresenter implements Presenter {
 	 */
 	public class ExitCommand implements Command{
 
+		String[] args;
+		
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
 		@Override
-		public void doCommand(String[] args) {
+		public void doCommand() {
 
 			try {
 				model.exit();
@@ -410,23 +429,31 @@ public class MyPresenter implements Presenter {
 				view.displayString("Can't close thread");
 			}
 		}
+
+		@Override
+		public void setArguments(String[] args) {
+			this.args = args;
+			
+		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o == view)
+		if(o instanceof Model)
 		{
-			if(arg!=null && !arg.toString().equals("error"))
+			if(arg!=null)
 			{
-				
+
 			}
 		}
 		
+		
+
 	}
 
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
