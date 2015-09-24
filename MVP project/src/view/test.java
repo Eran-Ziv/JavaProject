@@ -14,6 +14,9 @@ public class test {
 		int width = 250;
 		int height = 500;
 		MazeWindow maze = new MazeWindow(display, shell, title, width, height);
+		Thread t = new Thread(maze);
+		
+		t.start();
 
 	}
 
