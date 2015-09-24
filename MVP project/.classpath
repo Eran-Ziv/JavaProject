@@ -6,6 +6,5 @@
 	<classpathentry kind="lib" path="src/task_3_301787420.jar"/>
 	<classpathentry kind="lib" path="src/guava-10.0.jar"/>
 	<classpathentry kind="lib" path="swt.jar"/>
-	<classpathentry kind="lib" path="src/swt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

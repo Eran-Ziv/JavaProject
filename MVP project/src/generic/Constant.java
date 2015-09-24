@@ -2,25 +2,27 @@ package generic;
 
 public class Constant {
 	
-	public static final int MODEL_SOLVED = 1;
+	public static final String MODEL_SOLVED = "Model Solved";
 	
-	public static final int MODEL_GENERATED = 2;
+	public static final String MODEL_GENERATED = "Model generated";
 	
-	public static final int MODEL_ERROR = 3;
+	public static final String MODEL_ERROR = "Model error";
 	
-	public static final int NO_MODEL_SOLUTION = 4;
+	public static final String NO_MODEL_SOLUTION = "No model solution";
 	
-	public static final int ERROR_CLOSING_FILE = 5;
+	public static final String ERROR_CLOSING_FILE = "Error closing file";
 	
-	public static final int MODEL_EXIT = 6;
+	public static final String MODEL_EXIT = "Exit !!!";
 	
-	public static final int MODEL_SAVED = 7;
+	public static final String MODEL_SAVED = "Model saved";
 	
-	public static final int MODEL_LOADED = 8;
+	public static final String MODEL_LOADED = "Model loaded";
 	
-	public static final int NO_MODEL_FOUND= 9;
+	public static final String NO_MODEL_FOUND= "Can't find model";
 	
-	public static final int FILE_NOT_FOUND= 10;
+	public static final String FILE_NOT_FOUND= "File not found";
+	
+	public static final String PROPERTIES_ARE_NO_SET= "Properties are not set";
 	
 	
 	

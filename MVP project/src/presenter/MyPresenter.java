@@ -1,5 +1,6 @@
 package presenter;
 
+import generic.Constant;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
@@ -10,7 +11,6 @@ import algorithms.mazeGenerators.Maze2d;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.Searchable;
-import generic.Constant;
 import view.View;
 import model.Model;
 
@@ -64,7 +64,7 @@ public class MyPresenter implements Presenter {
 		return commands;
 	}
 
-	
+
 	public class SolveModelCommand implements Command{
 
 		/** The args. */
@@ -73,7 +73,7 @@ public class MyPresenter implements Presenter {
 		/** The my thread. */
 		Thread myThread;
 
-		
+
 
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
@@ -154,7 +154,7 @@ public class MyPresenter implements Presenter {
 					} catch (ArrayIndexOutOfBoundsException e) {
 						view.displayString("Invalid arguments");
 					}
-					
+
 
 				}
 
@@ -167,7 +167,7 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
@@ -178,7 +178,7 @@ public class MyPresenter implements Presenter {
 	public class DirCommand implements Command{
 
 		String[] args;
-		
+
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
@@ -200,7 +200,7 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
@@ -210,7 +210,7 @@ public class MyPresenter implements Presenter {
 	public class DisplayModelCommand implements Command{
 
 		String[] args;
-		
+
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
@@ -287,7 +287,7 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
@@ -297,7 +297,7 @@ public class MyPresenter implements Presenter {
 	public class SaveModelCommand implements Command{
 
 		String[] args;
-		
+
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
@@ -314,7 +314,7 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
@@ -342,7 +342,7 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
@@ -352,7 +352,7 @@ public class MyPresenter implements Presenter {
 	public class ModelSizeInMemoryCommand implements Command{
 
 		String[] args;
-		
+
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
@@ -378,7 +378,7 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
@@ -388,7 +388,7 @@ public class MyPresenter implements Presenter {
 	public class ModelSizeInFileCommand implements Command{
 
 		String[] args;
-		
+
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
@@ -406,7 +406,7 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
@@ -416,7 +416,7 @@ public class MyPresenter implements Presenter {
 	public class ExitCommand implements Command{
 
 		String[] args;
-		
+
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
 		 */
@@ -433,27 +433,93 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
-			
+
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o instanceof Model)
+		if(o instanceof View)
 		{
-			if(arg!=null)
+			if(arg!=null && arg.equals(Constant.MODEL_ERROR))
 			{
 
+				Command command= view.getUserCommand();
+				command.doCommand();
 			}
+
 		}
-		
-		
+		else if(o instanceof Model){
+
+
+			String args []= arg.toString().split(" ");
+			switch (args[1]){
+
+			case "Save":
+
+				view.displayString(args[1]+" was saved");
+
+				break;
+
+			case "not":
+
+				view.displayString(Constant.FILE_NOT_FOUND);
+
+				break;
+			case "find":
+
+				view.displayString(Constant.NO_MODEL_FOUND);
+
+				break;
+			case "closing":
+
+				view.displayString(Constant.ERROR_CLOSING_FILE);
+
+				break;
+
+			case "Solved":
+
+				view.displayString(Constant.MODEL_SOLVED);
+				view.displaySolution(model.getSolution(args[0]));
+
+				break;
+
+			case "loaded":
+
+				view.displayString(Constant.MODEL_LOADED);
+
+
+				break;
+
+			case "are":
+
+				view.displayString(Constant.PROPERTIES_ARE_NO_SET);
+
+				break;
+
+			case "generated":
+				Maze3dSearchableAdapter maze = new Maze3dSearchableAdapter(model.getNameToMaze().get(args[0]));
+				Maze3dDrawableAdapter mazeDrew = new Maze3dDrawableAdapter(maze.getMaze());
+				view.displayModel(mazeDrew);
+
+				break;
+
+			case " !!!":
+
+				view.displayString(Constant.MODEL_EXIT);
+
+				break;
+
+			}
+
+		}
 
 	}
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
+		
+		view.start();
 
 	}
 }

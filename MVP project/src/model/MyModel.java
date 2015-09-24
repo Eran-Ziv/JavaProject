@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -28,13 +26,11 @@ import generic.Constant;
 import generic.Preferences;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
-
-
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
-import com.google.common.util.concurrent.MoreExecutors;
+
 
 /**
  * The Class MyModel.
@@ -76,6 +72,23 @@ public class MyModel extends Observable implements Model  {
 		this.myCompressor = null;
 		this.myDecompressor = null;
 	}
+	
+
+	public void setNameToSolution(HashMap<String, Solution<Position>> nameToSolution) {
+		this.nameToSolution = nameToSolution;
+	}
+
+	
+
+	public HashMap<String, Maze3d> getNameToMaze() {
+		return nameToMaze;
+	}
+
+
+	public void setNameToMaze(HashMap<String, Maze3d> nameToMaze) {
+		this.nameToMaze = nameToMaze;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see model.Model#saveModel(java.lang.String, java.lang.String)
@@ -103,7 +116,7 @@ public class MyModel extends Observable implements Model  {
 			try {
 				myCompressor.close();
 				setChanged();
-				notifyObservers(Constant.MODEL_SOLVED);
+				notifyObservers("Save "+fileName);
 			} catch (IOException e) {
 				setChanged();
 				notifyObservers(Constant.ERROR_CLOSING_FILE);
@@ -118,12 +131,9 @@ public class MyModel extends Observable implements Model  {
 	public  Solution<Position> getSolution(String name){
 
 		if(nameToSolution.get(name) != null){
-			setChanged();
-			notifyObservers(Constant.MODEL_SOLVED);
 			return nameToSolution.get(name);
 		}
-		setChanged();
-		notifyObservers(Constant.NO_MODEL_FOUND);
+	
 		return null;
 	}
 
@@ -213,7 +223,8 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onFailure(Throwable arg0) {
-
+					setChanged();
+					notifyObservers(Constant.MODEL_ERROR);
 				}
 
 
@@ -221,7 +232,7 @@ public class MyModel extends Observable implements Model  {
 				public void onSuccess(Solution<Position> arg0) {
 					nameToSolution.put(name, arg0);
 					setChanged();
-					notifyObservers(Constant.MODEL_SOLVED);
+					notifyObservers(name +" solved");
 				}		
 			});
 		}
@@ -333,7 +344,7 @@ public class MyModel extends Observable implements Model  {
 		if(this.properties==null)
 		{
 			setChanged();
-			notifyObservers("Properties are not set");
+			notifyObservers(Constant.PROPERTIES_ARE_NO_SET);
 			return;
 		}
 
@@ -352,7 +363,7 @@ public class MyModel extends Observable implements Model  {
 				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
 				nameToMaze.put(name,myAdapter.getMaze());
 				setChanged();
-				notifyObservers(Constant.MODEL_GENERATED);
+				notifyObservers(name+ " generated");
 				return myAdapter.getMaze();
 			}	
 
@@ -373,7 +384,7 @@ public class MyModel extends Observable implements Model  {
 					//mazeQueue.add(arg0);
 					nameToMaze.put(name, arg0);
 					setChanged();
-					notifyObservers(Constant.MODEL_GENERATED);
+					notifyObservers(name+ " generated");
 				}
 
 			});
