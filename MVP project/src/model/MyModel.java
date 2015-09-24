@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -26,10 +29,12 @@ import generic.Constant;
 import generic.Preferences;
 import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
+
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 
 
 /**
@@ -66,11 +71,9 @@ public class MyModel extends Observable implements Model  {
 		this.nameToMaze = new HashMap<String, Maze3d>();
 		this.nameToFileName = new HashMap<String, String>();
 		this.nameToSolution = new HashMap<String, Solution<Position>>();
-
-
-
 		this.myCompressor = null;
 		this.myDecompressor = null;
+		executor=MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
 	}
 	
 

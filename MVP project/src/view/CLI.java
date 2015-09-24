@@ -74,7 +74,7 @@ public class CLI implements Runnable {
 	}
 
 	public void setCommands(HashMap<String, Command> commands) {
-		
+
 		this.commands = commands; 
 	}
 
@@ -136,10 +136,10 @@ public class CLI implements Runnable {
 		} catch (IOException e) {
 			out.println("Oops something wrong happend");
 		}
-		finally{
-			command= commands.get("exit");
-			command.setArguments(args1);
-		}
+
+		command= commands.get("exit");
+		command.setArguments(args1);
+
 
 	}
 }

@@ -70,7 +70,7 @@ public class MyCliView extends Observable implements View {
 
 	@Override
 	public void displayString(String toPrint) {
-		out.flush();
+		
 		out.println(toPrint);
 		out.flush();
 
@@ -84,13 +84,14 @@ public class MyCliView extends Observable implements View {
 
 	@Override
 	public void start() {
-		
+		Thread thread = new Thread(myCli);
+		thread.start();
 	}
 	
 	public void setUserCommand(Command command){
 		this.command = command;
 		setChanged();
-		notifyObservers("new command");
+		notifyObservers("New command");
 	}
 
 	@Override

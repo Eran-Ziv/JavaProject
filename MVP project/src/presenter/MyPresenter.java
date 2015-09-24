@@ -439,9 +439,11 @@ public class MyPresenter implements Presenter {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("zzzz");
 		if(o instanceof View)
 		{
-			if(arg!=null && arg.equals(Constant.MODEL_ERROR))
+			System.out.println("vvv");
+			if(arg!=null && !arg.equals(Constant.MODEL_ERROR))
 			{
 
 				Command command= view.getUserCommand();
@@ -451,7 +453,7 @@ public class MyPresenter implements Presenter {
 		}
 		else if(o instanceof Model){
 
-
+			System.out.println("mmm");
 			String args []= arg.toString().split(" ");
 			switch (args[1]){
 
