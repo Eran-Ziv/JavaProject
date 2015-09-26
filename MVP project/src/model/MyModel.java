@@ -1,7 +1,5 @@
 package model;
 
-import io.MyCompressorOutputStream;
-import io.MyDecompressorInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,6 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Observable;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
@@ -22,39 +25,73 @@ import algorithms.search.Bfs;
 import algorithms.search.Heuristic;
 import algorithms.search.MazeEuclideanDistance;
 import algorithms.search.MazeManhattanDistance;
+import generic.Constant;
+import generic.Preferences;
+import io.MyCompressorOutputStream;
+import io.MyDecompressorInputStream;
 
-// TODO: Auto-generated Javadoc
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+
+
 /**
  * The Class MyModel.
  */
-public class MyModel implements Model { 
+public class MyModel extends Observable implements Model  { 
 
 	/** The name to maze. */
 	private HashMap<String, Maze3d> nameToMaze;
-	
+
+
 	/** The name to file name. */
 	private HashMap<String, String> nameToFileName;
-	
+
 	/** The name to solution. */
 	private HashMap<String, Solution<Position>>nameToSolution;
-	
+
 	/** The my compressor. */
 	MyCompressorOutputStream myCompressor;
-	
+
 	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
+
+	private final Preferences properties = new Preferences();
+
+
+	private ListeningExecutorService executor;
 
 	/**
 	 * Instantiates a new my model.
 	 */
 	public MyModel() {
 
-		this.nameToMaze = new HashMap<>();
-		this.nameToFileName = new HashMap<>();
-		this.nameToSolution = new HashMap<>();
+		this.nameToMaze = new HashMap<String, Maze3d>();
+		this.nameToFileName = new HashMap<String, String>();
+		this.nameToSolution = new HashMap<String, Solution<Position>>();
 		this.myCompressor = null;
 		this.myDecompressor = null;
+		executor=MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
 	}
+	
+
+	public void setNameToSolution(HashMap<String, Solution<Position>> nameToSolution) {
+		this.nameToSolution = nameToSolution;
+	}
+
+	
+
+	public HashMap<String, Maze3d> getNameToMaze() {
+		return nameToMaze;
+	}
+
+
+	public void setNameToMaze(HashMap<String, Maze3d> nameToMaze) {
+		this.nameToMaze = nameToMaze;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see model.Model#saveModel(java.lang.String, java.lang.String)
@@ -68,17 +105,24 @@ public class MyModel implements Model {
 			this.myCompressor.write(nameToMaze.get(name).toByteArray());
 			myCompressor.close();
 
+
 		} catch (FileNotFoundException e) {
-			System.out.println("Error file not found exeption, save model");
+			setChanged();
+			notifyObservers(Constant.FILE_NOT_FOUND);
 
 		} catch (IOException e) {
-			System.out.println("Error IO exeption ,get model form hash map ,save model");
+
+			setChanged();
+			notifyObservers(Constant.NO_MODEL_FOUND);
 
 		} finally {
 			try {
 				myCompressor.close();
+				setChanged();
+				notifyObservers("Save "+fileName);
 			} catch (IOException e) {
-				System.out.println("Error closing file");
+				setChanged();
+				notifyObservers(Constant.ERROR_CLOSING_FILE);
 			}
 		}
 	}
@@ -90,8 +134,9 @@ public class MyModel implements Model {
 	public  Solution<Position> getSolution(String name){
 
 		if(nameToSolution.get(name) != null){
-			return nameToSolution.get(name); 
+			return nameToSolution.get(name);
 		}
+	
 		return null;
 	}
 
@@ -127,17 +172,32 @@ public class MyModel implements Model {
 	@Override
 	public void solveModel(String name, String algorithm, String heuristic) {
 
+		ListenableFuture<Solution<Position>> futureSolution = null;
+
+
 		Maze3d myMaze = nameToMaze.get(name);
-		Heuristic<Position> myHeuristic;
+
 
 		if(myMaze != null){
 			Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 
 			if(algorithm.toLowerCase().equals("bfs")){
-				Bfs <Position> myBfs = new Bfs<Position>();
-				nameToSolution.put(name, myBfs.search(myAdapter) );
+
+				futureSolution=executor.submit(new Callable<Solution<Position>>() {
+
+					@Override
+					public Solution<Position> call() throws Exception {
+						Bfs <Position> myBfs = new Bfs<Position>();
+
+						return myBfs.search(myAdapter);
+					}
+				});
 			}
+
 			else if(algorithm.toLowerCase().equals("astar")){
+
+
+				Heuristic<Position> myHeuristic;
 
 				if(heuristic.toLowerCase().equals("manhattan")){
 					myHeuristic = new MazeManhattanDistance();
@@ -146,23 +206,42 @@ public class MyModel implements Model {
 					myHeuristic = new MazeEuclideanDistance();
 				}
 
-				Astar<Position> myAstar = new Astar<Position>(myHeuristic);
-				nameToSolution.put(name, myAstar.search(myAdapter) );
+				futureSolution=executor.submit(new Callable<Solution<Position>>() {
+
+					@Override
+					public Solution<Position> call() throws Exception {
+						Astar<Position> myAstar = new Astar<Position>(myHeuristic);
+						return myAstar.search(myAdapter);
+					}
+
+				});
+
+
 			}
+		}
+
+		if(futureSolution!=null){
+
+			Futures.addCallback(futureSolution, new FutureCallback<Solution<Position>>() {
+
+				@Override
+				public void onFailure(Throwable arg0) {
+					setChanged();
+					notifyObservers(Constant.MODEL_ERROR);
+				}
+
+
+				@Override
+				public void onSuccess(Solution<Position> arg0) {
+					nameToSolution.put(name, arg0);
+					setChanged();
+					notifyObservers(name +" solved");
+				}		
+			});
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see model.Model#exit()
-	 */
-	@Override
-	public void exit() throws IOException {
 
-		if(myCompressor!=null)
-			myCompressor.close();
-		if(myDecompressor!=null)
-			myDecompressor.close();
-	}
 
 	/* (non-Javadoc)
 	 * @see model.Model#loadModel(java.lang.String, java.lang.String)
@@ -188,7 +267,11 @@ public class MyModel implements Model {
 
 		Maze3d myMaze = new Maze3d(data);
 		nameToMaze.put(name, myMaze);
+		setChanged();
+		notifyObservers(Constant.MODEL_LOADED);
 	}
+
+
 
 	/* (non-Javadoc)
 	 * @see model.Model#CrossSectionBy(java.lang.String, java.lang.String, int)
@@ -200,6 +283,7 @@ public class MyModel implements Model {
 		Maze3d maze3d=nameToMaze.get(name);
 
 		if(maze3d == null){
+
 			return null;
 		}
 		try{
@@ -225,6 +309,7 @@ public class MyModel implements Model {
 				break;
 
 			default:
+
 				return null;
 
 			}
@@ -233,6 +318,7 @@ public class MyModel implements Model {
 			return myMazeAdapter;
 
 		}catch (ArrayIndexOutOfBoundsException | NullPointerException a){
+
 			return null;
 		}
 	}
@@ -253,19 +339,59 @@ public class MyModel implements Model {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see model.Model#generateModel(java.lang.String, java.lang.String[])
-	 */
+
+
 	@Override
 	public void generateModel(String name, String [] params) {
 
-		int z = Integer.parseInt(params[0]) ;
-		int x = Integer.parseInt(params[1]) ;
-		int y = Integer.parseInt(params[2]) ;
+		if(this.properties==null)
+		{
+			setChanged();
+			notifyObservers(Constant.PROPERTIES_ARE_NO_SET);
+			return;
+		}
 
-		DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
-		Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
-		this.nameToMaze.put(name, myAdapter.getMaze());
+		ListenableFuture<Maze3d> futureMaze=null;
+
+		futureMaze = executor.submit(new Callable<Maze3d>() {
+
+			@Override
+			public Maze3d call() throws Exception {
+
+				int z = Integer.parseInt(params[0]) ;
+				int x = Integer.parseInt(params[1]) ;
+				int y = Integer.parseInt(params[2]) ;
+
+				DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
+				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
+				nameToMaze.put(name,myAdapter.getMaze());
+				setChanged();
+				notifyObservers(name+ " generated");
+				return myAdapter.getMaze();
+			}	
+
+		});
+
+		if(futureMaze!=null)
+		{			
+			Futures.addCallback(futureMaze, new FutureCallback<Maze3d>() {
+
+				@Override
+				public void onFailure(Throwable arg0) {
+					setChanged();
+					notifyObservers(Constant.MODEL_ERROR);
+				}
+
+				@Override
+				public void onSuccess(Maze3d arg0) {
+					//mazeQueue.add(arg0);
+					nameToMaze.put(name, arg0);
+					setChanged();
+					notifyObservers(name+ " generated");
+				}
+
+			});
+		}
 	}
 
 	/**
@@ -277,4 +403,19 @@ public class MyModel implements Model {
 		return nameToSolution;
 	}
 
+
+	/* (non-Javadoc)
+	 * @see model.Model#exit()
+	 */
+	@Override
+	public void exit() throws IOException {
+
+		if(myCompressor!=null)
+			myCompressor.close();
+		if(myDecompressor!=null)
+			myDecompressor.close();
+		setChanged();
+		notifyObservers(Constant.MODEL_EXIT);
+	}
+	
 }

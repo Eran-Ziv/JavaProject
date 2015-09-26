@@ -4,22 +4,25 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import controller.Command;
+import presenter.Command;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CLI.
  */
-public class CLI extends Thread {
+public class CLI implements Runnable {
 
 	/** The out. */
 	private PrintWriter out;
-	
+
 	/** The in. */
 	private BufferedReader in;
-	
-	/** The commands. */
+
 	private HashMap<String,Command> commands;
+
+	Command command;
+
+	View view;
 
 	/**
 	 * Instantiates a new cli.
@@ -27,11 +30,11 @@ public class CLI extends Thread {
 	 * @param out the out
 	 * @param in the in
 	 */
-	public CLI(PrintWriter out, BufferedReader in) {
+	public CLI(PrintWriter out, BufferedReader in, View view) {
 
 		this.out = out;
 		this.in = in;
-		
+		this.view = view;
 	}
 
 	/**
@@ -70,14 +73,11 @@ public class CLI extends Thread {
 		this.in = in;
 	}
 
-	/**
-	 * Gets the commands.
-	 *
-	 * @return the commands
-	 */
-	public HashMap<String, Command> getCommands() {
-		return commands;
+	public void setCommands(HashMap<String, Command> commands) {
+
+		this.commands = commands; 
 	}
+
 
 	/**
 	 * Prints the commands.
@@ -99,14 +99,8 @@ public class CLI extends Thread {
 		out.println("Exit.............................................................................exit");
 	}
 
-	/**
-	 * Sets the commands.
-	 *
-	 * @param commands the commands
-	 */
-	public void setCommands(HashMap<String, Command> commands) {
-		this.commands = commands;
-	}
+
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Thread#run()
@@ -114,9 +108,8 @@ public class CLI extends Thread {
 	public void run()  {
 		out.flush();
 		String line=null;
-		Command command;
 		String [] args=null;
-		String [] args1={"exit","Default"};
+		String [] args1= {"exit"};
 		printCommands();
 		out.println("Enter command");
 		out.flush();
@@ -126,10 +119,11 @@ public class CLI extends Thread {
 
 				args= line.split(" ");
 				if(commands.containsKey(args[0])){
-					command= commands.get(args[0]);	
-					
-					command.doCommand(args);
-					
+
+					command= commands.get(args[0]);		
+					command.setArguments(args);
+					view.setUserCommand(command);
+
 					out.println("Enter command: ");
 					out.flush();
 				}
@@ -140,11 +134,12 @@ public class CLI extends Thread {
 				}
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			out.println("Oops something wrong happend");
 		}
-		finally{
-			command= commands.get("exit");
-			command.doCommand(args1);
-		}
+
+		command= commands.get("exit");
+		command.setArguments(args1);
+
+
 	}
 }

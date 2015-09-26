@@ -1,4 +1,4 @@
-package controller;
+package presenter;
 
 import algorithms.mazeGenerators.Maze3d;
 import view.Drawable;

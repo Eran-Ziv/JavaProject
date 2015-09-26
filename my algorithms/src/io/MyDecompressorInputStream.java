@@ -23,13 +23,18 @@ public class MyDecompressorInputStream extends InputStream {
 		int numRead1=0;
 		int numRead2=0;
 		int k=0 ;
-		while (((numRead1 = in.read()) != -1) && ((numRead2 = in.read()) != -1 )) {
+		while (((numRead1 = in.read()) != -1) && ((numRead2 = in.read()) != -1 ) && k < a.length) {
 			for (int i = 0; i < numRead2; i++) {
 				a[k++]=(byte) numRead1;
 			}
             
         }
-		return a.length;
+		if(k > 0 && k < a.length)
+		return k;
+		else if(k == 0){
+			return -1;
+		}
+		return k;
 
 	}
 	
