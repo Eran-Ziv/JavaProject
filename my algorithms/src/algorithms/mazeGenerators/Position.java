@@ -1,10 +1,17 @@
 package algorithms.mazeGenerators;
 
+import java.io.Serializable;
+
 /**
  * The Class Position.
  */
 
-public class Position {
+public class Position implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The height. */
 	int z;

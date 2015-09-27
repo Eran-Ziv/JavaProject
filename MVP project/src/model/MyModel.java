@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,14 +58,14 @@ public class MyModel extends Observable implements Model  {
 	private HashMap<String, Solution<Position>>nameToSolution;
 
 	private HashMap<Maze3d, Solution<Position>> mazeToSolution;
-	
+
 	/** The my compressor. */
 	MyCompressorOutputStream myCompressor;
 
 	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
-	
-	
+
+
 
 	private Preferences preferences;
 
@@ -187,14 +188,16 @@ public class MyModel extends Observable implements Model  {
 
 
 		Maze3d myMaze = nameToMaze.get(name);
-		
+
 		if(myMaze != null){
-			
-			if(mazeToSolution.get(myMaze) != null){
+			Solution<Position> solution = new Solution<Position>();
+
+			if((solution = mazeToSolution.get(myMaze)) != null){
+				nameToSolution.put(name, solution);
 				setChanged();
 				notifyObservers(name +" solved");
 			}
-			
+
 			else if(algorithm.toLowerCase().equals("bfs")){
 				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 
@@ -210,7 +213,7 @@ public class MyModel extends Observable implements Model  {
 			}
 
 			else if(algorithm.toLowerCase().equals("astar")){
-                
+
 				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 				Heuristic<Position> myHeuristic;
 
@@ -428,7 +431,7 @@ public class MyModel extends Observable implements Model  {
 			myCompressor.close();
 		if(myDecompressor!=null)
 			myDecompressor.close();
-		
+
 		saveSolution();
 		executor.shutdownNow();
 		setChanged();
@@ -463,36 +466,37 @@ public class MyModel extends Observable implements Model  {
 		}
 		return null;
 	}
-	
+
 	private void saveSolution() throws FileNotFoundException, IOException{
-		@SuppressWarnings("resource")
-		ObjectOutputStream zipOut = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(Constant.FILE_PATH)));
-		zipOut.writeObject(mazeToSolution);
-		zipOut.close();
-		
+		try {
+			FileOutputStream fos=new FileOutputStream(Constant.FILE_PATH);
+			GZIPOutputStream gzos=new GZIPOutputStream(fos);
+			ObjectOutputStream out=new ObjectOutputStream(gzos);
+			out.writeObject(mazeToSolution);
+			out.flush();
+			out.close();
+		}
+		catch (IOException e) {
+			e.getStackTrace();
+		}
+
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void loadSolution() {
-		
-		ObjectInputStream zipIn = null;
+
 		try {
-			zipIn = new ObjectInputStream(new GZIPInputStream(new FileInputStream(Constant.FILE_PATH)));
-			this.mazeToSolution = (HashMap<Maze3d, Solution<Position>>)zipIn.readObject();
-			zipIn.close();
-			
-			
-		} catch (IOException e1) {
-			
-			e1.printStackTrace();
+			FileInputStream fos=new FileInputStream(Constant.FILE_PATH);
+			GZIPInputStream gzos=new GZIPInputStream(fos);
+			ObjectInputStream out=new ObjectInputStream(gzos);
+			mazeToSolution = (HashMap<Maze3d, Solution<Position>>) out.readObject();
+			out.close();
 		}
-			
-		 catch (ClassNotFoundException e) {
-			
+		catch (  IOException e) {
+			e.getStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 }
 

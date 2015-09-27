@@ -1,12 +1,19 @@
 package algorithm.generic;
 
+import java.io.Serializable;
+
 /**
  * The Class State.
  *
  * @param <T>
  *            the generic type
  */
-public class State<T> implements Comparable<State<T>> {
+public class State<T> implements Comparable<State<T>>, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The position. */
 	private T position;

@@ -113,11 +113,12 @@ public class CLI implements Runnable {
 		String [] args=null;
 		String [] args1= {"exit"};
 		printCommands();
-		out.println("Enter command");
-		out.flush();
+		
 
 		try {	
 			while (runing){
+				out.println("Enter command");
+				out.flush();
 				
 				line= in.readLine();
 				args= line.split(" ");
@@ -127,8 +128,6 @@ public class CLI implements Runnable {
 					command.setArguments(args);
 					view.setUserCommand(command);
 
-					out.println("Enter command: ");
-					out.flush();
 				}
 				else{
 					out.println("Invalid parameters ");
@@ -139,6 +138,8 @@ public class CLI implements Runnable {
 		} catch (IOException e) {
 			out.println("Oops something wrong happend");
 		}
+		
+		out.println("Good bye.");
 
 	}
 
