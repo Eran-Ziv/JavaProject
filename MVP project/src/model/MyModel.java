@@ -79,11 +79,12 @@ public class MyModel extends Observable implements Model  {
 		this.nameToMaze = new HashMap<String, Maze3d>();
 		this.nameToFileName = new HashMap<String, String>();
 		this.nameToSolution = new HashMap<String, Solution<Position>>();
+		this.mazeToSolution = new HashMap<Maze3d, Solution<Position>>();
 		this.myCompressor = null;
 		this.myDecompressor = null;
 		loadSolution();
 		this.preferences = preferences;
-		executor=MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
+		executor=MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(preferences.poolSize));
 	}
 
 
@@ -380,8 +381,6 @@ public class MyModel extends Observable implements Model  {
 				DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
 				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
 				nameToMaze.put(name,myAdapter.getMaze());
-				setChanged();
-				notifyObservers(name+ " generated");
 				return myAdapter.getMaze();
 			}	
 
@@ -429,12 +428,15 @@ public class MyModel extends Observable implements Model  {
 			myCompressor.close();
 		if(myDecompressor!=null)
 			myDecompressor.close();
+		
 		saveSolution();
+		executor.shutdownNow();
 		setChanged();
 		notifyObservers(Constant.MODEL_EXIT);
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public State<Position> getGoalState(String name) {
 
@@ -449,6 +451,7 @@ public class MyModel extends Observable implements Model  {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public State<Position> getStartState(String name) {
 		Maze3d maze = null;
@@ -465,16 +468,20 @@ public class MyModel extends Observable implements Model  {
 		@SuppressWarnings("resource")
 		ObjectOutputStream zipOut = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(Constant.FILE_PATH)));
 		zipOut.writeObject(mazeToSolution);
+		zipOut.close();
 		
 	}
 	
 	@SuppressWarnings("unchecked")
 	private void loadSolution() {
 		
-		ObjectInputStream zipIn;
+		ObjectInputStream zipIn = null;
 		try {
 			zipIn = new ObjectInputStream(new GZIPInputStream(new FileInputStream(Constant.FILE_PATH)));
 			this.mazeToSolution = (HashMap<Maze3d, Solution<Position>>)zipIn.readObject();
+			zipIn.close();
+			
+			
 		} catch (IOException e1) {
 			
 			e1.printStackTrace();
@@ -484,6 +491,8 @@ public class MyModel extends Observable implements Model  {
 			
 			e.printStackTrace();
 		}
+		
+		
 	}
 }
 

@@ -425,6 +425,7 @@ public class MyPresenter implements Presenter {
 
 			try {
 				model.exit();
+				view.exit();
 			} catch (IOException e) {
 				view.displayString("Can't close thread");
 			}

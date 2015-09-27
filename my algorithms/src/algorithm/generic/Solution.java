@@ -1,5 +1,6 @@
 package algorithm.generic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,12 @@ import java.util.ArrayList;
  * @param <T>
  *            the generic type
  */
-public class Solution<T> {
+public class Solution<T> implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * The solution.
 	 *
@@ -65,4 +70,6 @@ public class Solution<T> {
 
 		}
 	}
+	
+	
 }

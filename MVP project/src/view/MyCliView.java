@@ -18,10 +18,20 @@ public class MyCliView extends Observable implements View {
 	private CLI myCli;
 	public  PrintWriter out;
 	
+	
 	public MyCliView(PrintWriter out, BufferedReader in) {
 		myCli = new CLI(out, in, this);
+		this.out = out;
 		myMaze2dDisplayer = new Maze2dDisplayerAdapter(out);
 		myMaze3dDisplayer = new Maze3dDisplayerAdapter(out);
+	}
+	
+	public boolean getRuning(){
+		return myCli.isRuning();
+	}
+	
+	public void setRuning(boolean runing){
+		myCli.setRuning(runing);
 	}
 	
 	@Override
@@ -99,6 +109,12 @@ public class MyCliView extends Observable implements View {
 		
 		myCli.setCommands(commands);
 		
+	}
+
+	@Override
+	public void exit() {
+		
+		myCli.setRuning(false);		
 	}
 
 	

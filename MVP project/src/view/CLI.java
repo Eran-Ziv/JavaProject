@@ -12,6 +12,8 @@ import presenter.Command;
  */
 public class CLI implements Runnable {
 
+	boolean runing = true;
+	
 	/** The out. */
 	private PrintWriter out;
 
@@ -115,8 +117,9 @@ public class CLI implements Runnable {
 		out.flush();
 
 		try {	
-			while (!(line= in.readLine()).equals("exit")){
-
+			while (runing){
+				
+				line= in.readLine();
 				args= line.split(" ");
 				if(commands.containsKey(args[0])){
 
@@ -137,9 +140,13 @@ public class CLI implements Runnable {
 			out.println("Oops something wrong happend");
 		}
 
-		command= commands.get("exit");
-		command.setArguments(args1);
+	}
 
+	public boolean isRuning() {
+		return runing;
+	}
 
+	public void setRuning(boolean runing) {
+		this.runing = runing;
 	}
 }
