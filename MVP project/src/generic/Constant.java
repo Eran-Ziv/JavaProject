@@ -24,6 +24,12 @@ public class Constant {
 	
 	public static final String PROPERTIES_ARE_NO_SET= "Properties are not set";
 	
+	public static final String FILE_PATH = "name_to_model.zip";
+	
+	public static final String XML_FILE_PATH = "Preferences.zip";
+	
+	public static final int DEFAULT_POOL_SIZE = 5;
+	
 	
 	
 	

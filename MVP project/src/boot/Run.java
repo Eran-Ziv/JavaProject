@@ -1,8 +1,11 @@
 package boot;
 
+import generic.Preferences;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
 import presenter.MyPresenter;
 import presenter.Presenter;
 import model.MyModel;
@@ -16,7 +19,8 @@ public class Run {
 	
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		PrintWriter out = new PrintWriter(System.out);
-		MyModel myModel = new MyModel();
+		Preferences myPref = new Preferences();
+		MyModel myModel = new MyModel(myPref);
 		MyCliView myView = new MyCliView(out, in);
 		
 		Presenter presenter = new MyPresenter(myView, myModel);

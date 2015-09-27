@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import algorithm.generic.Solution;
+import algorithm.generic.State;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Searchable;
 
@@ -104,5 +105,8 @@ public interface Model {
 	public void exit()  throws IOException;
 	
 	public HashMap<String, Maze3d> getNameToMaze() ;
+	
+	public <T> State<T> getGoalState(String name);
+	public <T> State<T> getStartState(String name);
 
 }

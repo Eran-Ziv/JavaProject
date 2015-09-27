@@ -5,14 +5,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import algorithm.generic.Solution;
+import algorithm.generic.State;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
 import algorithms.mazeGenerators.DfsMaze3dGenerator;
@@ -52,13 +56,17 @@ public class MyModel extends Observable implements Model  {
 	/** The name to solution. */
 	private HashMap<String, Solution<Position>>nameToSolution;
 
+	private HashMap<Maze3d, Solution<Position>> mazeToSolution;
+	
 	/** The my compressor. */
 	MyCompressorOutputStream myCompressor;
 
 	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
+	
+	
 
-	private final Preferences properties = new Preferences();
+	private Preferences preferences;
 
 
 	private ListeningExecutorService executor;
@@ -66,22 +74,24 @@ public class MyModel extends Observable implements Model  {
 	/**
 	 * Instantiates a new my model.
 	 */
-	public MyModel() {
+	public MyModel(Preferences preferences) {
 
 		this.nameToMaze = new HashMap<String, Maze3d>();
 		this.nameToFileName = new HashMap<String, String>();
 		this.nameToSolution = new HashMap<String, Solution<Position>>();
 		this.myCompressor = null;
 		this.myDecompressor = null;
+		loadSolution();
+		this.preferences = preferences;
 		executor=MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(5));
 	}
-	
+
 
 	public void setNameToSolution(HashMap<String, Solution<Position>> nameToSolution) {
 		this.nameToSolution = nameToSolution;
 	}
 
-	
+
 
 	public HashMap<String, Maze3d> getNameToMaze() {
 		return nameToMaze;
@@ -136,7 +146,7 @@ public class MyModel extends Observable implements Model  {
 		if(nameToSolution.get(name) != null){
 			return nameToSolution.get(name);
 		}
-	
+
 		return null;
 	}
 
@@ -176,12 +186,16 @@ public class MyModel extends Observable implements Model  {
 
 
 		Maze3d myMaze = nameToMaze.get(name);
-
-
+		
 		if(myMaze != null){
-			Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
-
-			if(algorithm.toLowerCase().equals("bfs")){
+			
+			if(mazeToSolution.get(myMaze) != null){
+				setChanged();
+				notifyObservers(name +" solved");
+			}
+			
+			else if(algorithm.toLowerCase().equals("bfs")){
+				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 
 				futureSolution=executor.submit(new Callable<Solution<Position>>() {
 
@@ -195,8 +209,8 @@ public class MyModel extends Observable implements Model  {
 			}
 
 			else if(algorithm.toLowerCase().equals("astar")){
-
-
+                
+				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
 				Heuristic<Position> myHeuristic;
 
 				if(heuristic.toLowerCase().equals("manhattan")){
@@ -233,6 +247,7 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onSuccess(Solution<Position> arg0) {
+					mazeToSolution.put(myMaze,arg0);
 					nameToSolution.put(name, arg0);
 					setChanged();
 					notifyObservers(name +" solved");
@@ -344,7 +359,7 @@ public class MyModel extends Observable implements Model  {
 	@Override
 	public void generateModel(String name, String [] params) {
 
-		if(this.properties==null)
+		if(this.preferences==null)
 		{
 			setChanged();
 			notifyObservers(Constant.PROPERTIES_ARE_NO_SET);
@@ -414,8 +429,62 @@ public class MyModel extends Observable implements Model  {
 			myCompressor.close();
 		if(myDecompressor!=null)
 			myDecompressor.close();
+		saveSolution();
 		setChanged();
 		notifyObservers(Constant.MODEL_EXIT);
 	}
+
+
+	@Override
+	public State<Position> getGoalState(String name) {
+
+		Maze3d maze = null;
+
+		if((maze = nameToMaze.get(name)) != null){
+
+			State<Position> state = new State<Position>(maze.getGoalPosition());
+			return state;
+		}
+		return null;
+	}
+
+
+	@Override
+	public State<Position> getStartState(String name) {
+		Maze3d maze = null;
+
+		if((maze = nameToMaze.get(name)) != null){
+
+			State<Position> state = new State<Position>(maze.getStartPosition());
+			return state;
+		}
+		return null;
+	}
 	
+	private void saveSolution() throws FileNotFoundException, IOException{
+		@SuppressWarnings("resource")
+		ObjectOutputStream zipOut = new ObjectOutputStream(new GZIPOutputStream(new FileOutputStream(Constant.FILE_PATH)));
+		zipOut.writeObject(mazeToSolution);
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void loadSolution() {
+		
+		ObjectInputStream zipIn;
+		try {
+			zipIn = new ObjectInputStream(new GZIPInputStream(new FileInputStream(Constant.FILE_PATH)));
+			this.mazeToSolution = (HashMap<Maze3d, Solution<Position>>)zipIn.readObject();
+		} catch (IOException e1) {
+			
+			e1.printStackTrace();
+		}
+			
+		 catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		}
+	}
 }
+
+
