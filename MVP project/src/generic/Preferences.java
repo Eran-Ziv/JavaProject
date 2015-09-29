@@ -1,10 +1,6 @@
 package generic;
 
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.Serializable;
 
 
@@ -12,6 +8,8 @@ public class Preferences implements Serializable{
 
 
 	private static final long serialVersionUID = 1L;
+	
+	
 
 	public enum MazeGenerator{
 		DFS,RANDOM
@@ -37,23 +35,8 @@ public class Preferences implements Serializable{
 
 	public MazeSolver solver;
 	
-	XMLDecoder myXMLDecoder;
 	
-	XMLEncoder myXMLEncoder;
 
-	public Preferences(boolean load) {
-		
-		Preferences preferences = loadPreferences();
-		
-		this.poolSize = preferences.poolSize;
-		this.ui = preferences.ui;
-		this.generator = preferences.generator;
-		this.solver = preferences.solver;
-		this.serverIP = preferences.serverIP;
-		this.serverPort = preferences.serverPort;
-		
-	}
-	
 	public Preferences() {
 		
 		this.poolSize = Constant.DEFAULT_POOL_SIZE;
@@ -73,7 +56,6 @@ public class Preferences implements Serializable{
 		this.generator = generator;
 		this.ui = ui;
 		this.solver = solver;
-		savePreferences();
 	}
 
 
@@ -135,29 +117,9 @@ public class Preferences implements Serializable{
 	}
 
 
-	private void savePreferences(){
-		
-		try {
-			myXMLEncoder = new XMLEncoder(new FileOutputStream("Preferences.xml"));
-			myXMLEncoder.writeObject(this);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private Preferences loadPreferences(){
-		
-		try {
-			myXMLDecoder = new XMLDecoder(new FileInputStream(Constant.XML_FILE_PATH));
-			myXMLDecoder.readObject();
-			Preferences preferences =(Preferences)myXMLDecoder.readObject(); 
-			return preferences;
-			
-		} catch (FileNotFoundException e) {
-			return new Preferences();
-		}
-	}
 
-
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 
 }

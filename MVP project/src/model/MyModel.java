@@ -1,12 +1,14 @@
 package model;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +25,7 @@ import algorithms.demo.Maze3dSearchableAdapter;
 import algorithms.mazeGenerators.DfsMaze3dGenerator;
 import algorithms.mazeGenerators.Maze2d;
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.MyMaze3dGenerator;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.Searchable;
 import algorithms.search.Astar;
@@ -65,7 +68,9 @@ public class MyModel extends Observable implements Model  {
 	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
 
+	String [] constantArgs;
 
+	XMLEncoder myXMLEncoder;
 
 	private Preferences preferences;
 
@@ -83,6 +88,7 @@ public class MyModel extends Observable implements Model  {
 		this.mazeToSolution = new HashMap<Maze3d, Solution<Position>>();
 		this.myCompressor = null;
 		this.myDecompressor = null;
+		this.constantArgs = new String[2];
 		loadSolution();
 		this.preferences = preferences;
 		executor=MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(preferences.poolSize));
@@ -119,22 +125,27 @@ public class MyModel extends Observable implements Model  {
 
 
 		} catch (FileNotFoundException e) {
+			constantArgs[0] = Constant.FILE_NOT_FOUND; 
 			setChanged();
-			notifyObservers(Constant.FILE_NOT_FOUND);
+			notifyObservers(constantArgs);
 
 		} catch (IOException e) {
+			constantArgs[0] = Constant.NO_MODEL_FOUND;
 
 			setChanged();
-			notifyObservers(Constant.NO_MODEL_FOUND);
+			notifyObservers(constantArgs);
 
 		} finally {
 			try {
 				myCompressor.close();
+				constantArgs[0] = Constant.MODEL_SAVED;
+				constantArgs[1] = fileName;
 				setChanged();
-				notifyObservers("Save "+fileName);
+				notifyObservers(constantArgs);
 			} catch (IOException e) {
+				constantArgs[0] = Constant.ERROR_CLOSING_FILE;
 				setChanged();
-				notifyObservers(Constant.ERROR_CLOSING_FILE);
+				notifyObservers(constantArgs);
 			}
 		}
 	}
@@ -194,8 +205,10 @@ public class MyModel extends Observable implements Model  {
 
 			if((solution = mazeToSolution.get(myMaze)) != null){
 				nameToSolution.put(name, solution);
+				constantArgs[0] = Constant.MODEL_SOLVED;
+				constantArgs[1] = name;
 				setChanged();
-				notifyObservers(name +" solved");
+				notifyObservers(constantArgs);
 			}
 
 			else if(algorithm.toLowerCase().equals("bfs")){
@@ -244,8 +257,9 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onFailure(Throwable arg0) {
+					constantArgs[0] = Constant.MODEL_ERROR; 
 					setChanged();
-					notifyObservers(Constant.MODEL_ERROR);
+					notifyObservers(constantArgs);
 				}
 
 
@@ -253,8 +267,10 @@ public class MyModel extends Observable implements Model  {
 				public void onSuccess(Solution<Position> arg0) {
 					mazeToSolution.put(myMaze,arg0);
 					nameToSolution.put(name, arg0);
+					constantArgs[0] = Constant.MODEL_SOLVED;
+					constantArgs[1] = name;
 					setChanged();
-					notifyObservers(name +" solved");
+					notifyObservers(constantArgs);
 				}		
 			});
 		}
@@ -286,8 +302,9 @@ public class MyModel extends Observable implements Model  {
 
 		Maze3d myMaze = new Maze3d(data);
 		nameToMaze.put(name, myMaze);
+		constantArgs[0] = Constant.MODEL_LOADED; 
 		setChanged();
-		notifyObservers(Constant.MODEL_LOADED);
+		notifyObservers(constantArgs);
 	}
 
 
@@ -365,13 +382,18 @@ public class MyModel extends Observable implements Model  {
 
 		if(this.preferences==null)
 		{
+			constantArgs[0] = Constant.PROPERTIES_ARE_NO_SET;
 			setChanged();
-			notifyObservers(Constant.PROPERTIES_ARE_NO_SET);
+			notifyObservers(constantArgs);
 			return;
 		}
 
 		ListenableFuture<Maze3d> futureMaze=null;
 
+		switch(preferences.getGenerator()){
+		
+		case DFS:
+			
 		futureMaze = executor.submit(new Callable<Maze3d>() {
 
 			@Override
@@ -383,11 +405,35 @@ public class MyModel extends Observable implements Model  {
 
 				DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
 				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
-				nameToMaze.put(name,myAdapter.getMaze());
 				return myAdapter.getMaze();
 			}	
 
 		});
+		break;
+		case RANDOM:
+			
+			futureMaze = executor.submit(new Callable<Maze3d>() {
+
+				@Override
+				public Maze3d call() throws Exception {
+
+					int z = Integer.parseInt(params[0]) ;
+					int x = Integer.parseInt(params[1]) ;
+					int y = Integer.parseInt(params[2]) ;
+
+					MyMaze3dGenerator myGenerator = new MyMaze3dGenerator();
+					Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
+					return myAdapter.getMaze();
+				}	
+
+			});
+			
+			break;
+			
+			default:
+				break;
+		}
+		
 
 		if(futureMaze!=null)
 		{			
@@ -395,16 +441,18 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onFailure(Throwable arg0) {
+					constantArgs[0] = Constant.MODEL_ERROR;
 					setChanged();
-					notifyObservers(Constant.MODEL_ERROR);
+					notifyObservers(constantArgs);
 				}
 
 				@Override
 				public void onSuccess(Maze3d arg0) {
-					//mazeQueue.add(arg0);
 					nameToMaze.put(name, arg0);
+					constantArgs[0] = Constant.MODEL_GENERATED;
+					constantArgs[1] = name;
 					setChanged();
-					notifyObservers(name+ " generated");
+					notifyObservers(constantArgs);
 				}
 
 			});
@@ -433,9 +481,11 @@ public class MyModel extends Observable implements Model  {
 			myDecompressor.close();
 
 		saveSolution();
+		savePreferences();
 		executor.shutdownNow();
+		constantArgs[0]= Constant.MODEL_EXIT;
 		setChanged();
-		notifyObservers(Constant.MODEL_EXIT);
+		notifyObservers(constantArgs);
 	}
 
 
@@ -498,6 +548,25 @@ public class MyModel extends Observable implements Model  {
 			e.printStackTrace();
 		}
 	}
+
+	public void savePreferences(){
+
+		try {
+			
+			myXMLEncoder = new XMLEncoder(
+					new BufferedOutputStream(
+							new FileOutputStream(Constant.XML_FILE_PATH)));
+			myXMLEncoder.flush();
+			myXMLEncoder.writeObject(preferences);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		finally{
+			myXMLEncoder.close();
+		}
+	}
+	
 }
 
 

@@ -117,7 +117,7 @@ public class CLI implements Runnable {
 
 		try {	
 			while (runing){
-				out.println("Enter command");
+				out.println("Enter command: ");
 				out.flush();
 				
 				line= in.readLine();
@@ -130,8 +130,8 @@ public class CLI implements Runnable {
 
 				}
 				else{
-					out.println("Invalid parameters ");
-					out.println("Retry command: ");
+					out.println("Invalid parameters, retry command.");
+					out.println();
 					out.flush();
 				}
 			}

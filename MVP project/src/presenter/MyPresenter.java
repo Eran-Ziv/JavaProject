@@ -455,59 +455,59 @@ public class MyPresenter implements Presenter {
 		else if(o instanceof Model){
 
 			System.out.println("mmm");
-			String args []= arg.toString().split(" ");
-			switch (args[1]){
+			String [] args = (String[])arg;
+			switch (args[0]){
 
-			case "Save":
+			case Constant.MODEL_SAVED:
 
 				view.displayString(args[1]+" was saved");
 
 				break;
 
-			case "not":
+			case Constant.FILE_NOT_FOUND:
 
 				view.displayString(Constant.FILE_NOT_FOUND);
 
 				break;
-			case "find":
+			case Constant.NO_MODEL_FOUND:
 
 				view.displayString(Constant.NO_MODEL_FOUND);
 
 				break;
-			case "closing":
+			case Constant.ERROR_CLOSING_FILE:
 
 				view.displayString(Constant.ERROR_CLOSING_FILE);
 
 				break;
 
-			case "Solved":
+			case Constant.MODEL_SOLVED:
 
 				view.displayString(Constant.MODEL_SOLVED);
-				view.displaySolution(model.getSolution(args[0]));
+				view.displaySolution(model.getSolution(args[1]));
 
 				break;
 
-			case "loaded":
+			case Constant.MODEL_LOADED:
 
 				view.displayString(Constant.MODEL_LOADED);
 
 
 				break;
 
-			case "are":
+			case Constant.PROPERTIES_ARE_NO_SET:
 
 				view.displayString(Constant.PROPERTIES_ARE_NO_SET);
 
 				break;
 
-			case "generated":
-				Maze3dSearchableAdapter maze = new Maze3dSearchableAdapter(model.getNameToMaze().get(args[0]));
+			case Constant.MODEL_GENERATED:
+				Maze3dSearchableAdapter maze = new Maze3dSearchableAdapter(model.getNameToMaze().get(args[1]));
 				Maze3dDrawableAdapter mazeDrew = new Maze3dDrawableAdapter(maze.getMaze());
 				view.displayModel(mazeDrew);
 
 				break;
 
-			case " !!!":
+			case Constant.MODEL_EXIT:
 
 				view.displayString(Constant.MODEL_EXIT);
 
