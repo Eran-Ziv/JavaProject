@@ -111,7 +111,7 @@ public class CLI implements Runnable {
 		out.flush();
 		String line=null;
 		String [] args=null;
-		String [] args1= {"exit"};
+		
 		printCommands();
 		
 

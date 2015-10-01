@@ -1,18 +1,18 @@
 package model;
 
-import java.beans.XMLDecoder;
+                                                                                       
 import java.beans.XMLEncoder;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileNotFoundException;                                                                                                                                                                       
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Observable;
+import java.util.Observable;                     
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
@@ -250,6 +250,11 @@ public class MyModel extends Observable implements Model  {
 
 			}
 		}
+		else{
+			constantArgs[0] = Constant.NO_MODEL_FOUND; 
+			setChanged();
+			notifyObservers(constantArgs);
+		}
 
 		if(futureSolution!=null){
 
@@ -274,6 +279,7 @@ public class MyModel extends Observable implements Model  {
 				}		
 			});
 		}
+		
 	}
 
 

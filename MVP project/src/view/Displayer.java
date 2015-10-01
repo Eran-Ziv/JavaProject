@@ -1,6 +1,6 @@
 package view;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface Displayer.
  * The displayer gets a drawable object {@see Drawable} and extract the data.

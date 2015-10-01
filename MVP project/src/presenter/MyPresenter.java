@@ -100,13 +100,7 @@ public class MyPresenter implements Presenter {
 
 					heuristic = "default";
 					model.solveModel(name, algorithm, heuristic);
-
 				}
-
-				if(model.getSolution(name) == null){
-					view.displayString("The model " + name + " does not exist." );
-				}
-
 			}
 			else
 				view.displayString("invalid paramters");
@@ -514,9 +508,7 @@ public class MyPresenter implements Presenter {
 				break;
 
 			}
-
 		}
-
 	}
 
 	@Override
