@@ -2,14 +2,16 @@ package view;
 
 import java.io.PrintWriter;
 
+import algorithms.mazeGenerators.Maze3d;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Maze3dDisplayerAdapter.
  */
-public class Maze3dDisplayerAdapter implements Displayer<int[][][]> {
+public class Maze3dDisplayerAdapter implements Displayer<Maze3d> {
 
 	/** The draw. */
-	int[][][] draw;
+	Maze3d draw;
 	
 	/** The out. */
 	PrintWriter out;
@@ -27,7 +29,7 @@ public class Maze3dDisplayerAdapter implements Displayer<int[][][]> {
 	 * @see view.Displayer#getDisplayer(view.Drawable)
 	 */
 	@Override
-	public void getDisplayer(Drawable<int[][][]> draw) {
+	public void getDisplayer(Drawable<Maze3d> draw) {
 
 		this.draw = draw.getData();
 	}
@@ -38,18 +40,6 @@ public class Maze3dDisplayerAdapter implements Displayer<int[][][]> {
 	@Override
 	public void display() {
 
-		for (int i = 0; i < draw.length; i++) {
-			for (int j = 0; j < draw[i].length; j++) {
-				for (int w = 0; w < draw[i][j].length; w++) {
-
-					out.print(draw[i][j][w]);
-					out.flush();
-				}
-				out.print("\n");
-				out.flush();
-			}
-			out.print("\n\n");
-			out.flush();
-		}
+		draw.print();
 	}
 }

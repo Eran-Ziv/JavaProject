@@ -31,6 +31,7 @@ import boot.RunGUI;
 import boot.WritePropertiesGUI;
 import generic.Preferences;
 import presenter.Command;
+import presenter.Maze3dDrawableAdapter;
 
 public class MazeWindow extends BasicWindow implements View {
 	
@@ -340,17 +341,18 @@ public class MazeWindow extends BasicWindow implements View {
 	}
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
-		// TODO Auto-generated method stub
+		
+		boardWidget.displayProblem((Maze3dDrawableAdapter)draw);
 		
 	}
 	@Override
 	public <T> void displayCrossSectionBy(Drawable<T> draw) {
-		// TODO Auto-generated method stub
+		//not relevant for gui
 		
 	}
 	@Override
 	public <T> void displaySolution(Solution<T> solution) {
-		// TODO Auto-generated method stub
+		boardWidget.displaySolution(solution);
 		
 	}
 	@Override
@@ -380,12 +382,17 @@ public class MazeWindow extends BasicWindow implements View {
 	}
 	@Override
 	public void exit() {
-		// TODO Auto-generated method stub
+		boardWidget.destructBoard();
+		boardWidget.dispose();
 		
 	}
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
+//		Thread myThread = new Thread(this);
+//		
+//		myThread.start();
+		
+		this.run();
 		
 	}
 	

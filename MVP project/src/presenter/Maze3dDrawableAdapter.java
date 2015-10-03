@@ -8,7 +8,7 @@ import view.Drawable;
  * The Class Maze3dDrawableAdapter.
  * Object adapter for maze3d {@see Maze3d} and drawable interface{@see Drawable}
  */
-public class Maze3dDrawableAdapter implements Drawable<int[][][]> {
+public class Maze3dDrawableAdapter implements Drawable<Maze3d> {
 
 	/** The my maze. */
 	private Maze3d myMaze;
@@ -27,9 +27,9 @@ public class Maze3dDrawableAdapter implements Drawable<int[][][]> {
 	 * @see view.Drawable#getData()
 	 */
 	@Override
-	public int[][][] getData() {
+	public Maze3d getData() {
 
-		return this.myMaze.getMaze();
+		return this.myMaze;
 	}
 
 }

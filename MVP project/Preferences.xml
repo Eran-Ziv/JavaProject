@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.8.0_51" class="java.beans.XMLDecoder">
+<java version="1.8.0_45" class="java.beans.XMLDecoder">
  <object class="generic.Preferences" id="Preferences0">
   <void class="generic.Preferences" method="getField">
    <string>poolSize</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>9</int>
+    <int>11</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
    <string>serverIP</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <string>8.8.8.8</string>
+    <string>1.2.3.4</string>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
    <string>serverPort</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>8888</int>
+    <int>11</int>
+   </void>
+  </void>
+  <void class="generic.Preferences" method="getField">
+   <string>ui</string>
+   <void method="set">
+    <object idref="Preferences0"/>
+    <object class="java.lang.Enum" method="valueOf">
+     <class>generic.Preferences$UI</class>
+     <string>GUI</string>
+    </object>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">

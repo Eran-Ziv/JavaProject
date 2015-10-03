@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Observable;
 
 import algorithm.generic.Solution;
+import algorithms.mazeGenerators.Maze3d;
 import presenter.Command;
 
 public class MyCliView extends Observable implements View {
@@ -59,7 +60,7 @@ public class MyCliView extends Observable implements View {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
-		myMaze3dDisplayer.getDisplayer((Drawable<int[][][]>) draw);
+		myMaze3dDisplayer.getDisplayer((Drawable<Maze3d>) draw);
 		myMaze3dDisplayer.display();
 
 	}

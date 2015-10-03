@@ -15,11 +15,10 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import com.google.common.collect.Table.Cell;
-
+import presenter.Maze3dDrawableAdapter;
 import algorithm.generic.Solution;
 import algorithms.mazeGenerators.Maze3d;
-import algorithms.mazeGenerators.Position;
+
 
 
 
@@ -27,6 +26,8 @@ public class MazeBoard extends CommonBoard {
 	
 	
 	ImageLoader gifs=new ImageLoader();
+	
+	
 	
 	ImageData[] images;
 	
@@ -40,13 +41,15 @@ public class MazeBoard extends CommonBoard {
 	
 	int colSource;
 	
+	int floor;
+	
 	public MazeBoard(Composite parent, int style) {
 		super(parent, style | SWT.DOUBLE_BUFFERED);
 		images=gifs.load(""); //TODO need to paste the path here
 		
 	}
 	
-	private void setBoardData(Maze3d maze)
+	private void setBoardData(Maze3dDrawableAdapter maze)
 	{
 		
 		MazeBoard a =this; //for our convenience
@@ -54,12 +57,14 @@ public class MazeBoard extends CommonBoard {
 			   public void run() {
 				   if(board!=null)
 				   a.destructBoard(); // destory previous maze if exists 
-//				   boardRows=maze.getRows(); //gets maze rows and cols
-//				   boardCols=maze.getCols();
-//				   rowSource=maze.getRowSource();
-//				   colSource=maze.getColSource();
-//				   rowGoal=maze.getRowGoal();
-//				   colGoal=maze.getColGoal();
+				   Maze3d myMaze = maze.getData();
+				   
+				   boardRows=myMaze.getLength(); //gets maze rows and cols
+				   boardCols = myMaze.getWidth();
+				   rowSource=myMaze.getStartPosition().getX();
+				   colSource=myMaze.getStartPosition().getY();
+				   rowGoal=myMaze.getGoalPosition().getX();
+				   colGoal=myMaze.getGoalPosition().getY();
 				   GridLayout layout=new GridLayout(boardCols, true); //defines the grid layout
 				   layout.horizontalSpacing=0;
 				   layout.verticalSpacing=0;
@@ -70,7 +75,7 @@ public class MazeBoard extends CommonBoard {
 					   {
 						   board[i][j]=new MazeTile(a,SWT.NONE);
 						   board[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-//						   board[i][j].setCellImage(cellImage(maze,i,j)); //creates a cell and sets the correct image
+						   board[i][j].setCellImage(cellImage(maze,i,j)); //creates a cell and sets the correct image
 					   }
 				  
 				   getShell().layout();
@@ -111,45 +116,45 @@ public class MazeBoard extends CommonBoard {
 	 * @param i row index
 	 * @param j col index
 	 * @return the correct image
-	 * this function calculates whicharacter image should be returned according to the walls surrounding the cell
+	 * this function calculates which character image should be returned according to the walls surrounding the cell
 	 */
-//	private Image cellImage(Maze3d m,int i,int j)
-//	{
-//		Cell c=m.   getCell(i, j);
-//		String temp=".\\resources\\images\\";
-//		String str="";
-//		if(c.getHasLeftWall())
-//		{
-//			if(j==0 || !m.getCell(i, j-1).getHasRightWall()) //if it has left wall image must have 1 at the begining
-//				str+="1";
-//			else
-//				str+="0";
-//		}
-//		else
-//			str+="0";
-//		if(c.getHasTopWall())
-//		{
-//			if(i==0 || !m.getCell(i-1, j).getHasBottomWall()) //if it has Top wall image must have 1 at the second place
-//				str+="1";
-//			else
-//				str+="0";
-//		}	
-//		else
-//			str+="0";
-//		if(c.getHasRightWall()) //if it has right wall image must have 1 at the third place
-//			str+="1";
-//		else
-//			str+="0";
-//		if(c.getHasBottomWall()) // if it has bottom wall image must have 1 at the fourth place
-//			str+="1";
-//		else
-//			str+="0";
-//		str+=".jpg";
-//		
-//		board[i][j].setImageName(str); //sets the image name
-//		return new Image(getDisplay(),new ImageData(temp+str)); //returns the image
-//		
-//	}
+	private Image cellImage(Maze3dDrawableAdapter maze,int x,int y)
+	{
+		
+		Maze3d myMaze = maze.getData();
+		int available =myMaze.getCellValue(floor, x, y);
+		String temp=".\\resources\\images\\";
+		String str="";
+		
+		if (available == 1){
+			str = "some black image";//TODO add some pic for unavailable cell
+		}
+		
+		else{
+			
+			if(myMaze.getCellValue(floor+1, x, y) == 0 && myMaze.getCellValue(floor-1, x, y) != 1){
+				str = "some white image with indicatio that there is a path up";//TODO add some pic for unavailable cell
+			}
+			
+			if(myMaze.getCellValue(floor+1, x, y) != 0 && myMaze.getCellValue(floor-1, x, y) == 1){
+				str = "some white image with indicatio that there is a path down";//TODO add some pic for unavailable cell
+			}
+			
+			if(myMaze.getCellValue(floor+1, x, y) == 0 && myMaze.getCellValue(floor-1, x, y) == 1){
+				str = "some white image with indicatio that there is a path up and down";//TODO add some pic for unavailable cell
+			}
+			
+			if(myMaze.getCellValue(floor+1, x, y) != 0 && myMaze.getCellValue(floor-1, x, y) != 1){
+				str = "some white image with indicatio that there is no path up or down";//TODO add some pic for unavailable cell
+			}
+			
+			
+		}
+		
+		board[x][y].setImageName(str); //sets the image name
+		return new Image(getDisplay(),new ImageData(temp+str)); //returns the image
+		
+	}
 	
 	@Override
 	public void drawBoard(PaintEvent arg0) {
@@ -180,8 +185,9 @@ public class MazeBoard extends CommonBoard {
 	public void applyInputDirection(Direction direction) {
 		int dRow=0;
 		int dCol =0;
+		int floor = 0;
 		switch (direction){
-		case UP:
+		case FORWARD:
 				dRow=1; //for example if we go up we need to take 1 from the row 
 			 	break;
 		case RIGHT:
@@ -190,9 +196,15 @@ public class MazeBoard extends CommonBoard {
 		case LEFT:
 				dCol=1;
 				break;
-		case DOWN: 
+		case BACKWARD: 
 				dRow=-1;
 				break;
+		case DOWN:
+			floor = -1;
+			break;
+		case UP:
+			floor = 1;
+			break;
 		
 		default:
 			break;
@@ -220,41 +232,42 @@ public class MazeBoard extends CommonBoard {
 	
 	}
 	
-//	@Override
-//	public void displayProblem(Object o) {
-//		Maze3d m=(Maze3d)o;
-//		getDisplay().syncExec(new Runnable() {
-//			   public void run() {
-//				   setBoardData(m);
-//				   character = new MazeCharacter(board[m.getRowSource()][m.getColSource()],SWT.FILL);
-//				   character.setCurrentCellX(m.getRowSource());
-//				   character.setCurrentCellY(m.getColSource());
-//				   character.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true,true,2,2));
-//				   (board[m.getRowSource()][m.getColSource()]).setCharacter(character); //set character to the begining of the maze
-//				   board[m.getRowSource()][m.getColSource()].redraw();
-//				   layout(); //draw all the things needed
-//				   forceFocus();
-//				   
-//			   }
-//			});
-//		
-//		scheduleTimer(m);
-//		
-//		
-//		
-//	}
-	private void scheduleTimer(Maze3d m)
+	@Override
+	public void displayProblem(Object o) {
+		Maze3dDrawableAdapter maze=(Maze3dDrawableAdapter)o;
+		Maze3d myMaze = maze.getData();
+		getDisplay().syncExec(new Runnable() {
+			   public void run() {
+				   setBoardData(maze);
+				   character = new MazeCharacter(board[myMaze.getStartPosition().getX()][myMaze.getStartPosition().getY()],SWT.FILL);
+				   character.setCellX(myMaze.getStartPosition().getX());
+				   character.setCellY(myMaze.getStartPosition().getY());
+				   character.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true,true,2,2));
+				   (board[myMaze.getStartPosition().getX()][myMaze.getStartPosition().getY()]).setCharacter(character); //set character to the begining of the maze
+				   board[myMaze.getStartPosition().getX()][myMaze.getStartPosition().getY()].redraw();
+				   layout(); //draw all the things needed
+				   forceFocus();
+				   
+			   }
+			});
+		
+		scheduleTimer(maze);
+		
+		
+		
+	}
+	private void scheduleTimer(Maze3dDrawableAdapter maze)
 	{
 		TimerTask  timerTask = new TimerTask() {
-			
+		Maze3d myMaze = maze.getData();
 			@Override
 			public void run() {
 				if(!isDisposed()){
 				getDisplay().syncExec(new Runnable() {
 					@Override
 					public void run() { //this is the timer task allowing us to redraw the goal target gif and sonic's gif
-						if(character!=null && !isDisposed() && m!=null){
-							if(m.getRowGoal()<board.length && m.getColGoal()<board[0].length){
+						if(character!=null && !isDisposed() && maze!=null){
+							if(myMaze.getGoalPosition().getX()<board.length && myMaze.getGoalPosition().getY()<board[0].length){
 								 character.setCharacterImageIndex((character.getCharacterImageIndex() + 1) % character.getCharacterImagesArray().length); //next frame in gifs
 								 frameIndex =(frameIndex+1) % images.length; //next frame in gifs
 								 (board[rowGoal][colGoal]).setGoal(new Image(getDisplay(),images[frameIndex]));
@@ -276,7 +289,7 @@ public class MazeBoard extends CommonBoard {
 	
 	
 	@Override
-	public boolean hasPathUp(int characterRow, int characterCol) {
+	public boolean hasPathUp(int characterRow, int characterCol) {// add adapter and check with the maze func
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -322,7 +335,18 @@ public class MazeBoard extends CommonBoard {
 //		
 		
 	}
-	
+
+	public int getFloor() {
+		return floor;
+	}
+
+	public void setFloor(int floor, Maze3dDrawableAdapter maze) {
+		
+		this.floor = floor;
+		setBoardData(maze);
+		
+	}
+		
 	}
 	
 	
