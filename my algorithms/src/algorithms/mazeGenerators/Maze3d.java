@@ -263,7 +263,7 @@ public class Maze3d implements Serializable {
 	 * Gets the cell value.
 	 * 
 	 * @param z
-	 *            -height
+	 *            -floor
 	 * @param x
 	 *            - length
 	 * @param y
@@ -271,7 +271,12 @@ public class Maze3d implements Serializable {
 	 * @return the cell value
 	 */
 	public int getCellValue(int z, int x, int y) {
+		if(this.availableMove(z, x, y)){
+		
 		return this.maze[z][x][y];
+		}
+		else 
+			return 1;
 	}
 
 	/**

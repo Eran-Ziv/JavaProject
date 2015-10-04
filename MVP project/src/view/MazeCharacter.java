@@ -13,7 +13,7 @@ public class MazeCharacter extends CommonCharacter {
 	
 	MazeCharacter(Composite parent, int style) {
 		super(parent, style);
-		this.images = gifs.load("");//TODO need to paste the path here
+		this.images = gifs.load(".\\resources\\images\\UpAndDown.gif");//TODO need to paste the path here
 	}
 
 	@Override

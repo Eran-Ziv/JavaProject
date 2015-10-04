@@ -12,110 +12,59 @@ public class MazeProperties {
 	/**
 	 * Number of columns in maze
 	 */
-	private int Cols;
+	private int Columns;
 	/**
 	 * row source in the maze
 	 */
-	private int rowSource;
-	/**
-	 * column source in the maze
-	 */
-	private int colSource;
-	/**
-	 *  row goal in maze
-	 */
-	private int rowGoal;
-	/**
-	 * col goal in maze
-	 */
-	private int colGoal;
-	/**
-	 * 
-	 * getter
-	 * 
-	 */
+	private int Floors;
+	
+	
+	public MazeProperties(String mazeName, int rows, int columns, int floors) {
+		super();
+		MazeName = mazeName;
+		Rows = rows;
+		Columns = columns;
+		Floors = floors;
+	}
+	
+	public MazeProperties() {
+		MazeName = "Deafult";
+		Rows = 5;
+		Columns = 5;
+		Floors = 5;
+	}
+
 	public String getMazeName() {
 		return MazeName;
 	}
-	/**
-	 * setter
-	 * 
-	 */
+
 	public void setMazeName(String mazeName) {
-		this.MazeName = mazeName;
+		MazeName = mazeName;
 	}
-	/** 
-	 * 
-	 * getter
-	 */
+
 	public int getRows() {
 		return Rows;
 	}
-	/**
-	 * setter
-	 */
+
 	public void setRows(int rows) {
-		this.Rows = rows;
+		Rows = rows;
 	}
-	/**
-	 * getter
-	 */
-	public int getCols() {
-		return Cols;
+
+	public int getColumns() {
+		return Columns;
 	}
-	/**
-	 * 
-	 *setter
-	 */
-	public void setCols(int cols) {
-		this.Cols = cols;
+
+	public void setColumns(int columns) {
+		Columns = columns;
 	}
-	/**
-	 * getter
-	 */
-	public int getRowSource() {
-		return rowSource;
+
+	public int getFloors() {
+		return Floors;
 	}
-	/**
-	 * setter
-	 */
-	public void setRowSource(int rowSource) {
-		this.rowSource = rowSource;
+
+	public void setFloors(int floors) {
+		Floors = floors;
 	}
-	/**
-	 * getter
-	 */
-	public int getColSource() {
-		return colSource;
-	}
-	/**
-	 * setter
-	 */
-	public void setColSource(int colSource) {
-		this.colSource = colSource;
-	}
-	/**
-	 * getter
-	 */
-	public int getRowGoal() {
-		return rowGoal;
-	}
-	/**
-	 * setter
-	 */
-	public void setRowGoal(int rowGoal) {
-		this.rowGoal = rowGoal;
-	}
-	/**
-	 * getter
-	 */
-	public int getColGoal() {
-		return colGoal;
-	}
-	/**
-	 * setter
-	 */
-	public void setColGoal(int colGoal) {
-		this.colGoal = colGoal;
-	}
+	
+	
 }

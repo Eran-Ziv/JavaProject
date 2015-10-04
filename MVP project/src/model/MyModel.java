@@ -447,6 +447,7 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onFailure(Throwable arg0) {
+					System.out.println("fff");
 					constantArgs[0] = Constant.MODEL_ERROR;
 					setChanged();
 					notifyObservers(constantArgs);
@@ -454,6 +455,7 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onSuccess(Maze3d arg0) {
+					System.out.println("sss");
 					nameToMaze.put(name, arg0);
 					constantArgs[0] = Constant.MODEL_GENERATED;
 					constantArgs[1] = name;

@@ -506,6 +506,11 @@ public class MyPresenter implements Presenter {
 				view.displayString(Constant.MODEL_EXIT);
 
 				break;
+			case Constant.MODEL_ERROR:
+
+				view.displayString(Constant.MODEL_ERROR);
+
+				break;
 
 			}
 		}

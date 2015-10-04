@@ -46,9 +46,9 @@ public abstract class CommonBoard extends Composite implements Board {
 			public void keyPressed(KeyEvent e) { //each of those codes represents a key on the keyboard in our case up down right left arrows
 
 
-				if (e.keyCode == 16777217 && hasPathUp(character.getCellX(),character.getCellY())){
-					applyInputDirection((Direction.UP));
-					//up
+				if (e.keyCode == 16777217 && hasPathForward(character.getCellX(),character.getCellY())){
+					applyInputDirection((Direction.FORWARD));
+					//forward
 				} 
 				else 
 					if (e.keyCode == 16777220 && hasPathRight(character.getCellX(),character.getCellY())) {
@@ -61,8 +61,8 @@ public abstract class CommonBoard extends Composite implements Board {
 							//left
 						} 
 						else
-							if (e.keyCode == 16777218  && hasPathDown(character.getCellX(),character.getCellY())) {
-								applyInputDirection(Direction.DOWN);
+							if (e.keyCode == 16777218  && hasPathBackward(character.getCellX(),character.getCellY())) {
+								applyInputDirection(Direction.BACKWARD);
 								//down
 							} 
 			}
