@@ -57,7 +57,7 @@ public interface Model {
 	 * @param algorithm the algorithm
 	 * @param heuristic the heuristic
 	 */
-	public void solveModel(String name, String algorithm, String heuristic);
+	public void solveModel(String name);
 	
 	/**
 	 * Generate model.

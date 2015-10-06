@@ -1,7 +1,6 @@
 package view;
 
 import java.beans.XMLDecoder;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -28,6 +27,7 @@ import boot.Run;
 import boot.RunCLI;
 import boot.RunGUI;
 import boot.WritePropertiesGUI;
+import generic.Constant;
 import generic.Preferences;
 import presenter.Command;
 import presenter.Maze3dDrawableAdapter;
@@ -260,12 +260,36 @@ public class MazeWindow extends BasicWindow implements View {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {
 
+
+
 			}
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				
+				
+				
+				if(input.getMazeName()!=null && !boardWidget.won){
+					
+//					String[] constantArgs=new String[2];
+//					constantArgs[0] = Constant.MODEL_SOLVED;
+//					constantArgs[1] = input.getMazeName();
+//					setChanged(); //solve the maze
+//					notifyObservers(constantArgs);
+					String [] args= {"solve",input.getMazeName()};
+					Command command= commands.get("solve");
+					command.setArguments(args);
+					setUserCommand(command);
+					
+				
+				}
+				else{ //if there is no maze to solve
+					MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
+					messageBox.setText("Information");
+					messageBox.setMessage("No maze to solve");
+					messageBox.open();
 
-
+				}
 			}
 
 		});	
@@ -296,7 +320,7 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
 		boardWidget.won = false;
-		
+
 		boardWidget.displayProblem(draw);
 
 	}
@@ -338,7 +362,7 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public void exit() {
 		if(boardWidget!=null){
-			
+
 			boardWidget.destructBoard();
 			boardWidget.dispose();
 		}

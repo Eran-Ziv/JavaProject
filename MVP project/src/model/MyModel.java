@@ -1,6 +1,6 @@
 package model;
 
-                                                                                       
+
 import java.beans.XMLEncoder;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -193,10 +193,17 @@ public class MyModel extends Observable implements Model  {
 	 * @see model.Model#solveModel(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void solveModel(String name, String algorithm, String heuristic) {
+	public void solveModel(String name) {
+
+		if(this.preferences==null)
+		{
+			constantArgs[0] = Constant.PROPERTIES_ARE_NO_SET;
+			setChanged();
+			notifyObservers(constantArgs);
+			return;
+		}
 
 		ListenableFuture<Solution<Position>> futureSolution = null;
-
 
 		Maze3d myMaze = nameToMaze.get(name);
 
@@ -210,77 +217,168 @@ public class MyModel extends Observable implements Model  {
 				setChanged();
 				notifyObservers(constantArgs);
 			}
-
-			else if(algorithm.toLowerCase().equals("bfs")){
-				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
-
-				futureSolution=executor.submit(new Callable<Solution<Position>>() {
-
-					@Override
-					public Solution<Position> call() throws Exception {
-						Bfs <Position> myBfs = new Bfs<Position>();
-
-						return myBfs.search(myAdapter);
-					}
-				});
-			}
-
-			else if(algorithm.toLowerCase().equals("astar")){
-
-				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
-				Heuristic<Position> myHeuristic;
-
-				if(heuristic.toLowerCase().equals("manhattan")){
-					myHeuristic = new MazeManhattanDistance();
-				}
-				else{
-					myHeuristic = new MazeEuclideanDistance();
-				}
-
-				futureSolution=executor.submit(new Callable<Solution<Position>>() {
-
-					@Override
-					public Solution<Position> call() throws Exception {
-						Astar<Position> myAstar = new Astar<Position>(myHeuristic);
-						return myAstar.search(myAdapter);
-					}
-
-				});
-
-
-			}
 		}
-		else{
+		switch(preferences.getSolver()){
+
+		case BFS:
+			Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
+
+			futureSolution=executor.submit(new Callable<Solution<Position>>() {
+
+				@Override
+				public Solution<Position> call() throws Exception {
+					Bfs <Position> myBfs = new Bfs<Position>();
+
+					return myBfs.search(myAdapter);
+				}
+			});
+
+			break;
+		case EUCLIDIAN_ASTAR:
+
+			Maze3dSearchableAdapter myAdapter1 = new Maze3dSearchableAdapter(myMaze);
+			Heuristic<Position> myHeuristic= new MazeEuclideanDistance();
+			futureSolution=executor.submit(new Callable<Solution<Position>>() {
+
+				@Override
+				public Solution<Position> call() throws Exception {
+					Astar<Position> myAstar = new Astar<Position>(myHeuristic);
+					return myAstar.search(myAdapter1);
+				}
+
+			});
+
+			break;
+
+		case MANHATTAN_ASTAR:
+			Maze3dSearchableAdapter myAdapter2 = new Maze3dSearchableAdapter(myMaze);
+			Heuristic<Position> myHeuristic1= new MazeManhattanDistance();
+			futureSolution=executor.submit(new Callable<Solution<Position>>() {
+
+				@Override
+				public Solution<Position> call() throws Exception {
+					Astar<Position> myAstar = new Astar<Position>(myHeuristic1);
+					return myAstar.search(myAdapter2);
+				}
+
+			});
+
+			break;
+		default:
 			constantArgs[0] = Constant.NO_MODEL_FOUND; 
 			setChanged();
 			notifyObservers(constantArgs);
+			break;
 		}
+		 if(futureSolution!=null){
+				
+						 Futures.addCallback(futureSolution, new FutureCallback<Solution<Position>>() {
+				
+							 @Override
+							 public void onFailure(Throwable arg0) {
+								 constantArgs[0] = Constant.MODEL_ERROR; 
+								 setChanged();
+								 notifyObservers(constantArgs);
+							 }
+				
+				
+							 @Override
+							 public void onSuccess(Solution<Position> arg0) {
+								 System.out.println("sss");
+								 mazeToSolution.put(myMaze,arg0);
+								 nameToSolution.put(name, arg0);
+							 constantArgs[0] = Constant.MODEL_SOLVED;
+								 constantArgs[1] = name;
+								 setChanged();
+								 notifyObservers(constantArgs);
+							 }		
+						 });
+					 }
 
-		if(futureSolution!=null){
-
-			Futures.addCallback(futureSolution, new FutureCallback<Solution<Position>>() {
-
-				@Override
-				public void onFailure(Throwable arg0) {
-					constantArgs[0] = Constant.MODEL_ERROR; 
-					setChanged();
-					notifyObservers(constantArgs);
-				}
-
-
-				@Override
-				public void onSuccess(Solution<Position> arg0) {
-					mazeToSolution.put(myMaze,arg0);
-					nameToSolution.put(name, arg0);
-					constantArgs[0] = Constant.MODEL_SOLVED;
-					constantArgs[1] = name;
-					setChanged();
-					notifyObservers(constantArgs);
-				}		
-			});
-		}
-		
 	}
+	//		 //		Maze3d myMaze = nameToMaze.get(name);
+	//		 //
+	//		 //		if(myMaze != null){
+	//		 //			Solution<Position> solution = new Solution<Position>();
+	//		 //
+	//		 //			if((solution = mazeToSolution.get(myMaze)) != null){
+	//		 //				nameToSolution.put(name, solution);
+	//		 //				constantArgs[0] = Constant.MODEL_SOLVED;
+	//		 //				constantArgs[1] = name;
+	//		 //				setChanged();
+	//		 //				notifyObservers(constantArgs);
+	//		 //			}
+	//
+	////		 else if(algorithm.toLowerCase().equals("bfs")){
+	//		 { Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
+	//
+	//			 futureSolution=executor.submit(new Callable<Solution<Position>>() {
+	//
+	//				 @Override
+	//				 public Solution<Position> call() throws Exception {
+	//					 Bfs <Position> myBfs = new Bfs<Position>();
+	//
+	//					 return myBfs.search(myAdapter);
+	//				 }
+	//			 });
+	//		 }
+	//
+	//		 else if(algorithm.toLowerCase().equals("astar")){
+	//
+	//			 Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
+	//			 Heuristic<Position> myHeuristic;
+	//
+	//			 if(heuristic.toLowerCase().equals("manhattan")){
+	//				 myHeuristic = new MazeManhattanDistance();
+	//			 }
+	//			 else{
+	//				 myHeuristic = new MazeEuclideanDistance();
+	//			 }
+	//
+	//			 futureSolution=executor.submit(new Callable<Solution<Position>>() {
+	//
+	//				 @Override
+	//				 public Solution<Position> call() throws Exception {
+	//					 Astar<Position> myAstar = new Astar<Position>(myHeuristic);
+	//					 return myAstar.search(myAdapter);
+	//				 }
+	//
+	//			 });
+	//
+	//
+	//		 }
+	//	 }
+	//	 else{
+	//		 constantArgs[0] = Constant.NO_MODEL_FOUND; 
+	//		 setChanged();
+	//		 notifyObservers(constantArgs);
+	//	 }
+	//
+	//	 if(futureSolution!=null){
+	//
+	//		 Futures.addCallback(futureSolution, new FutureCallback<Solution<Position>>() {
+	//
+	//			 @Override
+	//			 public void onFailure(Throwable arg0) {
+	//				 constantArgs[0] = Constant.MODEL_ERROR; 
+	//				 setChanged();
+	//				 notifyObservers(constantArgs);
+	//			 }
+	//
+	//
+	//			 @Override
+	//			 public void onSuccess(Solution<Position> arg0) {
+	//				 mazeToSolution.put(myMaze,arg0);
+	//				 nameToSolution.put(name, arg0);
+	//				 constantArgs[0] = Constant.MODEL_SOLVED;
+	//				 constantArgs[1] = name;
+	//				 setChanged();
+	//				 notifyObservers(constantArgs);
+	//			 }		
+	//		 });
+	//	 }
+
+
 
 
 
@@ -397,27 +495,27 @@ public class MyModel extends Observable implements Model  {
 		ListenableFuture<Maze3d> futureMaze=null;
 
 		switch(preferences.getGenerator()){
-		
+
 		case DFS:
-			
-		futureMaze = executor.submit(new Callable<Maze3d>() {
 
-			@Override
-			public Maze3d call() throws Exception {
+			futureMaze = executor.submit(new Callable<Maze3d>() {
 
-				int z = Integer.parseInt(params[0]) ;
-				int x = Integer.parseInt(params[1]) ;
-				int y = Integer.parseInt(params[2]) ;
+				@Override
+				public Maze3d call() throws Exception {
 
-				DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
-				Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
-				return myAdapter.getMaze();
-			}	
+					int z = Integer.parseInt(params[0]) ;
+					int x = Integer.parseInt(params[1]) ;
+					int y = Integer.parseInt(params[2]) ;
 
-		});
-		break;
+					DfsMaze3dGenerator myGenerator = new DfsMaze3dGenerator();
+					Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myGenerator.generate(z, x, y));
+					return myAdapter.getMaze();
+				}	
+
+			});
+			break;
 		case RANDOM:
-			
+
 			futureMaze = executor.submit(new Callable<Maze3d>() {
 
 				@Override
@@ -433,13 +531,13 @@ public class MyModel extends Observable implements Model  {
 				}	
 
 			});
-			
+
 			break;
-			
-			default:
-				break;
+
+		default:
+			break;
 		}
-		
+
 
 		if(futureMaze!=null)
 		{			
@@ -560,7 +658,7 @@ public class MyModel extends Observable implements Model  {
 	public void savePreferences(){
 
 		try {
-			
+
 			myXMLEncoder = new XMLEncoder(
 					new BufferedOutputStream(
 							new FileOutputStream(Constant.XML_FILE_PATH)));
@@ -574,7 +672,7 @@ public class MyModel extends Observable implements Model  {
 			myXMLEncoder.close();
 		}
 	}
-	
+
 }
 
 

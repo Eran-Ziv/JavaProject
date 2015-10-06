@@ -81,31 +81,21 @@ public class MyPresenter implements Presenter {
 		@Override
 		public void doCommand() {
 
-			for (int i = 0; i < args.length; i++) {
-				args[i] = args[i].toLowerCase();
+
+			String name = args[1];
+
+
+			try {
+
+
+				model.solveModel(name);
+
+			}catch (ArrayIndexOutOfBoundsException e){
+
+				model.solveModel(name);
 			}
 
-			if(args.length >= 3){
-
-				String name = args[1];
-				String algorithm = args[2];
-				String heuristic;
-
-				try {
-
-					heuristic = args[3];
-					model.solveModel(name, algorithm, heuristic);
-
-				}catch (ArrayIndexOutOfBoundsException e){
-
-					heuristic = "default";
-					model.solveModel(name, algorithm, heuristic);
-				}
-			}
-			else
-				view.displayString("invalid paramters");
 		}
-
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -476,7 +466,7 @@ public class MyPresenter implements Presenter {
 
 			case Constant.MODEL_SOLVED:
 
-				view.displayString(Constant.MODEL_SOLVED);
+				//view.displayString(Constant.MODEL_SOLVED);
 				view.displaySolution(model.getSolution(args[1]));
 
 				break;
@@ -518,7 +508,7 @@ public class MyPresenter implements Presenter {
 
 	@Override
 	public void start() {
-		
+
 		view.start();
 
 	}

@@ -386,19 +386,21 @@ public class MazeBoard extends CommonBoard {
 	}
 	@Override
 	public <T> void displaySolution(Solution<T> s) {
-		//		String Solution = s.toString().substring(9);
-		//		String []path = Solution.split("	");
-		//		Image img = new Image(getDisplay(),".\\resources\\images\\ring.png"); //hint image
-		//		for(int i=0;i<path.length-1;i++){
-		//			String []indexes = path[i].split(",");
-		//			int xt=Integer.parseInt(indexes[0]);
-		//			int yt=Integer.parseInt(indexes[1]);	
-		//				(board[xt][yt]).setHint(img); //put hints all over the solutions path
-		//			}
-		//	
-		//			drawBoard(null);
-		//			forceFocus();
-		//		
+				String Solution = s.toString();
+				Solution=Solution.replace("{", "");
+				Solution=Solution.replace("}", "");
+				String []path = Solution.split("<-");
+				Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
+				for(int i=0;i<path.length-1;i++){
+				String []indexes = path[i].split(",");
+					int xt=Integer.parseInt(indexes[1]);
+					int yt=Integer.parseInt(indexes[2]);	
+						(board[xt][yt]).setBackgroundImage(img); //put hints all over the solutions path
+					}
+			
+					drawBoard(null);
+					forceFocus();
+				
 
 	}
 
