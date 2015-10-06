@@ -271,8 +271,7 @@ public class Maze3d implements Serializable {
 	 * @return the cell value
 	 */
 	public int getCellValue(int z, int x, int y) {
-		if(this.availableMove(z, x, y)){
-		
+		if(outOfRange(z, x, y)){
 		return this.maze[z][x][y];
 		}
 		else 
@@ -291,6 +290,7 @@ public class Maze3d implements Serializable {
 	 * @param num
 	 */
 	public void setCellValue(int z, int x, int y, int num) {
+		if(outOfRange(z, x, y))
 		this.maze[z][x][y] = num;
 	}
 
@@ -337,7 +337,7 @@ public class Maze3d implements Serializable {
 	public Boolean outOfRange(int z, int x, int y) {
 
 		if (z >= 0 && x >= 0 && y >= 0 && z < this.maze.length
-				&& x < this.maze[z].length && y < this.maze[z][x].length) {
+				&& x < this.maze[0].length && y < this.maze[0][0].length) {
 			return true;
 		} else
 			return false;

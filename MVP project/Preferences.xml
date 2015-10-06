@@ -5,21 +5,21 @@
    <string>poolSize</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>9</int>
+    <int>2</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
    <string>serverIP</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <string>8.8.8.8</string>
+    <string>1.1.1.1</string>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
    <string>serverPort</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>8</int>
+    <int>11</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">

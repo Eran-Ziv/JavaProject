@@ -22,9 +22,9 @@ public abstract class CommonBoard extends Composite implements Board {
 
 	CommonTile[][] board;
 
-	int boardRows; 
+	int boardRowsX; 
 
-	int boardCols;
+	int boardColsY;
 
 	CommonCharacter character=null;
 
@@ -40,31 +40,39 @@ public abstract class CommonBoard extends Composite implements Board {
 				drawBoard(arg0);
 			}
 		});
-		
+
 		this.addKeyListener(new KeyListener(){	
 			@Override
 			public void keyPressed(KeyEvent e) { //each of those codes represents a key on the keyboard in our case up down right left arrows
 
 
-				if (e.keyCode == 16777217 && hasPathForward(character.getCellX(),character.getCellY())){
+				if (e.keyCode == SWT.ARROW_DOWN && hasPathForward(character.getCellX(),character.getCellY())){
 					applyInputDirection((Direction.FORWARD));
 					//forward
 				} 
 				else 
-					if (e.keyCode == 16777220 && hasPathRight(character.getCellX(),character.getCellY())) {
+					if (e.keyCode == SWT.ARROW_RIGHT && hasPathRight(character.getCellX(),character.getCellY())) {
 						applyInputDirection((Direction.RIGHT));
 						//right
 					} 
 					else 
-						if (e.keyCode == 16777219 &&  hasPathLeft(character.getCellX(),character.getCellY())) {
+						if (e.keyCode == SWT.ARROW_LEFT &&  hasPathLeft(character.getCellX(),character.getCellY())) {
 							applyInputDirection(Direction.LEFT);
 							//left
 						} 
 						else
-							if (e.keyCode == 16777218  && hasPathBackward(character.getCellX(),character.getCellY())) {
+							if (e.keyCode == SWT.ARROW_UP  && hasPathBackward(character.getCellX(),character.getCellY())) {
 								applyInputDirection(Direction.BACKWARD);
-								//down
+								//backward
 							} 
+							else
+								if( e.keyCode == SWT.PAGE_UP && hasPathUp(character.getCellX(),character.getCellY())){
+									applyInputDirection(Direction.UP);
+								}
+								else
+									if( e.keyCode == SWT.PAGE_DOWN && hasPathDown(character.getCellX(),character.getCellY())){
+										applyInputDirection(Direction.DOWN);
+									}
 			}
 
 			@Override

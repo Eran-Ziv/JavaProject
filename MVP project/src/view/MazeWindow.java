@@ -235,8 +235,8 @@ public class MazeWindow extends BasicWindow implements View {
 				{
 					input=tempInput;
 					String z = "" +input.getFloors();
-					String x = "" + input.getColumns();
-					String y = "" + input.getRows();
+					String x = "" + input.getRows();
+					String y = "" + input.getColumns();
 
 
 					String [] args= {"generate", "maze", "3d",input.getMazeName(), z, x, y};
@@ -295,6 +295,8 @@ public class MazeWindow extends BasicWindow implements View {
 	}
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
+		boardWidget.won = false;
+		
 		boardWidget.displayProblem(draw);
 
 	}
