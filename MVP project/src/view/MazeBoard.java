@@ -1,8 +1,6 @@
 package view;
 
-import java.io.File;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,10 +31,10 @@ public class MazeBoard extends CommonBoard {
 	Maze3dDrawableAdapter myMaze;
 
 	ImageData[] images;
-	
+
 	boolean[][][] hints;
-	
-	boolean userAskedForSolution;
+
+	volatile boolean userAskedForSolution;
 
 	int frameIndex=0;
 
@@ -103,11 +101,13 @@ public class MazeBoard extends CommonBoard {
 						board[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 						board[i][j].setCellImage(cellImage(maze,i,j)); //creates a cell and sets the correct image
 						if(userAskedForSolution && hints[currentFloorZ][i][j]){
-							
-								Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
-								(board[i][j]).setBackgroundImage(img);
-							
+
+							Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
+							(board[i][j]).setCellImage(img);
+							(board[i][j]).setHint(img);
+							(board[i][j]).redraw();
 						}
+
 					}
 
 				getShell().layout();
@@ -132,6 +132,8 @@ public class MazeBoard extends CommonBoard {
 						( board[i][j]).getGoal().dispose();
 					if(( board[i][j]).getCharacter()!=null)
 						( board[i][j]).getCharacter().dispose();
+						 if(( board[i][j]).getHint()!=null)
+							 ( board[i][j]).getHint().dispose();
 
 					if(character!=null)
 						character.dispose();
@@ -198,9 +200,10 @@ public class MazeBoard extends CommonBoard {
 		}
 		else if(won==true)
 		{
-			
+
 			flag=true;
 			setVisible(false);
+			
 		}
 		else if(board!=null)
 			for(int i=0;i<board.length;i++)
@@ -266,8 +269,8 @@ public class MazeBoard extends CommonBoard {
 		if(character.cellX== this.rowGoalX && character.cellY == this.colGoalY && board!=null && this.currentFloorZ == goalFloorZ ){
 			//if we have reacharactered the destination
 			won=true; 
-			redraw(); //play a sound :)
 			getShell().setBackgroundImage(new Image(getDisplay(),".\\resources\\images\\sonicwon.png"));
+			drawBoard(null);
 		}
 
 
@@ -400,21 +403,21 @@ public class MazeBoard extends CommonBoard {
 	}
 	@Override
 	public <T> void displaySolution(Solution<T> s) {
-				//String Solution = s.toString();
-				ArrayList<State<T>> myList = s.getSolution();
+		//String Solution = s.toString();
+		ArrayList<State<T>> myList = s.getSolution();
 
-				for (State<T> state : myList) {
-					
-					Position position = (Position)state.getPosition();
-					int x = position.getX();
-					int y = position.getY();
-					int z = position.getZ();
-					hints[z][x][y] = true;
-				}
-				userAskedForSolution = true;
-					drawBoard(null);
-					forceFocus();
-				
+		for (State<T> state : myList) {
+
+			Position position = (Position)state.getPosition();
+			int x = position.getX();
+			int y = position.getY();
+			int z = position.getZ();
+			hints[z][x][y] = true;
+		}
+		setUserAskedForSolution(true);
+
+
+
 
 	}
 
@@ -436,12 +439,35 @@ public class MazeBoard extends CommonBoard {
 	}
 
 	public void setUserAskedForSolution(boolean userAskedForSolution) {
-		this.userAskedForSolution = userAskedForSolution;
-	}
-	
-	
 
+		this.userAskedForSolution = true;
+		getDisplay().asyncExec(new Runnable() {
+
+			@Override
+			public void run() {
+
+
+				for (int  i= 0; i < board.length;i++) {
+					for (int j = 0; j < board[i].length; j++) {
+						if(userAskedForSolution && hints[currentFloorZ][i][j]){
+
+							Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
+							(board[i][j]).setCellImage(img);
+							(board[i][j]).setHint(img);
+							(board[i][j]).redraw();
+						}
+					}
+				}
+				layout();
+				forceFocus();
+			}
+			
+		});
+
+	}
 }
+
+
 
 
 

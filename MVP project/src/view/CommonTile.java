@@ -11,6 +11,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	
 	Image cellImage; 
 	String imageName;
+	Image Hint=null; 
 	
 	CommonCharacter ch = null;  
 	
@@ -64,6 +65,15 @@ public abstract class CommonTile extends Canvas implements Tile{
 	public  CommonCharacter getCharacter(){
 		return this.ch;
 	}
+
+	public Image getHint() {
+		return Hint;
+	}
+
+	public void setHint(Image hint) {
+		Hint = hint;
+	}
+
 	
 
 }

@@ -230,6 +230,7 @@ public class MazeWindow extends BasicWindow implements View {
 			public void widgetSelected(SelectionEvent e) {
 
 
+				dataRecieved=null;
 				ClassInputDialog dlg = new ClassInputDialog(shell,MazeProperties.class);
 				MazeProperties tempInput=(MazeProperties)dlg.open();
 				if(tempInput!=null)
@@ -245,6 +246,7 @@ public class MazeWindow extends BasicWindow implements View {
 					command.setArguments(args);
 					setUserCommand(command);
 				}
+				boardWidget.forceFocus();
 
 
 			}
@@ -312,6 +314,8 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
 		boardWidget.won = false;
+		
+		boardWidget.setVisible(true);
 
 		boardWidget.displayProblem(draw);
 

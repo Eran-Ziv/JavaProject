@@ -5,14 +5,14 @@
    <string>serverIP</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <string>1.1.1.1</string>
+    <string>5.5.5.5</string>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
    <string>serverPort</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>11</int>
+    <int>55</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
@@ -22,16 +22,6 @@
     <object class="java.lang.Enum" method="valueOf">
      <class>generic.Preferences$UI</class>
      <string>GUI</string>
-    </object>
-   </void>
-  </void>
-  <void class="generic.Preferences" method="getField">
-   <string>solver</string>
-   <void method="set">
-    <object idref="Preferences0"/>
-    <object class="java.lang.Enum" method="valueOf">
-     <class>generic.Preferences$MazeSolver</class>
-     <string>MANHATTAN_ASTAR</string>
     </object>
    </void>
   </void>

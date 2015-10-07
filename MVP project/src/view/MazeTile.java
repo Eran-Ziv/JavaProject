@@ -30,6 +30,9 @@ public class MazeTile extends CommonTile{
 		int width=getSize().x; //get width of window
 		int height=getSize().y; //get height of window
 
+		if(cellImage!=null&& Hint!=null){
+			Hint=null;
+		}
 
 		if(cellImage!=null){ //display image of the tile
 			ImageData data = cellImage.getImageData();
@@ -41,6 +44,11 @@ public class MazeTile extends CommonTile{
 			ImageData data3= img.getImageData();
 			e.gc.drawImage(img,0,0,data3.width,data3.height,0,0,getSize().x,getSize().y);
 		}
+		if(Hint!=null){ //display hint if it has been given
+	    	   ImageData data2=Hint.getImageData();
+	    	   e.gc.drawImage(Hint,0,0,data2.width,data2.height,0,0,width,height);
+	       } 
+		
 		if(goal!=null){ // draw the goal if it is on the tile
 
 			ImageData data4= goal.getImageData();
