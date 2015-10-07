@@ -467,7 +467,12 @@ public class MyPresenter implements Presenter {
 			case Constant.MODEL_SOLVED:
 
 				//view.displayString(Constant.MODEL_SOLVED);
+				if(model.getSolution(args[1]) != null){
 				view.displaySolution(model.getSolution(args[1]));
+				}
+				else{
+					view.displayString("Solution is not ready");
+				}
 
 				break;
 

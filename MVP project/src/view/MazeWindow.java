@@ -302,10 +302,7 @@ public class MazeWindow extends BasicWindow implements View {
 		} catch (FileNotFoundException e) {
 			displayString("Error Loading Properties");
 		}
-
 	}
-
-
 
 	@Override
 	public void dirCommand(String fileName) {
