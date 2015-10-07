@@ -3,6 +3,7 @@ package view;
 import java.io.File;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -17,6 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import presenter.Maze3dDrawableAdapter;
 import algorithm.generic.Solution;
+import algorithm.generic.State;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 
@@ -31,6 +33,10 @@ public class MazeBoard extends CommonBoard {
 	Maze3dDrawableAdapter myMaze;
 
 	ImageData[] images;
+	
+	boolean[][][] hints;
+	
+	boolean userAskedForSolution;
 
 	int frameIndex=0;
 
@@ -60,6 +66,7 @@ public class MazeBoard extends CommonBoard {
 	{
 		this.myMaze = maze;
 		MazeBoard a =this; //for our convenience
+
 		getDisplay().syncExec(new Runnable() {
 			public void run() {
 				if(board!=null)
@@ -71,6 +78,7 @@ public class MazeBoard extends CommonBoard {
 				boardRowsX=myMaze.getLength(); //gets maze rows and cols
 				boardColsY = myMaze.getWidth();
 				if(flag){
+					hints = new boolean[myMaze.getHeight()][myMaze.getLength()][myMaze.getWidth()];
 					rowSourceX=myMaze.getStartPosition().getX();
 					colSourceY=myMaze.getStartPosition().getY();
 					rowGoalX=myMaze.getGoalPosition().getX();
@@ -94,6 +102,12 @@ public class MazeBoard extends CommonBoard {
 						board[i][j]=new MazeTile(a,SWT.NONE);
 						board[i][j].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 						board[i][j].setCellImage(cellImage(maze,i,j)); //creates a cell and sets the correct image
+						if(userAskedForSolution && hints[currentFloorZ][i][j]){
+							
+								Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
+								(board[i][j]).setBackgroundImage(img);
+							
+						}
 					}
 
 				getShell().layout();
@@ -386,18 +400,18 @@ public class MazeBoard extends CommonBoard {
 	}
 	@Override
 	public <T> void displaySolution(Solution<T> s) {
-				String Solution = s.toString();
-				Solution=Solution.replace("{", "");
-				Solution=Solution.replace("}", "");
-				String []path = Solution.split("<-");
-				Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
-				for(int i=0;i<path.length-1;i++){
-				String []indexes = path[i].split(",");
-					int xt=Integer.parseInt(indexes[1]);
-					int yt=Integer.parseInt(indexes[2]);	
-						(board[xt][yt]).setBackgroundImage(img); //put hints all over the solutions path
-					}
-			
+				//String Solution = s.toString();
+				ArrayList<State<T>> myList = s.getSolution();
+
+				for (State<T> state : myList) {
+					
+					Position position = (Position)state.getPosition();
+					int x = position.getX();
+					int y = position.getY();
+					int z = position.getZ();
+					hints[z][x][y] = true;
+				}
+				userAskedForSolution = true;
 					drawBoard(null);
 					forceFocus();
 				
@@ -416,6 +430,16 @@ public class MazeBoard extends CommonBoard {
 		displayProblem(maze);
 
 	}
+
+	public boolean isUserAskedForSolution() {
+		return userAskedForSolution;
+	}
+
+	public void setUserAskedForSolution(boolean userAskedForSolution) {
+		this.userAskedForSolution = userAskedForSolution;
+	}
+	
+	
 
 }
 

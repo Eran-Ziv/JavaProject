@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import algorithm.generic.Solution;
 import algorithms.mazeGenerators.Maze3d;
+import algorithms.mazeGenerators.Position;
 import boot.Run;
 import boot.RunCLI;
 import boot.RunGUI;
@@ -271,16 +272,10 @@ public class MazeWindow extends BasicWindow implements View {
 				
 				if(input.getMazeName()!=null && !boardWidget.won){
 					
-//					String[] constantArgs=new String[2];
-//					constantArgs[0] = Constant.MODEL_SOLVED;
-//					constantArgs[1] = input.getMazeName();
-//					setChanged(); //solve the maze
-//					notifyObservers(constantArgs);
 					String [] args= {"solve",input.getMazeName()};
 					Command command= commands.get("solve");
 					command.setArguments(args);
 					setUserCommand(command);
-					
 				
 				}
 				else{ //if there is no maze to solve
@@ -329,9 +324,10 @@ public class MazeWindow extends BasicWindow implements View {
 		// TODO Auto-generated method stub
 
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> void displaySolution(Solution<T> solution) {
-		boardWidget.displaySolution(solution);
+		boardWidget.displaySolution((Solution<Position>)solution);
 
 	}
 	@Override
