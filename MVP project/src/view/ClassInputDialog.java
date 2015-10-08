@@ -183,7 +183,7 @@ public class ClassInputDialog extends Dialog {
 			} catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				e.toString();
 			} catch (InvocationTargetException e) {			
 				e.printStackTrace();
 			} catch (NoSuchMethodException e) {

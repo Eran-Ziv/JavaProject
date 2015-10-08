@@ -249,7 +249,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
+
 				boardWidget.won=false;
 				boardWidget.getShell().setBackgroundImage(null);
 				boardWidget.setVisible(true);
@@ -367,12 +367,12 @@ public class MazeWindow extends BasicWindow implements View {
 	}
 	@Override
 	public void displayString(String toPrint) {
-
-		MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
-		messageBox.setText("Information");
-		messageBox.setMessage(toPrint);
-		messageBox.open();
-
+		if(!boardWidget.isDisposed()){
+			MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
+			messageBox.setText("Information");
+			messageBox.setMessage(toPrint);
+			messageBox.open();
+		}
 	}
 	@Override
 	public Command getUserCommand() {
