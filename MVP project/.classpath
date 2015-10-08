@@ -8,10 +8,10 @@
 	<classpathentry kind="lib" path="commons-beanutils-1.9.2.jar"/>
 	<classpathentry kind="lib" path="commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="swt_win32.jar"/>
 	<classpathentry kind="lib" path="swt_linux.jar"/>
 	<classpathentry kind="lib" path="swt_mac.jar"/>
 	<classpathentry kind="lib" path="src/swt_win32.jar"/>
 	<classpathentry kind="lib" path="my_algorithms.jar"/>
+	<classpathentry kind="lib" path="gwt-async-future.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
