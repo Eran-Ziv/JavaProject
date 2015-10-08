@@ -103,7 +103,6 @@ public class ClassInputDialog extends Dialog {
 	 */
 	private void createContents(final Shell shell) {
 	    shell.setLayout(new GridLayout(2, true));
-	    
 	    for(PropertyDescriptor propDesc: descs)
 	    	if(!propDesc.getName().equals("class"))
 	    	{

@@ -252,7 +252,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 				boardWidget.won=false;
 				boardWidget.getShell().setBackgroundImage(null);
-				boardWidget.setVisible(true);
+				//boardWidget.setVisible(true);
 				dataRecieved=null;
 				ClassInputDialog dlg = new ClassInputDialog(shell,MazeProperties.class);
 				MazeProperties tempInput=(MazeProperties)dlg.open();

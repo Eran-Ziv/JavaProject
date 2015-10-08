@@ -102,7 +102,7 @@ public class MazeBoard extends CommonBoard {
 						board[i][j].setCellImage(cellImage(maze,i,j)); //creates a cell and sets the correct image
 						if(userAskedForSolution && hints[currentFloorZ][i][j]){
 
-							Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
+							Image img = new Image(getDisplay(),".\\resources\\images\\star.png"); //hint image
 							(board[i][j]).setCellImage(img);
 							(board[i][j]).setHint(img);
 							(board[i][j]).redraw();
@@ -163,23 +163,23 @@ public class MazeBoard extends CommonBoard {
 		String str="";
 
 		if (available == 1){
-			str = "black_tile.jpg";
+			str = "brick.png";
 		}
 
 		else if(myMaze.getCellValue(currentFloorZ+1, x, y) == 0 && myMaze.getCellValue(currentFloorZ-1, x, y) == 1){
-			str = "green_tile.jpg";
+			str = "grass_up.jpg";
 		}
 
 		else if(myMaze.getCellValue(currentFloorZ+1, x, y) == 1 && myMaze.getCellValue(currentFloorZ-1, x, y) == 0){
-			str = "red_tile.jpg";
+			str = "grass_down.png";
 		}
 
 		else if(myMaze.getCellValue(currentFloorZ+1, x, y) == 0 && myMaze.getCellValue(currentFloorZ-1, x, y) ==0 ){
-			str = "orange_tile.jpg";
+			str = "grass_up_and_down.jpg";
 		}
 
 		else if(myMaze.getCellValue(currentFloorZ+1, x, y) == 1 && myMaze.getCellValue(currentFloorZ-1, x, y) == 1){
-			str = "white_tile.jpg";
+			str = "grass.jpg";
 		}
 
 
@@ -195,8 +195,8 @@ public class MazeBoard extends CommonBoard {
 			setVisible(true);
 			int width=getParent().getSize().x;
 			int height=getParent().getSize().y;
-			ImageData data = new ImageData(".\\resources\\images\\Wallpaper.png"); //TODO need to paste the path here
-			arg0.gc.drawImage(new Image(getDisplay(),".\\resources\\images\\Wallpaper.png"),0,0,data.width,data.height,0,0,width,height); //TODO need to paste the path here
+			ImageData data = new ImageData(".\\resources\\images\\mario_wallpaper_.jpg"); //TODO need to paste the path here
+			arg0.gc.drawImage(new Image(getDisplay(),".\\resources\\images\\mario_wallpaper_.jpg"),0,0,data.width,data.height,0,0,width,height); //TODO need to paste the path here
 		}
 		else if(won==true)
 		{
@@ -453,7 +453,7 @@ public class MazeBoard extends CommonBoard {
 					for (int j = 0; j < board[i].length; j++) {
 						if(userAskedForSolution && hints[currentFloorZ][i][j]){
 
-							Image img = new Image(getDisplay(),".\\resources\\images\\mario.jpg"); //hint image
+							Image img = new Image(getDisplay(),".\\resources\\images\\star.png"); //hint image
 							(board[i][j]).setCellImage(img);
 							(board[i][j]).setHint(img);
 							(board[i][j]).redraw();

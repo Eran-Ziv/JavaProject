@@ -424,10 +424,10 @@ public class MyPresenter implements Presenter {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("zzzz");
+		
 		if(o instanceof View)
 		{
-			System.out.println("vvv");
+			
 			if(arg!=null && !arg.equals(Constant.MODEL_ERROR))
 			{
 
@@ -438,7 +438,7 @@ public class MyPresenter implements Presenter {
 		}
 		else if(o instanceof Model){
 
-			System.out.println("mmm");
+			
 			String [] args = (String[])arg;
 			switch (args[0]){
 

@@ -14,7 +14,7 @@ public class MazeProperties {
 	 */
 	private int Columns;
 	/**
-	 * row source in the maze
+	 * floor source in the maze
 	 */
 	private int Floors;
 	
