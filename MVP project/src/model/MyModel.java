@@ -481,6 +481,7 @@ public class MyModel extends Observable implements Model  {
 
 
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void generateModel(String name, String [] params) {
 

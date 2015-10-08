@@ -3,7 +3,7 @@ package view;
 import org.eclipse.swt.events.PaintEvent;
 
 import algorithm.generic.Solution;
-import algorithms.mazeGenerators.Position;
+
 
 
 

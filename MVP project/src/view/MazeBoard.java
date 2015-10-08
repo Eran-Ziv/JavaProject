@@ -195,8 +195,8 @@ public class MazeBoard extends CommonBoard {
 			setVisible(true);
 			int width=getParent().getSize().x;
 			int height=getParent().getSize().y;
-			ImageData data = new ImageData(".\\resources\\images\\mario_wallpaper_.jpg"); //TODO need to paste the path here
-			arg0.gc.drawImage(new Image(getDisplay(),".\\resources\\images\\mario_wallpaper_.jpg"),0,0,data.width,data.height,0,0,width,height); //TODO need to paste the path here
+			ImageData data = new ImageData(".\\resources\\images\\mario_wallpaper_.jpg");  
+			arg0.gc.drawImage(new Image(getDisplay(),".\\resources\\images\\mario_wallpaper_.jpg"),0,0,data.width,data.height,0,0,width,height); 
 		}
 		else if(won==true)
 		{
@@ -271,7 +271,7 @@ public class MazeBoard extends CommonBoard {
 		if(character.cellX== this.rowGoalX && character.cellY == this.colGoalY && board!=null && this.currentFloorZ == goalFloorZ ){
 			//if we have reacharactered the destination
 			won=true; 
-			getShell().setBackgroundImage(new Image(getDisplay(),".\\resources\\images\\sonicwon.png"));
+			getShell().setBackgroundImage(new Image(getDisplay(),".\\resources\\images\\won.jpg"));
 			drawBoard(null);
 			forceFocus();
 		}
