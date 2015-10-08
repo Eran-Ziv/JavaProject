@@ -11,7 +11,7 @@
 	<classpathentry kind="lib" path="swt_win32.jar"/>
 	<classpathentry kind="lib" path="swt_linux.jar"/>
 	<classpathentry kind="lib" path="swt_mac.jar"/>
-	<classpathentry kind="lib" path="my_algorithms.jar"/>
 	<classpathentry kind="lib" path="src/swt_win32.jar"/>
+	<classpathentry kind="lib" path="my_algorithms.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
