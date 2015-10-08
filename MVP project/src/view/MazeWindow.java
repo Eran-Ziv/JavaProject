@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -15,6 +16,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -210,7 +212,26 @@ public class MazeWindow extends BasicWindow implements View {
 
 		});
 
+		item = new MenuItem(HelpMenu, SWT.PUSH);
+		item.setText("About");
+		item.addSelectionListener(new SelectionListener(){
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
+				messageBox.setText("Information");
+				messageBox.setMessage("This entire software was created by eran and ziv Enjoy It!");
+				messageBox.open();
+
+			}
+
+		});
 		shell.setMenuBar(menuBar);
+
+
 
 		//buttons for generate maze
 		Button generateButton=new Button(shell,SWT.PUSH);
@@ -228,13 +249,17 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-
-
+				
+				boardWidget.won=false;
+				boardWidget.getShell().setBackgroundImage(null);
+				boardWidget.setVisible(true);
 				dataRecieved=null;
 				ClassInputDialog dlg = new ClassInputDialog(shell,MazeProperties.class);
 				MazeProperties tempInput=(MazeProperties)dlg.open();
+
 				if(tempInput!=null)
 				{
+
 					input=tempInput;
 					String z = "" +input.getFloors();
 					String x = "" + input.getRows();
@@ -246,7 +271,11 @@ public class MazeWindow extends BasicWindow implements View {
 					command.setArguments(args);
 					setUserCommand(command);
 				}
+
+
+
 				boardWidget.forceFocus();
+
 
 
 			}
@@ -269,16 +298,16 @@ public class MazeWindow extends BasicWindow implements View {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				
-				
-				
+
+
+
 				if(input.getMazeName()!=null && !boardWidget.won){
-					
+
 					String [] args= {"solve",input.getMazeName()};
 					Command command= commands.get("solve");
 					command.setArguments(args);
 					setUserCommand(command);
-				
+
 				}
 				else{ //if there is no maze to solve
 					MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
@@ -314,9 +343,9 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
 		boardWidget.won = false;
-		
-		boardWidget.setVisible(true);
 
+		boardWidget.setVisible(true);
+		//
 		boardWidget.displayProblem(draw);
 
 	}
@@ -338,6 +367,7 @@ public class MazeWindow extends BasicWindow implements View {
 	}
 	@Override
 	public void displayString(String toPrint) {
+
 		MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
 		messageBox.setText("Information");
 		messageBox.setMessage(toPrint);

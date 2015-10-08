@@ -8,7 +8,7 @@ import generic.Preferences;
 
 
 /** This class main has to run prior to running main Run. it will set the Default Properties.
- * @author Tomer
+ * @author 
  *
  */
 public class WriteProperties {

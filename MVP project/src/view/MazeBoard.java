@@ -192,7 +192,7 @@ public class MazeBoard extends CommonBoard {
 	@Override
 	public void drawBoard(PaintEvent arg0) {
 		if(board==null && won==false){ //displays the photo in the begining of the program as an intro
-
+			setVisible(true);
 			int width=getParent().getSize().x;
 			int height=getParent().getSize().y;
 			ImageData data = new ImageData(".\\resources\\images\\Wallpaper.png"); //TODO need to paste the path here
@@ -203,6 +203,8 @@ public class MazeBoard extends CommonBoard {
 
 			flag=true;
 			setVisible(false);
+			
+			
 			
 		}
 		else if(board!=null)
@@ -271,6 +273,7 @@ public class MazeBoard extends CommonBoard {
 			won=true; 
 			getShell().setBackgroundImage(new Image(getDisplay(),".\\resources\\images\\sonicwon.png"));
 			drawBoard(null);
+			forceFocus();
 		}
 
 
@@ -303,6 +306,7 @@ public class MazeBoard extends CommonBoard {
 	private void scheduleTimer(Maze3dDrawableAdapter maze)
 	{
 		Maze3d myMaze = maze.getData();
+		
 		TimerTask  timerTask = new TimerTask() {
 
 			@Override
@@ -426,8 +430,6 @@ public class MazeBoard extends CommonBoard {
 	}
 
 	public void setFloor(int floor, Maze3dDrawableAdapter maze) {
-
-
 
 		this.currentFloorZ = floor;
 		displayProblem(maze);

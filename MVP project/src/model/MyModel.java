@@ -540,7 +540,13 @@ public class MyModel extends Observable implements Model  {
 
 
 		if(futureMaze!=null)
-		{			
+		{		
+			try {
+				Thread.currentThread().sleep(500);
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
 			Futures.addCallback(futureMaze, new FutureCallback<Maze3d>() {
 
 				@Override
