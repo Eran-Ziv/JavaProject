@@ -63,6 +63,8 @@ public abstract class CommonSearcher<T> implements Searcher<T> {
 	 */
 	@Override
 	public Solution<T> generatePathToGoal(State<T> goalState) {
+		if(goalState.getCameFrom()==null)
+			return null;
 		Solution<T> solution = new Solution<T>();
 		solution.addState(goalState);
 		do {
@@ -71,5 +73,4 @@ public abstract class CommonSearcher<T> implements Searcher<T> {
 		} while (goalState.getCameFrom() != null);
 		return solution;
 	}
-
 }
