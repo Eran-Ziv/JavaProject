@@ -284,7 +284,7 @@ public class MyModel extends Observable implements Model  {
 				
 							 @Override
 							 public void onSuccess(Solution<Position> arg0) {
-								 System.out.println("sss");
+								
 								 mazeToSolution.put(myMaze,arg0);
 								 nameToSolution.put(name, arg0);
 							 constantArgs[0] = Constant.MODEL_SOLVED;
@@ -296,91 +296,7 @@ public class MyModel extends Observable implements Model  {
 					 }
 
 	}
-	//		 //		Maze3d myMaze = nameToMaze.get(name);
-	//		 //
-	//		 //		if(myMaze != null){
-	//		 //			Solution<Position> solution = new Solution<Position>();
-	//		 //
-	//		 //			if((solution = mazeToSolution.get(myMaze)) != null){
-	//		 //				nameToSolution.put(name, solution);
-	//		 //				constantArgs[0] = Constant.MODEL_SOLVED;
-	//		 //				constantArgs[1] = name;
-	//		 //				setChanged();
-	//		 //				notifyObservers(constantArgs);
-	//		 //			}
-	//
-	////		 else if(algorithm.toLowerCase().equals("bfs")){
-	//		 { Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
-	//
-	//			 futureSolution=executor.submit(new Callable<Solution<Position>>() {
-	//
-	//				 @Override
-	//				 public Solution<Position> call() throws Exception {
-	//					 Bfs <Position> myBfs = new Bfs<Position>();
-	//
-	//					 return myBfs.search(myAdapter);
-	//				 }
-	//			 });
-	//		 }
-	//
-	//		 else if(algorithm.toLowerCase().equals("astar")){
-	//
-	//			 Maze3dSearchableAdapter myAdapter = new Maze3dSearchableAdapter(myMaze);
-	//			 Heuristic<Position> myHeuristic;
-	//
-	//			 if(heuristic.toLowerCase().equals("manhattan")){
-	//				 myHeuristic = new MazeManhattanDistance();
-	//			 }
-	//			 else{
-	//				 myHeuristic = new MazeEuclideanDistance();
-	//			 }
-	//
-	//			 futureSolution=executor.submit(new Callable<Solution<Position>>() {
-	//
-	//				 @Override
-	//				 public Solution<Position> call() throws Exception {
-	//					 Astar<Position> myAstar = new Astar<Position>(myHeuristic);
-	//					 return myAstar.search(myAdapter);
-	//				 }
-	//
-	//			 });
-	//
-	//
-	//		 }
-	//	 }
-	//	 else{
-	//		 constantArgs[0] = Constant.NO_MODEL_FOUND; 
-	//		 setChanged();
-	//		 notifyObservers(constantArgs);
-	//	 }
-	//
-	//	 if(futureSolution!=null){
-	//
-	//		 Futures.addCallback(futureSolution, new FutureCallback<Solution<Position>>() {
-	//
-	//			 @Override
-	//			 public void onFailure(Throwable arg0) {
-	//				 constantArgs[0] = Constant.MODEL_ERROR; 
-	//				 setChanged();
-	//				 notifyObservers(constantArgs);
-	//			 }
-	//
-	//
-	//			 @Override
-	//			 public void onSuccess(Solution<Position> arg0) {
-	//				 mazeToSolution.put(myMaze,arg0);
-	//				 nameToSolution.put(name, arg0);
-	//				 constantArgs[0] = Constant.MODEL_SOLVED;
-	//				 constantArgs[1] = name;
-	//				 setChanged();
-	//				 notifyObservers(constantArgs);
-	//			 }		
-	//		 });
-	//	 }
-
-
-
-
+	
 
 	/* (non-Javadoc)
 	 * @see model.Model#loadModel(java.lang.String, java.lang.String)
@@ -552,7 +468,7 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onFailure(Throwable arg0) {
-					System.out.println("fff");
+					
 					constantArgs[0] = Constant.MODEL_ERROR;
 					setChanged();
 					notifyObservers(constantArgs);
@@ -560,7 +476,7 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onSuccess(Maze3d arg0) {
-					System.out.println("sss");
+					
 					nameToMaze.put(name, arg0);
 					constantArgs[0] = Constant.MODEL_GENERATED;
 					constantArgs[1] = name;

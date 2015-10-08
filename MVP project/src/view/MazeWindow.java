@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -16,7 +15,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
@@ -30,10 +28,8 @@ import boot.Run;
 import boot.RunCLI;
 import boot.RunGUI;
 import boot.WritePropertiesGUI;
-import generic.Constant;
 import generic.Preferences;
 import presenter.Command;
-import presenter.Maze3dDrawableAdapter;
 
 public class MazeWindow extends BasicWindow implements View {
 
