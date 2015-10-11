@@ -517,35 +517,6 @@ public class MyModel extends Observable implements Model  {
 		notifyObservers(constantArgs);
 	}
 
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public State<Position> getGoalState(String name) {
-
-		Maze3d maze = null;
-
-		if((maze = nameToMaze.get(name)) != null){
-
-			State<Position> state = new State<Position>(maze.getGoalPosition());
-			return state;
-		}
-		return null;
-	}
-
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public State<Position> getStartState(String name) {
-		Maze3d maze = null;
-
-		if((maze = nameToMaze.get(name)) != null){
-
-			State<Position> state = new State<Position>(maze.getStartPosition());
-			return state;
-		}
-		return null;
-	}
-
 	private void saveSolution() throws FileNotFoundException, IOException{
 		try {
 			FileOutputStream fos=new FileOutputStream(Constant.FILE_PATH);

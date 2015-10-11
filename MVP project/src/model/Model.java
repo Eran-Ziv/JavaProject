@@ -106,7 +106,6 @@ public interface Model {
 	
 	public HashMap<String, Maze3d> getNameToMaze() ;
 	
-	public <T> State<T> getGoalState(String name);
-	public <T> State<T> getStartState(String name);
+	
 
 }
