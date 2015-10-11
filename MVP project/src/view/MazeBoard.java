@@ -70,8 +70,7 @@ public class MazeBoard extends CommonBoard {
 				if(board!=null)
 					a.destructBoard(); // destory previous maze if exists 
 				Maze3d myMaze = maze.getData();
-				myMaze.print();
-				System.out.println(myMaze.getStart());
+				
 
 				boardRowsX=myMaze.getLength(); //gets maze rows and cols
 				boardColsY = myMaze.getWidth();
