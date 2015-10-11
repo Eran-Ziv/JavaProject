@@ -72,7 +72,6 @@ public class ClientModel extends Observable implements Model {
 
 		}
 
-
 		return result;
 
 	}
@@ -85,10 +84,6 @@ public class ClientModel extends Observable implements Model {
 
 		return (int)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.GET_MODEL_SIZE_IN_MEMORY, data, "");
 	}
-
-
-
-
 
 	@Override
 	public long getModelSizeInFile(String name) {

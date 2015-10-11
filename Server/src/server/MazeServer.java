@@ -3,6 +3,7 @@ package server;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,6 +13,8 @@ import algorithm.generic.Solution;
 import algorithm.generic.State;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
+import io.MyCompressorOutputStream;
+import io.MyDecompressorInputStream;
 
 
 
@@ -20,19 +23,26 @@ import algorithms.mazeGenerators.Position;
 public class MazeServer extends MyTCPIPServer implements Runnable {
 
 	
-	ConcurrentHashMap<Maze3d,Solution<Position>> cache=new ConcurrentHashMap<Maze3d,Solution<Position>>();
 	
-	
-	ConcurrentLinkedQueue<String> databaseNames=new ConcurrentLinkedQueue<String>();
-	
-	
-	ConcurrentHashMap<String,Maze3d> generatedMazes=new ConcurrentHashMap<String,Maze3d>();
-	
+	public ConcurrentHashMap<String, Maze3d> nameToMaze;
+
+	public ConcurrentHashMap<String, String> nameToFileName;
+
+	public ConcurrentHashMap<String, Solution<Position>>nameToSolution;
+
+	public ConcurrentHashMap<Maze3d, Solution<Position>> mazeToSolution;
+
+	MyCompressorOutputStream myCompressor;
+
+
+	MyDecompressorInputStream myDecompressor;
 	
 	public MazeServer(ServerProperties serverProperties, MazeClientHandler clientHandler) {
 		super(serverProperties, clientHandler);
-		loadFromDatabase();
+		load();
 	}
+	
+	
 	@Override
 	public void stoppedServer() {
 		
@@ -42,7 +52,7 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 	
 	
 	
-	private void loadFromDatabase()
+	private void load()
 	{
 	
 	}
@@ -50,19 +60,6 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 	
 	
 	
-	
-	private ConcurrentLinkedQueue<String> namesToWriteToDB()
-	{
-		ConcurrentLinkedQueue<String> names=new ConcurrentLinkedQueue<String>(); 
-		for(String str : generatedMazes.keySet())
-		{
-			if(!databaseNames.contains(str))
-				names.add(str);
-		}
-		return names;
-	}
-	/** start server as Runnable.
-	 */
 	@Override
 	public void run() {
 		startServer();
