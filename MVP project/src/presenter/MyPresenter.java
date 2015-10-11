@@ -490,7 +490,7 @@ public class MyPresenter implements Presenter {
 				break;
 
 			case Constant.MODEL_GENERATED:
-				Maze3dSearchableAdapter maze = new Maze3dSearchableAdapter(model.getNameToMaze().get(args[1]));
+				Maze3dSearchableAdapter maze = new Maze3dSearchableAdapter((Maze3d) model.getNameToModel(args[1]));
 				Maze3dDrawableAdapter mazeDrew = new Maze3dDrawableAdapter(maze.getMaze());
 				view.displayModel(mazeDrew);
 

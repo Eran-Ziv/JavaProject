@@ -2,11 +2,8 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 
 import algorithm.generic.Solution;
-import algorithm.generic.State;
-import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Searchable;
 
 // TODO: Auto-generated Javadoc
@@ -103,9 +100,6 @@ public interface Model {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	public void exit()  throws IOException;
-	
-	public HashMap<String, Maze3d> getNameToMaze() ;
-	
 	
 
 }
