@@ -21,10 +21,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.GZIPOutputStream;
 
+
+
 import algorithm.generic.Solution;
 import algorithm.generic.State;
+import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
 import algorithms.mazeGenerators.DfsMaze3dGenerator;
+import algorithms.mazeGenerators.Maze2d;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.MyMaze3dGenerator;
 import algorithms.mazeGenerators.Position;
@@ -204,6 +208,32 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				break;
 
 			case ServerConstant.GET_CROSS_SECTION:
+				
+				readerFromClient.readLine();//empty
+				data = readerFromClient.readLine();
+				message=clientIP+ ","+clientPort+ "," +ServerConstant.GET_CROSS_SECTION;
+				messages.add(message);
+				setChanged();
+				notifyObservers();
+				params = ParseCroosMaze(data);
+
+				outputCompressedToClient.writeObject(getCrossSection(params[0], params[1],Integer.parseInt(params[2])));
+				outputCompressedToClient.flush();
+				setChanged();
+				notifyObservers();
+				messages.remove(message);
+
+				break;
+				
+			default:
+				message=clientIP+ ","+clientPort+ "," +"Invalid command";
+				messages.add(message);
+				setChanged();
+				notifyObservers();
+				outputCompressedToClient.writeObject(null);
+				outputCompressedToClient.flush();
+
+				
 
 			}
 			client.close();
@@ -222,7 +252,56 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 	}
 
-	private Object SaveMaze(String name, String fileName) {
+	private String[] ParseCroosMaze(String data) {
+		
+		return data.split(",");
+	}
+	private Object getCrossSection(String name, String dimention, int section) {
+		
+		Maze3d maze3d=server.nameToMaze.get(name);
+
+		if(maze3d == null){
+
+			return null;
+		}
+		try{
+			Maze2d maze2d = null;
+
+			switch (dimention) {
+
+			case "z":
+				if(section>0&&section>maze3d.getHeight())
+					maze2d= new Maze2d(maze3d.getCrossSectionByZ(section));
+				break;
+
+			case "x":
+				if(section > 0 && section < maze3d.getLength())
+					maze2d= new Maze2d(maze3d.getCrossSectionByX(section));
+
+				break;
+
+			case "y":
+				if(section>0&&section>maze3d.getWidth())
+					maze2d= new Maze2d(maze3d.getCrossSectionByY(section));
+
+				break;
+
+			default:
+
+				return null;
+
+			}
+
+			Maze2dSearchableAdapter myMazeAdapter = new Maze2dSearchableAdapter(maze2d);
+			return myMazeAdapter;
+
+		}catch (ArrayIndexOutOfBoundsException | NullPointerException a){
+
+			return null;
+		}
+	}
+	
+	private String [] SaveMaze(String name, String fileName) {
 
 
 		String []args= new String[2];
