@@ -37,6 +37,7 @@ public class RemoteControlModel extends Observable implements Model {
 			messageData= new String [2];
 		} catch (IOException e) {
 			e.printStackTrace();
+			
 		}
 		
 	}
@@ -58,6 +59,7 @@ public class RemoteControlModel extends Observable implements Model {
 		DatagramPacket sendPacket = new DatagramPacket(data,
 		data.length, address, RemoteServerToServerPort);
 		try {
+			
 			socket.send(sendPacket); 
 		} catch (IOException e) {
 			this.messageData[0]= Constants.CANNOT_REMOVE_CLIENT;
@@ -81,7 +83,7 @@ public class RemoteControlModel extends Observable implements Model {
 		DatagramPacket sendPacket = new DatagramPacket(data,data.length, address, RemoteServerToServerPort);
 		try { 
 			socket.send(sendPacket); 
-		} catch (IOException e) {
+		} catch (IOException | NullPointerException e) {
 			this.messageData[0]=Constants.CANNOT_START_SERVER;
 			this.messageData[0] = e.getMessage();
 			setChanged();

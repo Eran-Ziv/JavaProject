@@ -5,5 +5,8 @@
 	<classpathentry kind="lib" path="guava-10.0.jar"/>
 	<classpathentry kind="lib" path="my algorithms.jar"/>
 	<classpathentry kind="lib" path="MVP project.jar"/>
+	<classpathentry kind="lib" path="swt.jar"/>
+	<classpathentry kind="lib" path="commons-beanutils-1.9.2.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
