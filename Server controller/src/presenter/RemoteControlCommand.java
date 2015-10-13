@@ -3,7 +3,9 @@ package presenter;
 public interface RemoteControlCommand {
 	
 	
-	void doCommand(String params);
+	void doCommand();
+	
+	public void setArguments(String args);
 
 }
 

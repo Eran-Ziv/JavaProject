@@ -13,6 +13,8 @@ public class RemoteControlProperties implements Serializable {
 	private int numOfClients;
 	private int RemoteControlPortListener;
 	
+	private String IP;
+	
 	public int getPortOnWhichServerListens() {
 		return portOnWhichServerListens;
 	}
@@ -55,5 +57,13 @@ public class RemoteControlProperties implements Serializable {
 	
 	public void setNumOfClients(int numOfClients) {
 		this.numOfClients = numOfClients;
+	}
+
+	public String getIP() {
+		return IP;
+	}
+
+	public void setIP(String iP) {
+		IP = iP;
 	}
 }

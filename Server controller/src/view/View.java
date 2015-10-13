@@ -18,5 +18,7 @@ public interface View {
 	public void addClient(String Client);
 	
 	public void removeClient(String Client);
+	
+	public void setUserCommand(RemoteControlCommand userCommand);
 
 }

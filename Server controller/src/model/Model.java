@@ -13,6 +13,6 @@ public interface Model {
 	
 	public void exit();
 	
-	public String takedata();
+	public String[] getData();
 
 }
