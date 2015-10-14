@@ -152,10 +152,7 @@ public class Presenter implements Observer {
 
 				case Constants.SERVER_START:
 
-					if(args[1] == null)
-						myView.Display(args[0]);
-					else
-					myView.Display(args[1]);
+					myView.Display(args[0] + " " +args[1]);
 					break;
 
 				case Constants.CANNOT_DISCONNECT_SERVER:

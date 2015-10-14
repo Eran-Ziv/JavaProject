@@ -87,7 +87,16 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 						input+=buffer.charAt(i);
 				else
 					break;
-			System.out.println("numebr of clients: " + input.split(",")[0]+ " port to server clients " + input.split(",")[1]);
+			String message = "numebr of clients: " + input.split(",")[0]+ " port to server clients " + input.split(",")[1] + "\n";
+			System.out.println(message);
+			
+			DatagramPacket sendPacket=new DatagramPacket(message.getBytes(),message.length(),senderIP,senderPort);
+			try {
+				serverSocket.send(sendPacket);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			ServerProperties clientsServerProperties=new ServerProperties(Integer.parseInt(input.split(",")[1]),Integer.parseInt(input.split(",")[0]));
 			handler=new MazeClientHandler(this);
 			handler.addObserver(this);

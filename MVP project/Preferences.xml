@@ -5,7 +5,7 @@
    <string>poolSize</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>6</int>
+    <int>11</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
@@ -19,7 +19,7 @@
    <string>serverPort</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>5454</int>
+    <int>8090</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
@@ -29,6 +29,16 @@
     <object class="java.lang.Enum" method="valueOf">
      <class>generic.Preferences$UI</class>
      <string>GUI</string>
+    </object>
+   </void>
+  </void>
+  <void class="generic.Preferences" method="getField">
+   <string>solver</string>
+   <void method="set">
+    <object idref="Preferences0"/>
+    <object class="java.lang.Enum" method="valueOf">
+     <class>generic.Preferences$MazeSolver</class>
+     <string>MANHATTAN_ASTAR</string>
     </object>
    </void>
   </void>

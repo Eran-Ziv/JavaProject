@@ -138,6 +138,12 @@ public class RemoteControlModel extends Observable implements Model {
 							setChanged();
 							notifyObservers();
 						}
+						else if(lines[i].split(" ")[0].equals("number")){
+							messageData[0] =Constants.SERVER_START;
+							messageData[1] = lines[i];
+							setChanged(); 
+							notifyObservers(); 
+						}
 						else
 						{ //or just updating user status
 							clientStatus.put(lines[i].split(",")[0]+","+ lines[i].split(",")[1],lines[i].split(",")[2]);
@@ -151,9 +157,7 @@ public class RemoteControlModel extends Observable implements Model {
 			}
 		}));
 		
-		this.messageData[0] =Constants.SERVER_START;
-		setChanged(); 
-		notifyObservers(); 
+		
 
 	}
 

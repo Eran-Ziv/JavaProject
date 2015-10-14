@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.zip.GZIPInputStream;
@@ -43,39 +42,7 @@ public class ClientModel extends Observable implements Model {
 	}
 
 
-	private Object queryServer(String serverIP,int serverPort,String command,String data,String property)
-	{
-		Object result=null;
-		Socket server;			
-		try {
-			System.out.println("Trying to connect server, IP: " + serverIP + " " + serverPort);
-			server = new Socket(serverIP,serverPort);
-			PrintWriter writerToServer=new PrintWriter(new OutputStreamWriter(server.getOutputStream()));
-			writerToServer.println(command);
-			writerToServer.flush();
-			writerToServer.println(property);
-			writerToServer.flush();
-			writerToServer.println(data);
-			writerToServer.flush();
-			ObjectInputStream inputDecompressed;
-			inputDecompressed = new ObjectInputStream(new GZIPInputStream(server.getInputStream()));
-			result=inputDecompressed.readObject();
-			if(result.toString().contains("disconnect"))
-			{
-				setChanged();
-				notifyObservers(ServerConstant.DISCONNECT);
-			}
-			writerToServer.close();
-			inputDecompressed.close();
-			server.close();
-		} catch (ClassNotFoundException | IOException  e) {
-			e.printStackTrace();
-			
-		}
-
-		return result;
-
-	}
+	
 
 	@Override
 	public int getModelSizeInMemory(String name) throws IOException {
@@ -239,6 +206,40 @@ public class ClientModel extends Observable implements Model {
 	public void exit() throws IOException {
 		//Nothing to close
 
+
+	}
+	
+	private Object queryServer(String serverIP,int serverPort,String command,String data,String property)
+	{
+		Object result=null;
+		Socket server;			
+		try {
+			System.out.println("Trying to connect server, IP: " + serverIP + " " + serverPort);
+			server = new Socket(serverIP,serverPort);
+			PrintWriter writerToServer=new PrintWriter(new OutputStreamWriter(server.getOutputStream()));
+			writerToServer.println(command);
+			writerToServer.flush();
+			writerToServer.println(property);
+			writerToServer.flush();
+			writerToServer.println(data);
+			writerToServer.flush();
+			ObjectInputStream inputDecompressed;
+			inputDecompressed = new ObjectInputStream(new GZIPInputStream(server.getInputStream()));
+			result=inputDecompressed.readObject();
+			if(result.toString().contains("disconnect"))
+			{
+				setChanged();
+				notifyObservers(ServerConstant.DISCONNECT);
+			}
+			writerToServer.close();
+			inputDecompressed.close();
+			server.close();
+		} catch (ClassNotFoundException | IOException  e) {
+			e.printStackTrace();
+			
+		}
+
+		return result;
 
 	}
 
