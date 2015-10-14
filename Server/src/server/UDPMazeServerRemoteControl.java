@@ -152,12 +152,12 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		if(o==handler)
+		if(o instanceof ClientHandler)
 		{
 			String allMessages="";
 			for(String message: handler.messages)
 			{
-				allMessages+="\n"+ message;
+				allMessages+= message + "\n";
 			}
 			DatagramPacket sendPacket=new DatagramPacket(allMessages.getBytes(),allMessages.length(),senderIP,senderPort);
 			try {

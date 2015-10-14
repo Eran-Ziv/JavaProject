@@ -121,6 +121,7 @@ public class Presenter implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 
+		
 		if(o instanceof View){
 
 			myView.getCommand().doCommand();
@@ -128,7 +129,7 @@ public class Presenter implements Observer {
 
 		if(o instanceof Model ){
 
-			String [] args = (String[])arg;
+			String [] args = myModel.getData();
 
 			if(args != null){
 				switch(args[0]){
