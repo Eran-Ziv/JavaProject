@@ -509,7 +509,7 @@ public class MyPresenter implements Presenter {
 				view.displayString(Constant.MODEL_ERROR);
 				
 			case ServerConstant.DISCONNECT:
-				view.displayString(args[0] + args[1]);
+				view.displayString(args[0] + " " + args[1]);
 
 				break;
 
