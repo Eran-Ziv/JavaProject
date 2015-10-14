@@ -22,6 +22,10 @@ public class Preferences implements Serializable{
 	public enum MazeSolver{
 		MANHATTAN_ASTAR,EUCLIDIAN_ASTAR,BFS
 	}
+	
+	public enum Access{
+		REMOTE_SERVER, LOCAL
+	}
 
 	public int poolSize;
 
@@ -35,6 +39,8 @@ public class Preferences implements Serializable{
 
 	public MazeSolver solver;
 	
+	public Access access;
+	
 	
 
 	public Preferences() {
@@ -43,6 +49,7 @@ public class Preferences implements Serializable{
 		this.ui = UI.CLI;
 		this.generator = MazeGenerator.DFS;
 		this.solver = MazeSolver.BFS;
+		this.access = Access.LOCAL;
 	}
 	
 	
@@ -120,6 +127,18 @@ public class Preferences implements Serializable{
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+
+
+	public Access getAccess() {
+		return access;
+	}
+
+
+
+	public void setAccess(Access access) {
+		this.access = access;
 	}
 
 }
