@@ -7,7 +7,7 @@ public class RemoteControlProperties implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private int PortServerClients;
+	private int PortForServerClients;
 	private int portOnWhichServerListens;
 	
 	private int numOfClients;
@@ -25,12 +25,12 @@ public class RemoteControlProperties implements Serializable {
 	
 	
 	public RemoteControlProperties() {
-		PortServerClients=5400;
+		PortForServerClients=5400;
 		numOfClients=32;
 		RemoteControlPortListener = 1234;
 	}
 	public RemoteControlProperties(int port,int numOfClients,int RemoteControlPortListener) {
-		this.PortServerClients=port;
+		this.PortForServerClients=port;
 		this.numOfClients=numOfClients;
 		this.RemoteControlPortListener=RemoteControlPortListener;
 	}
@@ -44,11 +44,11 @@ public class RemoteControlProperties implements Serializable {
 	}
 	
 	public int getPortServerClients() {
-		return PortServerClients;
+		return PortForServerClients;
 	}
 	
 	public void setPortServerClients(int port) {
-		this.PortServerClients = port;
+		this.PortForServerClients = port;
 	}
 	
 	public int getNumOfClients() {
