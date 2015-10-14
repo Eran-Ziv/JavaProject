@@ -139,8 +139,10 @@ public class ClientModel extends Observable implements Model {
 		Solution<Position> solution=(Solution<Position>)queryServer(preferences.getServerIP(),preferences.getServerPort(),ServerConstant.SOLVE_MAZE,name,property);
 		if(solution==null)
 		{
+			constantArgs[0] = ServerConstant.DISCONNECT;
+			constantArgs[1] = name;
 			setChanged();
-			notifyObservers(ServerConstant.DISCONNECT);
+			notifyObservers(constantArgs);
 			return;
 		}
 
@@ -177,8 +179,10 @@ public class ClientModel extends Observable implements Model {
 		Maze3d myMaze=(Maze3d)queryServer(preferences.getServerIP(),preferences.getServerPort(),ServerConstant.GENERATE_MAZE,name+" "+z+","+x+","+y ,property);
 		if(myMaze==null)
 		{
+			constantArgs[0] = ServerConstant.DISCONNECT;
+			constantArgs[1] = name;
 			setChanged();
-			notifyObservers(ServerConstant.DISCONNECT);
+			notifyObservers(constantArgs);
 			return;
 		}
 		this.myMaze = myMaze;

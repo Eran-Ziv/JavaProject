@@ -1,6 +1,8 @@
 package presenter;
 
 import generic.Constant;
+import generic.ServerConstant;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Observable;
@@ -505,6 +507,9 @@ public class MyPresenter implements Presenter {
 			case Constant.MODEL_ERROR:
 
 				view.displayString(Constant.MODEL_ERROR);
+				
+			case ServerConstant.DISCONNECT:
+				view.displayString(args[0] + args[1]);
 
 				break;
 
