@@ -5,16 +5,16 @@
    <string>127.0.0.1</string>
   </void>
   <void property="numOfClients">
-   <int>10</int>
+   <int>11</int>
   </void>
   <void property="portOnWhichServerListens">
-   <int>9999</int>
+   <int>5454</int>
   </void>
   <void property="portServerClients">
-   <int>9999</int>
+   <int>6666</int>
   </void>
   <void property="remoteControlPortListener">
-   <int>9999</int>
+   <int>6666</int>
   </void>
  </object>
 </java>

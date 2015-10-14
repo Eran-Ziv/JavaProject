@@ -135,32 +135,49 @@ public class Presenter implements Observer {
 				switch(args[0]){
 
 				case Constants.CANNOT_REMOVE_CLIENT:
-
+					
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
 					myView.Display(args[1]);
 					break;
 
 				case Constants.CANNOT_START_SERVER:
 
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
 					myView.Display(args[1]);
 					break;
 
 				case Constants.SERVER_START:
 
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
 					myView.Display(args[1]);
 					break;
 
 				case Constants.CANNOT_DISCONNECT_SERVER:
 
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
 					myView.Display(args[1]);
 					break;
 
 				case Constants.DISCONNECT_SERVER:
 
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
 					myView.Display(args[1]);
 					break;
-
 				case Constants.CLIENT_STATUS:
 
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
 					myView.Display(args[1]);
 					break;
 
@@ -176,6 +193,9 @@ public class Presenter implements Observer {
 
 				case Constants.EXIT:
 
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
 					myView.Display(args[1]);
 					break;
 

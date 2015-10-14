@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Observable;
 import java.util.zip.GZIPInputStream;
@@ -47,6 +48,7 @@ public class ClientModel extends Observable implements Model {
 		Object result=null;
 		Socket server;			
 		try {
+			System.out.println("Trying to connect server, IP: " + serverIP + " " + serverPort);
 			server = new Socket(serverIP,serverPort);
 			PrintWriter writerToServer=new PrintWriter(new OutputStreamWriter(server.getOutputStream()));
 			writerToServer.println(command);
@@ -66,10 +68,9 @@ public class ClientModel extends Observable implements Model {
 			writerToServer.close();
 			inputDecompressed.close();
 			server.close();
-		} catch (ClassNotFoundException e) {
-
-		} catch (IOException e) {
-
+		} catch (ClassNotFoundException | IOException  e) {
+			e.printStackTrace();
+			
 		}
 
 		return result;
@@ -176,7 +177,7 @@ public class ClientModel extends Observable implements Model {
 		String y = params[2];
 
 
-		Maze3d myMaze=(Maze3d)queryServer(preferences.getServerIP(),preferences.getServerPort(),ServerConstant.GENERATE_MAZE,name+" "+z+","+x+","+y ,property);
+		Maze3d myMaze=(Maze3d)queryServer(preferences.getServerIP(),preferences.getServerPort(),ServerConstant.GENERATE_MAZE,name+","+z+","+x+","+y ,property);
 		if(myMaze==null)
 		{
 			constantArgs[0] = ServerConstant.DISCONNECT;

@@ -44,12 +44,14 @@ public class MyTCPIPServer {
 		ServerSocket server;
 		try {
 			server = new ServerSocket(serverProperties.getPort());
+			System.out.println("Server is now listeing on port " + serverProperties.getPort());
 			ListeningExecutorService threadPool = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(serverProperties.getNumOfClients()));
-			server.setSoTimeout(500);
+			server.setSoTimeout(0);// changed from 500 to 0 which is infinite timoute
 			while(!stopped)
 			{
 				try {
 					final Socket someClient=server.accept();
+					System.out.println("New client" + " port: " + someClient.getPort() + " IP: " + someClient.getInetAddress().getHostAddress());
 					threadPool.execute(new Runnable() {
 						
 						@Override

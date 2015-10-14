@@ -103,6 +103,8 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				break;
 
 			case ServerConstant.GET_MODEL_SIZE_IN_MEMORY:
+				
+				readerFromClient.readLine();//empty
 				data = readerFromClient.readLine();
 				message=clientIP+ ","+clientPort+ "," +ServerConstant.GET_MODEL_SIZE_IN_MEMORY ;
 				messages.add(message);
@@ -122,6 +124,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				data=readerFromClient.readLine();
 				params=parseGenerateMazeArgument(data);
 				message=clientIP+ ","+clientPort+",generating maze";
+				System.out.println(message);
 				messages.add(message);
 				setChanged();
 				notifyObservers();
