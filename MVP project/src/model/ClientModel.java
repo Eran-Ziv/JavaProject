@@ -226,7 +226,7 @@ public class ClientModel extends Observable implements Model {
 			writerToServer.println(data);
 			writerToServer.flush();
 			ObjectInputStream inputDecompressed;
-			inputDecompressed = new ObjectInputStream(new GZIPInputStream(server.getInputStream()));
+			inputDecompressed = new ObjectInputStream((server.getInputStream()));
 			result=inputDecompressed.readObject();
 			if(result.toString().contains("disconnect"))
 			{
