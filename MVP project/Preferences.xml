@@ -12,7 +12,7 @@
    <string>serverIP</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <string>127.0.0.1</string>
+    <string>localhost</string>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">

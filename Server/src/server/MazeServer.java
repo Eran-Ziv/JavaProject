@@ -1,20 +1,12 @@
 package server;
 
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.Blob;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -45,7 +37,14 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 	
 	public MazeServer(ServerProperties serverProperties, MazeClientHandler clientHandler) {
 		super(serverProperties, clientHandler);
+		this.nameToFileName = new ConcurrentHashMap<String, String>();
+		this.nameToMaze = new ConcurrentHashMap<String, Maze3d>();
+		this.mazeToSolution = new ConcurrentHashMap<Maze3d, Solution<Position>>();
+		this.nameToSolution = new ConcurrentHashMap<String, Solution<Position>>();
 		load();
+		if(mazeToSolution == null){
+			mazeToSolution = new ConcurrentHashMap<Maze3d, Solution<Position>>();
+		}
 	}
 	
 	
@@ -85,7 +84,6 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		super.stoppedServer();
 	
 	}
 	

@@ -79,7 +79,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			String[] params;
 			BufferedReader readerFromClient=new BufferedReader(new InputStreamReader(client.getInputStream()));
 			String command=readerFromClient.readLine();
-			ObjectOutputStream outputCompressedToClient=new ObjectOutputStream(new GZIPOutputStream(client.getOutputStream()));
+			ObjectOutputStream outputCompressedToClient=new ObjectOutputStream(client.getOutputStream());
 			outputCompressedToClient.flush();
 
 
@@ -236,11 +236,8 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				outputCompressedToClient.writeObject(null);
 				outputCompressedToClient.flush();
 
-				
-
 			}
-			client.close();
-
+			
 
 		} catch (Exception e1) {
 
@@ -248,11 +245,12 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 		activeConnections.remove(clientIP+","+clientPort);
 		String last=new String(clientIP +","+ clientPort+",disconnected");
+		System.out.println();
 		messages.add(last);
 		setChanged();
 		notifyObservers();
 		messages.remove(last);
-
+		
 	}
 
 	private String[] ParseCroosMaze(String data) {
@@ -402,12 +400,13 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 
 	public Maze3d generateMaze(String name, String x, String y, String z, String generator ) {
-
+		try{
+			
 		if(server.nameToMaze.containsKey(name))
 			return server.nameToMaze.get(name);
 
 		Maze3d maze3d= null;
-		try{
+		
 			switch(generator){
 
 			case "DFS":
@@ -422,7 +421,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			server.nameToMaze.put(name, maze3d);
 			return maze3d;
 
-		}catch(NumberFormatException n){
+		}catch(NumberFormatException | NullPointerException n){
 
 		}
 		return null;
@@ -437,6 +436,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 		{
 			return null;
 		}
+		
 		if(server.mazeToSolution.containsKey(m))
 		{
 			ArrayList<State<Position>> Arraysolution = server.mazeToSolution.get(m).getSolution();

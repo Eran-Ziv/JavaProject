@@ -46,7 +46,7 @@ public class MyTCPIPServer {
 			server = new ServerSocket(serverProperties.getPort());
 			System.out.println("Server is now listeing on port " + serverProperties.getPort());
 			ListeningExecutorService threadPool = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(serverProperties.getNumOfClients()));
-			server.setSoTimeout(0);// changed from 500 to 0 which is infinite timoute
+			server.setSoTimeout(500);// changed from 500 to 0 which is infinite timoute
 			while(!stopped)
 			{
 				try {

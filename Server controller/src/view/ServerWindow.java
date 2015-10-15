@@ -49,13 +49,13 @@ public class ServerWindow extends BasicWindow implements View {
 	
 	public ServerWindow(String title, int width, int height) {
 		super(title, width, height);
-		shell.setBackgroundImage(new Image(display,".\\resources\\images\\image.png")); //setting the image and some music:)
+		shell.setBackgroundImage(new Image(display,".\\resources\\images\\matrix1.jpg")); //setting the image and some music:)
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
 	}
 	
 	public ServerWindow(String title, int width, int height,Display display,Shell shell) {
 		super(display,shell,title, width, height);
-		shell.setBackgroundImage(new Image(display,".\\resources\\images\\image.png")); //setting the image and some music:)
+		shell.setBackgroundImage(new Image(display,".\\resources\\images\\matrix1.jpg")); //setting the image and some music:)
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
 	}
 	
@@ -124,24 +124,26 @@ public class ServerWindow extends BasicWindow implements View {
 		//Designing a bit of the window
 		final Label listLabel=new Label(shell,SWT.CENTER);
 		
-		listLabel.setForeground(listLabel.getDisplay().getSystemColor(SWT.COLOR_CYAN)); //setting color
+		listLabel.setForeground(listLabel.getDisplay().getSystemColor(SWT.COLOR_WHITE)); //setting color
 		listLabel.setText("Connected Clients");
 		
 		FontData fontData = listLabel.getFont().getFontData()[0];
 		fontData.setHeight(20);
 		Font font = new Font(display, new FontData(fontData.getName(), fontData
-		    .getHeight(), SWT.ITALIC)); 
+		    .getHeight(), SWT.BOLD)); 
 		
 		listLabel.setFont(font);
 		listLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1)); //setting layout
 		
 		list = new List(shell, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL); //setting the list of connected clients
+		
 		list.setForeground(listLabel.getDisplay().getSystemColor(SWT.COLOR_CYAN));
+		
 		list.setLayoutData(new GridData(SWT.FILL,SWT.FILL,true,true,2,1));
 
 		//setting status of selected clients
 	    status = new Text(shell, SWT.CENTER | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-	    status.setForeground(listLabel.getDisplay().getSystemColor(SWT.COLOR_CYAN));
+	    status.setForeground(listLabel.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 	    status.setLayoutData(new GridData(SWT.FILL,SWT.CENTER,true,true,2,1));
 	  
 	    list.addSelectionListener(new SelectionListener() { //on selection show status

@@ -103,6 +103,7 @@ public class ClientModel extends Observable implements Model {
 		default:
 			return;
 		}
+		
 		@SuppressWarnings("unchecked")
 		Solution<Position> solution=(Solution<Position>)queryServer(preferences.getServerIP(),preferences.getServerPort(),ServerConstant.SOLVE_MAZE,name,property);
 		if(solution==null)
@@ -115,6 +116,7 @@ public class ClientModel extends Observable implements Model {
 		}
 
 		System.out.println(solution);
+		this.mySolution = solution;
 
 		constantArgs[0] = Constant.MODEL_SOLVED;
 		constantArgs[1] = name;
@@ -167,7 +169,7 @@ public class ClientModel extends Observable implements Model {
 	@Override
 	public Solution<Position> getSolution(String name) {
 
-		return (Solution<Position>) this.mySolution;
+		return (Solution<Position>)this.mySolution;
 	}
 
 
