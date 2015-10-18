@@ -460,6 +460,7 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
 		boardWidget.won = false;
+	    boardWidget.setUserAskedForSolution(true);
 
 		boardWidget.setVisible(true);
 		//

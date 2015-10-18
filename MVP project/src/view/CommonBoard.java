@@ -177,6 +177,10 @@ public abstract class CommonBoard extends Composite implements Board {
 	@Override
 	public abstract void destructBoard();
 
+	/* (non-Javadoc)
+	 * @see view.Board#setUserAskedForSolution(boolean)
+	 */
+	public abstract void setUserAskedForSolution(boolean userAskedForSolution);
 
 
 }

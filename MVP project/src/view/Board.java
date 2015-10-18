@@ -8,6 +8,7 @@ import algorithm.generic.Solution;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface Board.
  *  @author Eran & Ziv
@@ -101,5 +102,12 @@ public interface Board {
 	 * @param s the s
 	 */
 	<T> void displaySolution(Solution<T> s);
+	
+	/**
+	 * Sets the user asked for solution.
+	 *
+	 * @param userAskedForSolution the new user asked for solution
+	 */
+	void setUserAskedForSolution(boolean userAskedForSolution);
 	
 }

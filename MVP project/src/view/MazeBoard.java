@@ -20,10 +20,6 @@ import algorithm.generic.State;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 
-
-
-
-
 /**
  * The Class MazeBoard.
  *  @author Eran & Ziv
@@ -528,38 +524,52 @@ public class MazeBoard extends CommonBoard {
 		return userAskedForSolution;
 	}
 
-	/**
-	 * Sets the user asked for solution.
-	 *
-	 * @param userAskedForSolution the new user asked for solution
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#setUserAskedForSolution(boolean)
 	 */
+	@Override
 	public void setUserAskedForSolution(boolean userAskedForSolution) {
+		if(userAskedForSolution){
+			this.userAskedForSolution = true;
+			getDisplay().asyncExec(new Runnable() {
 
-		this.userAskedForSolution = true;
-		getDisplay().asyncExec(new Runnable() {
-
-			@Override
-			public void run() {
+				@Override
+				public void run() {
 
 
-				for (int  i= 0; i < board.length;i++) {
-					for (int j = 0; j < board[i].length; j++) {
-						if(userAskedForSolution && hints[currentFloorZ][i][j]){
+					for (int  i= 0; i < board.length;i++) {
+						for (int j = 0; j < board[i].length; j++) {
+							if(userAskedForSolution && hints[currentFloorZ][i][j]){
 
-							Image img = new Image(getDisplay(),".\\resources\\images\\star.png"); //hint image
-							(board[i][j]).setCellImage(img);
-							(board[i][j]).setHint(img);
-							(board[i][j]).redraw();
+								Image img = new Image(getDisplay(),".\\resources\\images\\star.png"); //hint image
+								(board[i][j]).setCellImage(img);
+								(board[i][j]).setHint(img);
+								(board[i][j]).redraw();
+							}
 						}
 					}
+					layout();
+					forceFocus();
 				}
-				layout();
-				forceFocus();
+				
+			});
 			}
-			
-		});
+			else{
+				this.userAskedForSolution = false;
+				for (int i = 0; i < hints.length; i++) {
+					for (int j = 0; j < hints[i].length; j++) {
+						for (int w = 0; w < hints[i][j].length; w++) {
+							hints[i][j][w] = false;
+						}
+						
+					}
+					
+				}
+			}
 
+		
 	}
+
 }
 
 
