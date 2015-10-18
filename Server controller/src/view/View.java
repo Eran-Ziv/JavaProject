@@ -21,4 +21,6 @@ public interface View {
 	
 	public void setUserCommand(RemoteControlCommand userCommand);
 
+	void DisplayStatus(String msg);
+
 }

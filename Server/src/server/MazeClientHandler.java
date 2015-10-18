@@ -2,9 +2,6 @@ package server;
 
 
 
-import io.MyCompressorOutputStream;
-import io.MyDecompressorInputStream;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,9 +16,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.zip.GZIPOutputStream;
-
-
 
 import algorithm.generic.Solution;
 import algorithm.generic.State;
@@ -38,6 +32,8 @@ import algorithms.search.MazeEuclideanDistance;
 import algorithms.search.MazeManhattanDistance;
 import generic.Constant;
 import generic.ServerConstant;
+import io.MyCompressorOutputStream;
+import io.MyDecompressorInputStream;
 
 
 public class MazeClientHandler extends Observable implements ClientHandler,Observer  {
@@ -456,12 +452,12 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			solution= new Bfs<Position>().search(maze3d);
 
 			break;
-		case "AIR_DISTANCE_ASTAR":
+		case "EUCLIDIAN_ASTAR":
 
 			solution= new Astar<Position>(new MazeEuclideanDistance()).search(maze3d) ;
 
 			break;
-		case "MANHATTAN_DISTANCE_ASTAR":
+		case "MANHATTAN_ASTAR":
 
 			solution= new Astar<Position>(new MazeManhattanDistance()).search(maze3d) ;
 			break;

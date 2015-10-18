@@ -151,8 +151,10 @@ public class Presenter implements Observer {
 					break;
 
 				case Constants.SERVER_START:
-
-					myView.Display(args[0] + " " +args[1]);
+					if(args[1] == null)
+						myView.Display(args[0]);
+					else
+					myView.DisplayStatus(args[0] + " " +args[1]);
 					break;
 
 				case Constants.CANNOT_DISCONNECT_SERVER:
@@ -165,15 +167,13 @@ public class Presenter implements Observer {
 
 				case Constants.DISCONNECT_SERVER:
 
-					if(args[1] == null)
+					
 						myView.Display(args[0]);
-					else
-					myView.Display(args[1]);
 					break;
 				case Constants.CLIENT_STATUS:
 
 					if(args[1] == null)
-						myView.Display(args[0]);
+						myView.DisplayStatus(args[0]);
 					else
 					myView.Display(args[1]);
 					break;
@@ -187,6 +187,15 @@ public class Presenter implements Observer {
 
 					myView.removeClient(args[1]);
 					break;
+					
+				case Constants.CLIENT_UPDATE:
+					if(args[1] == null)
+						myView.DisplayStatus(args[0]);
+					else
+						myView.DisplayStatus(args[0] + "\n" + args[1]);
+					
+					break;
+					
 
 				case Constants.EXIT:
 

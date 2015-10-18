@@ -62,6 +62,7 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 		catch (IOException e) {
 			e.getStackTrace();
 		}
+		super.stoppedServer();
 		
 	}
 	

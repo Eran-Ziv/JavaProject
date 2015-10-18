@@ -162,19 +162,16 @@ public class ServerWindow extends BasicWindow implements View {
 		        	setUserCommand(command);
 		        	
 	        		if(loopIndex!=selectedClients.length-1)
-	        			outString += selectedClients[loopIndex].split(" ")[2] +" " + DataFromModel +", "; //Data from model is the data about the client
-	        		else
-	        			outString+=selectedClients[loopIndex].split(" ")[2] +" " + DataFromModel;
+	        			outString += selectedClients[loopIndex]+ "\n"; 
+	        		
 	        	}
 	        }
 	        else if(selectedClients.length==1){
 	        	RemoteControlCommand command = commandMap.get("connection status");
 	        	command.setArguments(selectedClients[0]);
 	        	setUserCommand(command);
-	        	outString=selectedClients[0].split(" ")[2]+" " +DataFromModel;
+	        	outString=selectedClients[0] + "\n";
 	        }
-	        if(selectedClients.length!=0)
-	        	status.setText("Selected Clients: " + outString);
 	        else
 	        	status.setText("");
 	      }
@@ -377,6 +374,21 @@ public class ServerWindow extends BasicWindow implements View {
 	}
 	
 	@Override
+	public void DisplayStatus(String msg) {
+		display.asyncExec(new Runnable(){
+
+			@Override
+			public void run() {
+				if(!shell.isDisposed()){
+				status.setText(msg);
+				}
+			}
+			
+		});
+		
+	}
+	
+	@Override
 	public void saveData(String data) {
 		this.DataFromModel=data;
 		
@@ -388,7 +400,7 @@ public class ServerWindow extends BasicWindow implements View {
 
 			@Override
 			public void run() {
-				list.add("Client IP: " + Client.split(",")[0]+" Port: "+ Client.split(",")[1]);
+				list.add(Client);
 				
 			}
 			

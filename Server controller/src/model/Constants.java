@@ -19,4 +19,6 @@ public class Constants {
 	public static final String CLIENT_REMOVED = "Client removed";
 	
 	public static final String EXIT = "Exiting now";
+
+	public static final String CLIENT_UPDATE = "Update: ";
 }

@@ -88,7 +88,7 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 				else
 					break;
 			
-			String message = "numebr of clients: " + input.split(",")[0]+ " port to server clients " + input.split(",")[1] + "\n";
+			String message = "Numebr of clients: " + input.split(",")[0]+ " port to server clients " + input.split(",")[1] + "\n";
 			System.out.println(message);
 			
 			DatagramPacket sendPacket=new DatagramPacket(message.getBytes(),message.length(),senderIP,senderPort);
@@ -140,6 +140,14 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 				}
 				else if(input.contains("stop"))
 				{
+					String message = "Server stoped"+ "\n";
+					DatagramPacket sendPacket=new DatagramPacket(message.getBytes(),message.length(),senderIP,senderPort);
+					try {
+						serverSocket.send(sendPacket);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
 					clientsServer.stoppedServer();
 					clientsServer=null;
 					executor.shutdownNow();
