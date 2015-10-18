@@ -301,9 +301,10 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 	private String [] SaveMaze(String name, String fileName) {
 
 
+		String path = ".\\resources\\mazes\\";
 		String []args= new String[2];
 		try {
-			server.myCompressor = new MyCompressorOutputStream(new FileOutputStream(fileName));
+			server.myCompressor = new MyCompressorOutputStream(new FileOutputStream(path+fileName));
 			server.nameToFileName.put(name, fileName);
 			server.myCompressor.write(server.nameToMaze.get(name).toByteArray());
 
@@ -335,10 +336,12 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 	}
 
 	private Maze3d loadMaze(String fileName, String name) throws IOException {
+		
+		String path = ".\\resources\\mazes\\";
 		ArrayList<Byte> myStream = new ArrayList<Byte>();
 		byte [] byteArray = new byte[1024];
 		
-		MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(fileName));
+		MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(path+fileName));
 		while(server.myDecompressor.read(byteArray) > 0){
 
 			for (byte b : byteArray) {

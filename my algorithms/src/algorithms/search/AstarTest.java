@@ -14,11 +14,18 @@ import algorithms.mazeGenerators.MyMaze3dGenerator;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.Searchable;
 
+
+/**
+ * The Class AstarTest.
+ */
 public class AstarTest {
 
 
 	
 
+	/**
+	 * Test null heuristic.
+	 */
 	@Test
 	public void testNullHeuristic() {
 		Maze3d maze3D = new MyMaze3dGenerator().generate(3, 3, 3);
@@ -31,6 +38,9 @@ public class AstarTest {
 		
 	}
 
+	/**
+	 * Test empty maze argument.
+	 */
 	@Test
 	public void testEmptyMazeArgument() {
 		Maze3d maze3D = new MyMaze3dGenerator().generate(0,0,0);
@@ -41,6 +51,9 @@ public class AstarTest {
 		assertNull(astarSolution);
 	}
 
+	/**
+	 * Test dumb searchable argument.
+	 */
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testDumbSearchableArgument() {
@@ -72,6 +85,9 @@ public class AstarTest {
 	
 	}
 	
+	/**
+	 * Test null search argument.
+	 */
 	@Test
 	public void testNullSearchArgument() {
 		@SuppressWarnings({ "unchecked", "rawtypes" })

@@ -55,7 +55,7 @@ public class ServerWindow extends BasicWindow implements View {
 	
 	public ServerWindow(String title, int width, int height,Display display,Shell shell) {
 		super(display,shell,title, width, height);
-		shell.setBackgroundImage(new Image(display,".\\resources\\images\\matrix1.jpg")); //setting the image and some music:)
+		shell.setBackgroundImage(new Image(display,".\\resources\\images\\matrix.gif")); //setting the image and some music:)
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
 	}
 	

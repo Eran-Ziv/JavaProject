@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
-import java.util.zip.GZIPInputStream;
 
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;

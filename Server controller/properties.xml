@@ -14,7 +14,7 @@
    <int>8090</int>
   </void>
   <void property="remoteControlPortListener">
-   <int>5700</int>
+   <int>5600</int>
   </void>
  </object>
 </java>

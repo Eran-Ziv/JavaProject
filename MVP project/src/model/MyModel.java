@@ -116,8 +116,9 @@ public class MyModel extends Observable implements Model  {
 	@Override
 	public void saveModel(String name, String fileName) {
 
+		String path = ".\\resources\\mazes\\";
 		try {
-			this.myCompressor = new MyCompressorOutputStream(new FileOutputStream(fileName));
+			this.myCompressor = new MyCompressorOutputStream(new FileOutputStream(path+fileName));
 			nameToFileName.put(name, fileName);
 			this.myCompressor.write(nameToMaze.get(name).toByteArray());
 			myCompressor.close();
@@ -303,10 +304,11 @@ public class MyModel extends Observable implements Model  {
 	@Override
 	public Maze3d loadModel(String fileName, String name) throws IOException, FileNotFoundException{
 
+		String path = ".\\resources\\mazes\\";
 		ArrayList<Byte> myStream = new ArrayList<Byte>();
 		byte [] byteArray = new byte[1024];
 
-		MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(fileName));
+		MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(path+fileName));
 		while(myDecompressor.read(byteArray) > 0){
 
 			for (byte b : byteArray) {

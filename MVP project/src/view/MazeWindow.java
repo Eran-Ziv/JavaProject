@@ -264,8 +264,8 @@ public class MazeWindow extends BasicWindow implements View {
 
 				if(tempInput!=null)
 				{
-					mazeName=input.getMazeName();
 					input=tempInput;
+					mazeName=input.getMazeName();
 					String z = "" +input.getFloors();
 					String x = "" + input.getRows();
 					String y = "" + input.getColumns();
@@ -339,8 +339,8 @@ public class MazeWindow extends BasicWindow implements View {
 
 
 				try{
-					mazeName=input.getMazeName();
-					String [] args= {"save", "maze" ,input.getMazeName(),input.getMazeName()+".txt"};
+					
+					String [] args= {"save", "maze" ,mazeName,mazeName+".txt"};
 					Command command= commands.get("save");
 					command.setArguments(args);
 					setUserCommand(command);
