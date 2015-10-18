@@ -31,7 +31,7 @@ public class WritePropertiesGUI {
 				e.close();
 				return 0;
 	    	} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
 			
