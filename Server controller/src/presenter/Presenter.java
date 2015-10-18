@@ -172,10 +172,10 @@ public class Presenter implements Observer {
 					break;
 				case Constants.CLIENT_STATUS:
 
-					if(args[1] == null)
-						myView.DisplayStatus(args[0]);
+					if(args[1] != null)
+						myView.DisplayStatus(args[0]+ " " + args[1]);
 					else
-					myView.Display(args[1]);
+					myView.Display(args[0]);
 					break;
 
 				case Constants.CLIENT_ADDED:

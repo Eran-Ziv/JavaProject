@@ -105,7 +105,7 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 			clientsServer=new MazeServer(clientsServerProperties,handler);
 			handler.setServer(clientsServer);
 			//executor.execute(clientsServer);
-			clientsServer.startServer();
+			new Thread(clientsServer).start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,9 +148,10 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 						e.printStackTrace();
 					}
 					
+					
+					executor.shutdownNow();
 					clientsServer.stoppedServer();
 					clientsServer=null;
-					executor.shutdownNow();
 					System.out.println("Server shutdwon");
 					return;
 				}

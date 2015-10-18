@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.8.0_51" class="java.beans.XMLDecoder">
+<java version="1.8.0_45" class="java.beans.XMLDecoder">
  <object class="generic.Preferences" id="Preferences0">
   <void class="generic.Preferences" method="getField">
    <string>poolSize</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>3</int>
+    <int>12</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
