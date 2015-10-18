@@ -7,15 +7,31 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Composite;
 
+
+/**
+ * The Class MazeTile.
+ *  @author Eran & Ziv
+ */
 public class MazeTile extends CommonTile{
 
 
+	/**
+	 * Instantiates a new maze tile.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 */
 	public MazeTile(Composite parent, int style) {//wanna get it from the outside
 		super(parent, style | SWT.DOUBLE_BUFFERED);
 
 
 	}
 
+	/**
+	 * Sets the image.
+	 *
+	 * @param image the new image
+	 */
 	public void setImage(Image image) 		//getters and setters of images
 	{
 		if(this.cellImage!=null)
@@ -25,6 +41,9 @@ public class MazeTile extends CommonTile{
 		redraw();
 	}
 
+	/* (non-Javadoc)
+	 * @see view.CommonTile#drawTile(org.eclipse.swt.events.PaintEvent)
+	 */
 	@Override
 	public void drawTile(PaintEvent e) {
 		int width=getSize().x; //get width of window

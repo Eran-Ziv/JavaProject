@@ -10,8 +10,18 @@ import presenter.Presenter;
 import presenter.RemoteControlProperties;
 import view.ServerWindow;
 
+
+/**
+ * The Class RunGui.
+ *  @author Eran & Ziv
+ */
 public class RunGui {
 
+	/**
+	 * Load window.
+	 *
+	 * @param sp the sp
+	 */
 	public void  loadWindow(RemoteControlProperties sp){
 		Display display= new Display(); //creating display
 		Shell shell=new Shell(display); //creating a shell

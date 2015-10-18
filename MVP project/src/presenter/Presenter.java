@@ -6,7 +6,8 @@ import java.util.Observer;
 /**
  * The Interface Controller.
  * This interface is responsible for the tranclation between the view {@see View} and the model {@see Model},
- * it uses the command interface {@see Command} to define the relation between the view and the model. 
+ * it uses the command interface {@see Command} to define the relation between the view and the model.
+ *  @author Eran & Ziv 
  */
 public interface Presenter extends Observer {
 

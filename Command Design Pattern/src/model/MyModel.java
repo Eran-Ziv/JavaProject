@@ -23,9 +23,10 @@ import algorithms.search.Heuristic;
 import algorithms.search.MazeEuclideanDistance;
 import algorithms.search.MazeManhattanDistance;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class MyModel.
+ *  @author Eran & Ziv
  */
 public class MyModel implements Model { 
 

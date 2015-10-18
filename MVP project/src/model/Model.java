@@ -7,9 +7,10 @@ import algorithm.generic.Solution;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Searchable;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface Model.
+ *  @author Eran & Ziv
  */
 public interface Model {
 

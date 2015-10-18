@@ -8,22 +8,40 @@ import model.Constants;
 import model.Model;
 import view.View;
 
+
+/**
+ * The Class Presenter.
+ *  @author Eran & Ziv
+ */
 public class Presenter implements Observer {
 
 
+	/** The my model. */
 	Model myModel;
+	
+	/** The my view. */
 	View myView;
 
+	/**
+	 * The Class CheckConnectionStatus.
+	 */
 	public class CheckConnectionStatus implements RemoteControlCommand {
 
+		/** The params. */
 		String params;
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#doCommand()
+		 */
 		@Override
 		public void doCommand() {
 			myModel.getStatusClient(params);
 
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#setArguments(java.lang.String)
+		 */
 		@Override
 		public void setArguments(String args) {
 			this.params = args;
@@ -32,16 +50,26 @@ public class Presenter implements Observer {
 
 	}
 
+	/**
+	 * The Class DisconnectUser.
+	 */
 	public class DisconnectUser implements RemoteControlCommand{
 
+		/** The params. */
 		String params;
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#doCommand()
+		 */
 		@Override
 		public void doCommand() {
 			myModel.DisconnectClient(params);
 
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#setArguments(java.lang.String)
+		 */
 		@Override
 		public void setArguments(String args) {
 			this.params = args;
@@ -50,16 +78,26 @@ public class Presenter implements Observer {
 
 	}
 
+	/**
+	 * The Class StartServer.
+	 */
 	public class StartServer implements RemoteControlCommand{
 
+		/** The params. */
 		String params;
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#doCommand()
+		 */
 		@Override
 		public void doCommand() {
 
 			myModel.StartServer();
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#setArguments(java.lang.String)
+		 */
 		@Override
 		public void setArguments(String args) {
 			this.params = args;
@@ -68,16 +106,26 @@ public class Presenter implements Observer {
 
 	}
 
+	/**
+	 * The Class StopServer.
+	 */
 	public class StopServer implements RemoteControlCommand{
 
+		/** The params. */
 		String params;
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#doCommand()
+		 */
 		@Override
 		public void doCommand() {
 			myModel.DisconnectServer();
 
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#setArguments(java.lang.String)
+		 */
 		@Override
 		public void setArguments(String args) {
 			this.params = args;
@@ -86,15 +134,25 @@ public class Presenter implements Observer {
 
 	}
 
+	/**
+	 * The Class exit.
+	 */
 	public class exit implements RemoteControlCommand{
 
+		/** The params. */
 		String params;
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#doCommand()
+		 */
 		@Override
 		public void doCommand() {
 			myModel.exit();
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.RemoteControlCommand#setArguments(java.lang.String)
+		 */
 		@Override
 		public void setArguments(String args) {
 			this.params = args;
@@ -104,6 +162,12 @@ public class Presenter implements Observer {
 
 	}
 
+	/**
+	 * Instantiates a new presenter.
+	 *
+	 * @param model the model
+	 * @param view the view
+	 */
 	public Presenter(Model model, View view)
 	{
 		this.myModel=model;
@@ -118,6 +182,9 @@ public class Presenter implements Observer {
 		myView.setCommands(commandMap);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 

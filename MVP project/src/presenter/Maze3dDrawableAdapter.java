@@ -7,6 +7,7 @@ import view.Drawable;
 /**
  * The Class Maze3dDrawableAdapter.
  * Object adapter for maze3d {@see Maze3d} and drawable interface{@see Drawable}
+ *  @author Eran & Ziv
  */
 public class Maze3dDrawableAdapter implements Drawable<Maze3d> {
 

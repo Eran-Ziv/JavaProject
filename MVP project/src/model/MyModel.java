@@ -44,8 +44,10 @@ import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
 
+
 /**
  * The Class MyModel.
+ *  @author Eran & Ziv
  */
 public class MyModel extends Observable implements Model  { 
 
@@ -59,6 +61,7 @@ public class MyModel extends Observable implements Model  {
 	/** The name to solution. */
 	private HashMap<String, Solution<Position>>nameToSolution;
 
+	/** The maze to solution. */
 	private HashMap<Maze3d, Solution<Position>> mazeToSolution;
 
 	/** The my compressor. */
@@ -67,17 +70,23 @@ public class MyModel extends Observable implements Model  {
 	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
 
+	/** The constant args. */
 	String [] constantArgs;
 
+	/** The my xml encoder. */
 	XMLEncoder myXMLEncoder;
 
+	/** The preferences. */
 	private Preferences preferences;
 
 
+	/** The executor. */
 	private ListeningExecutorService executor;
 
 	/**
 	 * Instantiates a new my model.
+	 *
+	 * @param preferences the preferences
 	 */
 	public MyModel(Preferences preferences) {
 
@@ -94,17 +103,32 @@ public class MyModel extends Observable implements Model  {
 	}
 
 
+	/**
+	 * Sets the name to solution.
+	 *
+	 * @param nameToSolution the name to solution
+	 */
 	public void setNameToSolution(HashMap<String, Solution<Position>> nameToSolution) {
 		this.nameToSolution = nameToSolution;
 	}
 
 
 
+	/**
+	 * Gets the name to maze.
+	 *
+	 * @return the name to maze
+	 */
 	public HashMap<String, Maze3d> getNameToMaze() {
 		return nameToMaze;
 	}
 
 
+	/**
+	 * Sets the name to maze.
+	 *
+	 * @param nameToMaze the name to maze
+	 */
 	public void setNameToMaze(HashMap<String, Maze3d> nameToMaze) {
 		this.nameToMaze = nameToMaze;
 	}
@@ -401,6 +425,9 @@ public class MyModel extends Observable implements Model  {
 
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#generateModel(java.lang.String, java.lang.String[])
+	 */
 	@SuppressWarnings("static-access")
 	@Override
 	public void generateModel(String name, String [] params) {
@@ -521,6 +548,12 @@ public class MyModel extends Observable implements Model  {
 		notifyObservers(constantArgs);
 	}
 
+	/**
+	 * Save solution.
+	 *
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void saveSolution() throws FileNotFoundException, IOException{
 		try {
 			FileOutputStream fos=new FileOutputStream(Constant.FILE_PATH);
@@ -536,6 +569,9 @@ public class MyModel extends Observable implements Model  {
 
 	}
 
+	/**
+	 * Load solution.
+	 */
 	@SuppressWarnings("unchecked")
 	private void loadSolution() {
 
@@ -553,6 +589,9 @@ public class MyModel extends Observable implements Model  {
 		}
 	}
 
+	/**
+	 * Save preferences.
+	 */
 	public void savePreferences(){
 
 		try {

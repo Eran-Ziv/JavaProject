@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Text;
 
 /**	BONUS! A generic Dialog which supplies a form to submit data of every given class - even compatible with classes that contain enums as combo boxes
  * 	upon pressing ok in the window an instance of the same class that was supplied will be returned 
- * @author Tomer
+ *  @author Eran & Ziv
  *
  */
 public class ClassInputDialog extends Dialog {

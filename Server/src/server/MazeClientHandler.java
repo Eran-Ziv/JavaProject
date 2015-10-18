@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package server;
 
 
@@ -36,27 +39,54 @@ import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
 
+
+/**
+ * The Class MazeClientHandler.
+ *  @author Eran & Ziv
+ */
 public class MazeClientHandler extends Observable implements ClientHandler,Observer  {
 
 
+	/** The server. */
 	MazeServer server;
 
+	/** The active connections. */
 	volatile ConcurrentHashMap<String,Socket> activeConnections=new ConcurrentHashMap<String,Socket>();
 
 
+	/** The messages. */
 	volatile ConcurrentLinkedQueue<String> messages=new ConcurrentLinkedQueue<String>();
 
+	/** The remote. */
 	UDPMazeServerRemoteControl remote;
 
+	/**
+	 * Instantiates a new maze client handler.
+	 *
+	 * @param server
+	 *            the server
+	 */
 	public MazeClientHandler(MazeServer server) {
 		this.server=server;
 	}
+	
+	/**
+	 * Instantiates a new maze client handler.
+	 *
+	 * @param remote
+	 *            the remote
+	 */
 	public MazeClientHandler(UDPMazeServerRemoteControl remote) {
 		this.remote=remote;
 	}
 
-	/** The handleClient Method! it notifies what it's doing to the client throughout it's operation.
-	 * 	it gets the command from the client, additional arguments and parameters. does as requested and sends.
+	/**
+	 * The handleClient Method! it notifies what it's doing to the client
+	 * throughout it's operation. it gets the command from the client,
+	 * additional arguments and parameters. does as requested and sends.
+	 *
+	 * @param client
+	 *            the client
 	 */
 	@Override
 	public void handleClient(Socket client)
@@ -249,10 +279,29 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 	}
 
+	/**
+	 * Parses the croos maze.
+	 *
+	 * @param data
+	 *            the data
+	 * @return the string[]
+	 */
 	private String[] ParseCroosMaze(String data) {
 
 		return data.split(",");
 	}
+	
+	/**
+	 * Gets the cross section.
+	 *
+	 * @param name
+	 *            the name
+	 * @param dimention
+	 *            the dimention
+	 * @param section
+	 *            the section
+	 * @return the cross section
+	 */
 	private Object getCrossSection(String name, String dimention, int section) {
 
 		Maze3d maze3d=server.nameToMaze.get(name);
@@ -298,6 +347,15 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 		}
 	}
 
+	/**
+	 * Save maze.
+	 *
+	 * @param name
+	 *            the name
+	 * @param fileName
+	 *            the file name
+	 * @return the string[]
+	 */
 	private String [] SaveMaze(String name, String fileName) {
 
 
@@ -331,10 +389,28 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 		return null;
 	}
 
+	/**
+	 * Parses the save maze.
+	 *
+	 * @param data
+	 *            the data
+	 * @return the string[]
+	 */
 	private String[] ParseSaveMaze(String data) {
 		return data.split(" ");
 	}
 
+	/**
+	 * Load maze.
+	 *
+	 * @param fileName
+	 *            the file name
+	 * @param name
+	 *            the name
+	 * @return the maze3d
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	private Maze3d loadMaze(String fileName, String name) throws IOException {
 
 		String path = ".\\resources\\mazes\\";
@@ -360,11 +436,25 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 		return myMaze; 
 	}
 
+	/**
+	 * Parses the load maze.
+	 *
+	 * @param data
+	 *            the data
+	 * @return the string[]
+	 */
 	private String[] ParseLoadMaze(String data) {
 		return data.split(" ");
 
 	}
 
+	/**
+	 * Gets the maze size in memory.
+	 *
+	 * @param data
+	 *            the data
+	 * @return the maze size in memory
+	 */
 	private Object getMazeSizeInMemory(String data) {
 
 		int size;
@@ -378,6 +468,13 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 	}
 
+	/**
+	 * Gets the maze size in file.
+	 *
+	 * @param data
+	 *            the data
+	 * @return the maze size in file
+	 */
 	private long getMazeSizeInFile(String data) {
 
 		if(data != null){
@@ -388,10 +485,22 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			return 0;
 	}
 
+	/**
+	 * Gets the messages.
+	 *
+	 * @return the messages
+	 */
 	public ConcurrentLinkedQueue<String> getMessages() {
 		return messages;
 	}
 
+	/**
+	 * Parses the generate maze argument.
+	 *
+	 * @param arg
+	 *            the arg
+	 * @return the string[]
+	 */
 	private String[] parseGenerateMazeArgument(Object arg) {
 
 		String [] params=(((String) arg).split(","));
@@ -400,6 +509,21 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 
 
+	/**
+	 * Generate maze.
+	 *
+	 * @param name
+	 *            the name
+	 * @param x
+	 *            the x
+	 * @param y
+	 *            the y
+	 * @param z
+	 *            the z
+	 * @param generator
+	 *            the generator
+	 * @return the maze3d
+	 */
 	public Maze3d generateMaze(String name, String x, String y, String z, String generator ) {
 		try{
 
@@ -430,6 +554,15 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 	}
 
 
+	/**
+	 * Solve maze.
+	 *
+	 * @param mazeName
+	 *            the maze name
+	 * @param solver
+	 *            the solver
+	 * @return the solution
+	 */
 	public Solution<Position> solveMaze(String mazeName, String solver) {
 
 		Maze3d m=server.nameToMaze.get(mazeName);
@@ -476,15 +609,29 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 	}
 
 
+	/**
+	 * Gets the server.
+	 *
+	 * @return the server
+	 */
 	public MazeServer getServer() {
 		return server;
 	}
 
 
+	/**
+	 * Sets the server.
+	 *
+	 * @param server
+	 *            the new server
+	 */
 	public void setServer(MazeServer server) {
 		this.server = server;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o==remote)

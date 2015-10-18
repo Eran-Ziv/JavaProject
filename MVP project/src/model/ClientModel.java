@@ -20,19 +20,35 @@ import generic.Preferences;
 import generic.ServerConstant;
 
 
+
+/**
+ * The Class ClientModel.
+ *  @author Eran & Ziv
+ */
 public class ClientModel extends Observable implements Model {
 
 
 
+	/** The my maze. */
 	Maze3d myMaze;
+	
+	/** The my solution. */
 	Solution<Position> mySolution;
 
 
 
+	/** The constant args. */
 	String [] constantArgs;
+	
+	/** The preferences. */
 	private Preferences preferences;
 
 
+	/**
+	 * Instantiates a new client model.
+	 *
+	 * @param preferences the preferences
+	 */
 	public ClientModel(Preferences preferences) {
 
 		this.preferences = preferences;
@@ -43,6 +59,9 @@ public class ClientModel extends Observable implements Model {
 
 	
 
+	/* (non-Javadoc)
+	 * @see model.Model#getModelSizeInMemory(java.lang.String)
+	 */
 	@Override
 	public int getModelSizeInMemory(String name) throws IOException {
 
@@ -52,6 +71,9 @@ public class ClientModel extends Observable implements Model {
 		return (int)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.GET_MODEL_SIZE_IN_MEMORY, data, "");
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#getModelSizeInFile(java.lang.String)
+	 */
 	@Override
 	public long getModelSizeInFile(String name) {
 
@@ -61,6 +83,9 @@ public class ClientModel extends Observable implements Model {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#saveModel(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void saveModel(String name, String fileName) {
 
@@ -74,6 +99,9 @@ public class ClientModel extends Observable implements Model {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#loadModel(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Maze3d loadModel(String fileName, String name) throws IOException, FileNotFoundException {
 		this.myMaze = null;
@@ -89,6 +117,9 @@ public class ClientModel extends Observable implements Model {
 
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#solveModel(java.lang.String)
+	 */
 	@Override
 	public void solveModel(String name) {
 
@@ -129,6 +160,9 @@ public class ClientModel extends Observable implements Model {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#generateModel(java.lang.String, java.lang.String[])
+	 */
 	@Override
 	public void generateModel(String name, String[] params) {
 
@@ -169,6 +203,9 @@ public class ClientModel extends Observable implements Model {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#getSolution(java.lang.String)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Solution<Position> getSolution(String name) {
@@ -180,6 +217,9 @@ public class ClientModel extends Observable implements Model {
 
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#getNameToModel(java.lang.String)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public  Searchable<Position> getNameToModel(String name) {
@@ -194,6 +234,9 @@ public class ClientModel extends Observable implements Model {
 
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#CrossSectionBy(java.lang.String, java.lang.String, int)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Searchable<Position> CrossSectionBy(String name, String dimention, int section) {
@@ -208,6 +251,9 @@ public class ClientModel extends Observable implements Model {
 
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#exit()
+	 */
 	@Override
 	public void exit() throws IOException {
 		//Nothing to close
@@ -215,6 +261,16 @@ public class ClientModel extends Observable implements Model {
 
 	}
 	
+	/**
+	 * Query server.
+	 *
+	 * @param serverIP the server ip
+	 * @param serverPort the server port
+	 * @param command the command
+	 * @param data the data
+	 * @param property the property
+	 * @return the object
+	 */
 	private Object queryServer(String serverIP,int serverPort,String command,String data,String property)
 	{
 		Object result=null;

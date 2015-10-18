@@ -10,8 +10,18 @@ import presenter.Presenter;
 import view.ServerWindow;
 import view.WriteServerPropertiesGUI;
 
+
+/**
+ * The Class RemoteControlRun.
+ *  @author Eran & Ziv
+ */
 public class RemoteControlRun {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		
 		WriteServerPropertiesGUI sp = new WriteServerPropertiesGUI(); 

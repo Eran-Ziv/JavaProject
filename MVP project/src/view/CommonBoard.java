@@ -14,23 +14,41 @@ import org.eclipse.swt.widgets.Composite;
 import algorithm.generic.Solution;
 
 
+
+/**
+ * The Class CommonBoard.
+ *  @author Eran & Ziv
+ */
 public abstract class CommonBoard extends Composite implements Board {
 
+	/** The timer. */
 	Timer timer;
 
+	/** The won. */
 	boolean won=false;
 
+	/** The board. */
 	CommonTile[][] board;
 
+	/** The board rows x. */
 	int boardRowsX; 
 
+	/** The board cols y. */
 	int boardColsY;
 
+	/** The character. */
 	CommonCharacter character=null;
 
+	/** The check dragged. */
 	boolean checkDragged=false; 
 
 
+	/**
+	 * Instantiates a new common board.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 */
 	public CommonBoard(Composite parent, int style) {
 		super(parent, style);
 		addPaintListener(new PaintListener() { 
@@ -99,25 +117,63 @@ public abstract class CommonBoard extends Composite implements Board {
 		});		
 	}
 
+	/* (non-Javadoc)
+	 * @see view.Board#applyInputDirection(view.Direction)
+	 */
 	@Override
 	public abstract void  applyInputDirection(Direction direction);
 
+	/* (non-Javadoc)
+	 * @see view.Board#hasPathUp(int, int)
+	 */
 	@Override
 	public abstract boolean hasPathUp(int characterRow,int characterCol);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#hasPathRight(int, int)
+	 */
 	@Override
 	public abstract boolean hasPathRight(int characterRow,int characterCol);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#hasPathDown(int, int)
+	 */
 	@Override
 	public abstract boolean hasPathDown(int characterRow,int characterCol);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#hasPathLeft(int, int)
+	 */
 	@Override
 	public abstract boolean hasPathLeft(int characterRow,int characterCol);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#hasPathForward(int, int)
+	 */
 	@Override
 	public abstract boolean hasPathForward(int characterRow,int characterCol);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#hasPathBackward(int, int)
+	 */
 	@Override
 	public abstract boolean hasPathBackward(int characterRow,int characterCol);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#displayProblem(java.lang.Object)
+	 */
 	@Override
 	public abstract void displayProblem(Object o);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#displaySolution(algorithm.generic.Solution)
+	 */
 	@Override
 	public abstract <T> void displaySolution(Solution<T> s);
+	
+	/* (non-Javadoc)
+	 * @see view.Board#destructBoard()
+	 */
 	@Override
 	public abstract void destructBoard();
 

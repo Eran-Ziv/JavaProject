@@ -7,8 +7,18 @@ import presenter.MyPresenter;
 import view.MazeWindow;
 
 
+
+/**
+ * The Class RunGUI.
+ *  @author Eran & Ziv
+ */
 public class RunGUI {
 	
+	/**
+	 * Start.
+	 *
+	 * @param preferences the preferences
+	 */
 	public void start(Preferences preferences){
 		
 		

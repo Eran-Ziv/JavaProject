@@ -13,8 +13,19 @@ import view.ClassInputDialog;
 
 
 
+
+/**
+ * The Class WritePropertiesGUI.
+ *  @author Eran & Ziv
+ */
 public class WritePropertiesGUI {
 	
+	/**
+	 * Write properties.
+	 *
+	 * @param shell the shell
+	 * @return the int
+	 */
 	public int writeProperties(Shell shell)
 	{
 		XMLEncoder e;

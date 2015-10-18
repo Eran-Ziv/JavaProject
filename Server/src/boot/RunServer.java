@@ -9,8 +9,17 @@ import server.ServerProperties;
 import server.UDPMazeServerRemoteControl;
 import view.ClassInputDialog;
 
+/**
+ * The Class RunServer.
+ *  @author Eran & Ziv
+ */
 public class RunServer {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		
 		Display display=new Display();

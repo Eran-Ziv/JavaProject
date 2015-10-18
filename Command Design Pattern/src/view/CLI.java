@@ -6,9 +6,10 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import controller.Command;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class CLI.
+ *  @author Eran & Ziv
  */
 public class CLI extends Thread {
 

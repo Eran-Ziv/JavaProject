@@ -9,6 +9,7 @@ import presenter.Command;
 
 /**
  * The Class CLI.
+ *  @author Eran & Ziv
  */
 public class CLI implements Runnable {
 

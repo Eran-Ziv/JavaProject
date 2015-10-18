@@ -6,6 +6,7 @@ import view.Drawable;
 /**
  * The Class Maze2dDrawableAdapter.
  * Object adapter for maze2d {@see Maze2d} and drawable interface{@see Drawable}
+ *  @author Eran & Ziv
  */
 public class Maze2dDrawableAdapter implements Drawable<int[][]> {
 

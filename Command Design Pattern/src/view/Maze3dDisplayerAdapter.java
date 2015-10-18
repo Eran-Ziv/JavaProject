@@ -2,9 +2,10 @@ package view;
 
 import java.io.PrintWriter;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Maze3dDisplayerAdapter.
+ *  @author Eran & Ziv
  */
 public class Maze3dDisplayerAdapter implements Displayer<int[][][]> {
 

@@ -5,11 +5,29 @@ import java.util.Observable;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
+
+/**
+ * The Class BasicWindow.
+ *  @author Eran & Ziv
+ */
 public abstract class BasicWindow extends Observable implements Runnable{
 
+	/** The display. */
 	Display display; 
+	
+	/** The shell. */
 	Shell shell;
 	
+	/**
+	 * Instantiates a new basic window.
+	 *
+	 * @param display the display
+	 * @param shell the shell
+	 * @param title the title
+	 * @param width the width
+	 * @param height the height
+	 */
 	public BasicWindow(Display display,Shell shell,String title, int width, int height) {
 		this.display=display;
 		this.shell=shell;
@@ -17,6 +35,13 @@ public abstract class BasicWindow extends Observable implements Runnable{
 		shell.setSize(width,height); //set window heights
 	}
 	
+	/**
+	 * Instantiates a new basic window.
+	 *
+	 * @param title the title
+	 * @param width the width
+	 * @param height the height
+	 */
 	public BasicWindow(String title, int width, int height) {
 		display=new Display(); // creates display
 		shell=new Shell(display); //creates a window inside the display
@@ -24,8 +49,14 @@ public abstract class BasicWindow extends Observable implements Runnable{
 		shell.setSize(width,height); //set window heights
 	}
 	
+	/**
+	 * Inits the widgets.
+	 */
 	abstract void initWidgets(); // a function that will be later implemented and will have all widgets inside the windows
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		initWidgets();
@@ -45,6 +76,11 @@ public abstract class BasicWindow extends Observable implements Runnable{
 		// System.exit(0);
 	}
 
+	/**
+	 * Gets the shell.
+	 *
+	 * @return the shell
+	 */
 	public Shell getShell() {
 		return shell;
 	}

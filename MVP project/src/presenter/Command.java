@@ -7,6 +7,7 @@ package presenter;
  * The command should be the tranclator between the view {@see View} and the model {@see Model},
  * the command is responsible for requesting a specific command from the model and send the output to the view.
  * Some commands should be writen in the view and will be displayed there.
+ *  @author Eran & Ziv
  */
 public interface Command {
 

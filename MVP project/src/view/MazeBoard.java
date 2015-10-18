@@ -23,36 +23,62 @@ import algorithms.mazeGenerators.Position;
 
 
 
+
+/**
+ * The Class MazeBoard.
+ *  @author Eran & Ziv
+ */
 public class MazeBoard extends CommonBoard {
 
 
+	/** The gifs. */
 	ImageLoader gifs=new ImageLoader();
 
+	/** The my maze. */
 	Maze3dDrawableAdapter myMaze;
 
+	/** The images. */
 	ImageData[] images;
 
+	/** The hints. */
 	boolean[][][] hints;
 
+	/** The user asked for solution. */
 	volatile boolean userAskedForSolution;
 
+	/** The frame index. */
 	int frameIndex=0;
 
+	/** The row source x. */
 	int rowSourceX;
 
+	/** The row goal x. */
 	int rowGoalX;
 
+	/** The col goal y. */
 	int colGoalY;
 
+	/** The col source y. */
 	int colSourceY;
 
+	/** The current floor z. */
 	int currentFloorZ;
 
+	/** The goal floor z. */
 	int goalFloorZ;
 
+	/** The position. */
 	Position position ;
+	
+	/** The flag. */
 	public boolean flag=true;
 
+	/**
+	 * Instantiates a new maze board.
+	 *
+	 * @param parent the parent
+	 * @param style the style
+	 */
 	public MazeBoard(Composite parent, int style) {
 		super(parent, style | SWT.DOUBLE_BUFFERED);
 		images=gifs.load(".\\resources\\images\\ChaosEmerald.gif"); 
@@ -60,6 +86,11 @@ public class MazeBoard extends CommonBoard {
 
 	}
 
+	/**
+	 * Sets the board data.
+	 *
+	 * @param maze the new board data
+	 */
 	private void setBoardData(Maze3dDrawableAdapter maze)
 	{
 		this.myMaze = maze;
@@ -118,6 +149,9 @@ public class MazeBoard extends CommonBoard {
 
 
 
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#destructBoard()
+	 */
 	public void destructBoard()
 	{
 		if(board!=null){
@@ -145,11 +179,13 @@ public class MazeBoard extends CommonBoard {
 			timer.cancel();
 
 	}
+	
 	/**
-	 * 
-	 * @param m the maze 
-	 * @param i row index
-	 * @param j col index
+	 * Cell image.
+	 *
+	 * @param maze the maze
+	 * @param x the x
+	 * @param y the y
 	 * @return the correct image
 	 * this function calculates which character image should be returned according to the walls surrounding the cell
 	 */
@@ -188,6 +224,9 @@ public class MazeBoard extends CommonBoard {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.Board#drawBoard(org.eclipse.swt.events.PaintEvent)
+	 */
 	@Override
 	public void drawBoard(PaintEvent arg0) {
 		if(board==null && won==false){ //displays the photo in the begining of the program as an intro
@@ -212,9 +251,11 @@ public class MazeBoard extends CommonBoard {
 					board[i][j].redraw();
 
 	}
+	
 	/**
 	 * Applys the direction in the maze
-	 * if right we try to go right
+	 * if right we try to go right.
+	 *
 	 * @param direction - in which we try to go in the maze
 	 */
 	@Override
@@ -278,6 +319,9 @@ public class MazeBoard extends CommonBoard {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#displayProblem(java.lang.Object)
+	 */
 	@Override
 	public void displayProblem(Object o) {
 		Maze3dDrawableAdapter maze=(Maze3dDrawableAdapter)o;
@@ -302,6 +346,12 @@ public class MazeBoard extends CommonBoard {
 
 
 	}
+	
+	/**
+	 * Schedule timer.
+	 *
+	 * @param maze the maze
+	 */
 	private void scheduleTimer(Maze3dDrawableAdapter maze)
 	{
 		Maze3d myMaze = maze.getData();
@@ -336,6 +386,9 @@ public class MazeBoard extends CommonBoard {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#hasPathUp(int, int)
+	 */
 	@Override
 	public boolean hasPathUp(int characterRow, int characterCol) {// add adapter and check with the maze func
 
@@ -348,6 +401,9 @@ public class MazeBoard extends CommonBoard {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#hasPathRight(int, int)
+	 */
 	@Override
 	public boolean hasPathRight(int characterRow, int characterCol) {
 		Maze3d maze = this.myMaze.getData();
@@ -361,6 +417,9 @@ public class MazeBoard extends CommonBoard {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#hasPathDown(int, int)
+	 */
 	@Override
 	public boolean hasPathDown(int characterRow, int characterCol) {
 		Maze3d maze = this.myMaze.getData();
@@ -372,6 +431,9 @@ public class MazeBoard extends CommonBoard {
 		return availble == 0; 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#hasPathLeft(int, int)
+	 */
 	@Override
 	public boolean hasPathLeft(int characterRow, int characterCol) {
 		Maze3d maze = this.myMaze.getData();
@@ -382,6 +444,9 @@ public class MazeBoard extends CommonBoard {
 		return availble == 0; 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#hasPathForward(int, int)
+	 */
 	@Override
 	public boolean hasPathForward(int characterRow, int characterCol) {
 		Maze3d maze = this.myMaze.getData();
@@ -393,6 +458,10 @@ public class MazeBoard extends CommonBoard {
 
 		return availble == 0; 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#hasPathBackward(int, int)
+	 */
 	@Override
 	public boolean hasPathBackward(int characterRow, int characterCol) {
 		Maze3d maze = this.myMaze.getData();
@@ -404,6 +473,10 @@ public class MazeBoard extends CommonBoard {
 
 		return availble == 0; 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.CommonBoard#displaySolution(algorithm.generic.Solution)
+	 */
 	@Override
 	public <T> void displaySolution(Solution<T> s) {
 		//String Solution = s.toString();
@@ -424,10 +497,21 @@ public class MazeBoard extends CommonBoard {
 
 	}
 
+	/**
+	 * Gets the current floor.
+	 *
+	 * @return the current floor
+	 */
 	public int getCurrentFloor() {
 		return currentFloorZ;
 	}
 
+	/**
+	 * Sets the floor.
+	 *
+	 * @param floor the floor
+	 * @param maze the maze
+	 */
 	public void setFloor(int floor, Maze3dDrawableAdapter maze) {
 
 		this.currentFloorZ = floor;
@@ -435,10 +519,20 @@ public class MazeBoard extends CommonBoard {
 
 	}
 
+	/**
+	 * Checks if is user asked for solution.
+	 *
+	 * @return true, if is user asked for solution
+	 */
 	public boolean isUserAskedForSolution() {
 		return userAskedForSolution;
 	}
 
+	/**
+	 * Sets the user asked for solution.
+	 *
+	 * @param userAskedForSolution the new user asked for solution
+	 */
 	public void setUserAskedForSolution(boolean userAskedForSolution) {
 
 		this.userAskedForSolution = true;

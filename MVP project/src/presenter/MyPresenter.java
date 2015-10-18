@@ -21,6 +21,7 @@ import model.Model;
  * The Class MyController.
  * Specific implementation of Controller {@see Controller}
  * Uses maze3d {@see Maze3d} for model.
+ *  @author Eran & Ziv
  */
 public class MyPresenter implements Presenter {
 

@@ -7,9 +7,10 @@ import java.util.HashMap;
 import algorithm.generic.Solution;
 import controller.Command;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class MyView.
+ *  @author Eran & Ziv
  */
 public class MyView implements View {
 

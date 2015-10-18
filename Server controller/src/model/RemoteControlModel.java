@@ -11,23 +11,43 @@ import java.util.concurrent.Executors;
 
 import presenter.RemoteControlProperties;
 
+
+/**
+ * The Class RemoteControlModel.
+ *  @author Eran & Ziv
+ */
 public class RemoteControlModel extends Observable implements Model {
 
 
+	/** The server properties. */
 	RemoteControlProperties serverProperties;
 
+	/** The socket. */
 	DatagramSocket socket;
 
+	/** The address. */
 	InetAddress address;
 
+	/** The client status. */
 	ConcurrentHashMap<String,String> clientStatus = new ConcurrentHashMap<String, String>();
 
+	/** The message data. */
 	String [] messageData;
 
+	/** The Remote server to server port. */
 	int RemoteServerToServerPort;
+	
+	/** The Exec. */
 	ExecutorService Exec=null;
+	
+	/** The shutdown. */
 	volatile boolean shutdown = true;
 
+	/**
+	 * Instantiates a new remote control model.
+	 *
+	 * @param serverProperties the server properties
+	 */
 	public RemoteControlModel(RemoteControlProperties serverProperties){
 		try {
 			this.serverProperties = serverProperties; //intializing the properties data member
@@ -41,6 +61,10 @@ public class RemoteControlModel extends Observable implements Model {
 		}
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see model.Model#getStatusClient(java.lang.String)
+	 */
 	@Override
 	public void getStatusClient(String client) {
 		String status = this.clientStatus.get(client.split(",")[0]+","+client.split(",")[1]);
@@ -51,6 +75,9 @@ public class RemoteControlModel extends Observable implements Model {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#DisconnectClient(java.lang.String)
+	 */
 	@Override
 	public void DisconnectClient(String client) {
 
@@ -75,6 +102,9 @@ public class RemoteControlModel extends Observable implements Model {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#StartServer()
+	 */
 	@Override
 	public void StartServer() {
 
@@ -179,6 +209,9 @@ public class RemoteControlModel extends Observable implements Model {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see model.Model#DisconnectServer()
+	 */
 	@Override
 	public void DisconnectServer() {
 
@@ -198,12 +231,18 @@ public class RemoteControlModel extends Observable implements Model {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#getData()
+	 */
 	@Override
 	public String[] getData() {
 
 		return this.messageData;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Model#exit()
+	 */
 	@Override
 	public void exit() {
 

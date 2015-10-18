@@ -13,25 +13,46 @@ import java.util.concurrent.Executors;
 import server.ServerProperties;
 
 
+
+/**
+ * The Class UDPMazeServerRemoteControl.
+ *  @author Eran & Ziv
+ */
 public class UDPMazeServerRemoteControl extends Observable implements Observer,Runnable{
 	
+	/** The handler. */
 	MazeClientHandler handler;
 	
+	/** The sender ip. */
 	InetAddress senderIP;
 	
+	/** The sender port. */
 	int senderPort;
 
+	/** The server socket. */
 	DatagramSocket serverSocket;
 	
+	/** The clients server. */
 	MazeServer clientsServer;
 	
+	/** The properties. */
 	ServerProperties properties;
 	
+	/** The executor. */
 	ExecutorService executor=Executors.newSingleThreadExecutor();
+	
+	/**
+	 * Instantiates a new UDP maze server remote control.
+	 *
+	 * @param properties the properties
+	 */
 	public UDPMazeServerRemoteControl(ServerProperties properties) {
 		this.properties=properties;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		try {
@@ -49,6 +70,9 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 		
 	}
 	
+	/**
+	 * Wait for start signal.
+	 */
 	private void waitForStartSignal()
 	{
 		
@@ -73,6 +97,9 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 		}
 	}
 	
+	/**
+	 * Initiate clients server.
+	 */
 	private void initiateClientsServer()
 	{
 		byte[] receiveData=new byte[1024];
@@ -113,6 +140,9 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 	
 	}
 	
+	/**
+	 * Handle clients server.
+	 */
 	private void handleClientsServer()
 	{
 		byte[] receiveData=new byte[1024];
@@ -171,6 +201,9 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 		executor.shutdownNow();
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if(o instanceof ClientHandler)

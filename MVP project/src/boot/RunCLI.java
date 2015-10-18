@@ -8,12 +8,21 @@ import generic.Preferences;
 import model.ClientModel;
 import model.MyModel;
 import presenter.MyPresenter;
-import view.MazeWindow;
+
 import view.MyCliView;
 
+/**
+ * The Class RunCLI.
+ * @author Eran & Ziv
+ */
 public class RunCLI {
 	
 
+	/**
+	 * Start program.
+	 *
+	 * @param preferences the preferences
+	 */
 	public void startProgram(Preferences preferences ) {
 
 		switch(preferences.getAccess()){

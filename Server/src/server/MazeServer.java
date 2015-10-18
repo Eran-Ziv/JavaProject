@@ -18,23 +18,36 @@ import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
 
-
-
-
+/**
+ * The Class MazeServer.
+ *  @author Eran & Ziv
+ */
 public class MazeServer extends MyTCPIPServer implements Runnable {
 
+	/** The name to maze. */
 	public ConcurrentHashMap<String, Maze3d> nameToMaze;
 
+	/** The name to file name. */
 	public ConcurrentHashMap<String, String> nameToFileName;
 
+	/** The name to solution. */
 	public ConcurrentHashMap<String, Solution<Position>>nameToSolution;
 
+	/** The maze to solution. */
 	public ConcurrentHashMap<Maze3d, Solution<Position>> mazeToSolution;
 
+	/** The my compressor. */
 	MyCompressorOutputStream myCompressor;
 
+	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
 	
+	/**
+	 * Instantiates a new maze server.
+	 *
+	 * @param serverProperties the server properties
+	 * @param clientHandler the client handler
+	 */
 	public MazeServer(ServerProperties serverProperties, MazeClientHandler clientHandler) {
 		super(serverProperties, clientHandler);
 		this.nameToFileName = new ConcurrentHashMap<String, String>();
@@ -48,6 +61,9 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see server.MyTCPIPServer#stoppedServer()
+	 */
 	@Override
 	public void stoppedServer() {
 		
@@ -70,6 +86,9 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 	
 	
 	
+	/**
+	 * Load.
+	 */
 	@SuppressWarnings("unchecked")
 	private void load()
 	{
@@ -91,6 +110,9 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 	
 	
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		startServer();

@@ -9,11 +9,14 @@ import presenter.RemoteControlCommand;
 
 
 
+
 /**
  * The Class CLI.
+ *  @author Eran & Ziv
  */
 public class CLI implements Runnable {
 
+	/** The runing. */
 	boolean runing = true;
 	
 	/** The out. */
@@ -22,10 +25,13 @@ public class CLI implements Runnable {
 	/** The in. */
 	private BufferedReader in;
 
+	/** The commands. */
 	private HashMap<String,RemoteControlCommand> commands;
 
+	/** The user command. */
 	RemoteControlCommand userCommand;
 
+	/** The view. */
 	View view;
 
 	/**
@@ -33,6 +39,7 @@ public class CLI implements Runnable {
 	 *
 	 * @param out the out
 	 * @param in the in
+	 * @param view the view
 	 */
 	public CLI(PrintWriter out, BufferedReader in, View view) {
 
@@ -77,16 +84,31 @@ public class CLI implements Runnable {
 		this.in = in;
 	}
 
+	/**
+	 * Sets the commands.
+	 *
+	 * @param commands the commands
+	 */
 	public void setCommands(HashMap<String, RemoteControlCommand> commands) {
 
 		this.commands = commands; 
 	}
 
 
+	/**
+	 * Gets the user command.
+	 *
+	 * @return the user command
+	 */
 	public RemoteControlCommand getUserCommand() {
 		return userCommand;
 	}
 
+	/**
+	 * Sets the user command.
+	 *
+	 * @param userCommand the new user command
+	 */
 	public void setUserCommand(RemoteControlCommand userCommand) {
 		this.userCommand = userCommand;
 	}
@@ -144,10 +166,20 @@ public class CLI implements Runnable {
 
 	}
 
+	/**
+	 * Checks if is runing.
+	 *
+	 * @return true, if is runing
+	 */
 	public boolean isRuning() {
 		return runing;
 	}
 
+	/**
+	 * Sets the runing.
+	 *
+	 * @param runing the new runing
+	 */
 	public void setRuning(boolean runing) {
 		this.runing = runing;
 	}

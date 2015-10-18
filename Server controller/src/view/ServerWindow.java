@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -32,28 +31,56 @@ import presenter.RemoteControlCommand;
 import presenter.RemoteControlProperties;
 import boot.RunGui;
 
+
+/**
+ * The Class ServerWindow.
+ *  @author Eran & Ziv
+ */
 public class ServerWindow extends BasicWindow implements View {
 
+	/** The clients. */
 	String [] clients;
 
+	/** The status. */
 	Text status;
 
+	/** The server properties. */
 	RemoteControlProperties serverProperties;
 
+	/** The command map. */
 	ConcurrentHashMap<String, RemoteControlCommand> commandMap=new ConcurrentHashMap<String, RemoteControlCommand>();
 
+	/** The last command. */
 	RemoteControlCommand lastCommand =null;
 
+	/** The Data from model. */
 	String DataFromModel=null;
 
+	/** The list. */
 	List list;
 
+	/**
+	 * Instantiates a new server window.
+	 *
+	 * @param title the title
+	 * @param width the width
+	 * @param height the height
+	 */
 	public ServerWindow(String title, int width, int height) {
 		super(title, width, height);
 		shell.setBackgroundImage(new Image(display,".\\resources\\images\\matrix1.jpg")); //setting the image and some music:)
 		shell.setBackgroundMode(SWT.INHERIT_FORCE);
 	}
 
+	/**
+	 * Instantiates a new server window.
+	 *
+	 * @param title the title
+	 * @param width the width
+	 * @param height the height
+	 * @param display the display
+	 * @param shell the shell
+	 */
 	public ServerWindow(String title, int width, int height,Display display,Shell shell) {
 		super(display,shell,title, width, height);
 		shell.setBackgroundImage(new Image(display,".\\resources\\images\\matrix.gif")); //setting the image and some music:)
@@ -61,6 +88,9 @@ public class ServerWindow extends BasicWindow implements View {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see view.BasicWindow#initWidgets()
+	 */
 	@Override
 	void initWidgets() {
 
@@ -150,6 +180,7 @@ public class ServerWindow extends BasicWindow implements View {
 		list.addSelectionListener(new SelectionListener() { //on selection show status
 			public void widgetSelected(SelectionEvent event) {
 				String[] selectedClients = list.getSelection(); //get all clients selcted
+				@SuppressWarnings("unused")
 				String outString = "";
 
 				if(selectedClients.length>1)
@@ -215,6 +246,9 @@ public class ServerWindow extends BasicWindow implements View {
 	}
 
 
+	/**
+	 * Inits the menu.
+	 */
 	private void initMenu() {
 		Menu menuBar = new Menu(shell, SWT.BAR);
 		//creates a file category in toolbar
@@ -313,6 +347,11 @@ public class ServerWindow extends BasicWindow implements View {
 
 	}
 
+	/**
+	 * Sets the properties.
+	 *
+	 * @param filename the new properties
+	 */
 	private void setProperties(String filename) {//sets properties from a certain file
 
 		FileInputStream in;
@@ -328,6 +367,11 @@ public class ServerWindow extends BasicWindow implements View {
 
 	}
 
+	/**
+	 * Read properties.
+	 *
+	 * @return the remote control properties
+	 */
 	public static RemoteControlProperties readProperties()
 	{
 		XMLDecoder d;
@@ -344,17 +388,26 @@ public class ServerWindow extends BasicWindow implements View {
 		return p;
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#getCommand()
+	 */
 	@Override
 	public RemoteControlCommand getCommand() {
 		return this.lastCommand;
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#setCommands(java.util.concurrent.ConcurrentHashMap)
+	 */
 	@Override
 	public void setCommands(ConcurrentHashMap<String, RemoteControlCommand> commandMap) {
 		this.commandMap=commandMap;
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#Display(java.lang.String)
+	 */
 	@Override
 	public void Display(String msg) {
 		display.asyncExec(new Runnable(){
@@ -373,6 +426,9 @@ public class ServerWindow extends BasicWindow implements View {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#DisplayStatus(java.lang.String)
+	 */
 	@Override
 	public void DisplayStatus(String msg) {
 		display.asyncExec(new Runnable(){
@@ -388,12 +444,18 @@ public class ServerWindow extends BasicWindow implements View {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#saveData(java.lang.String)
+	 */
 	@Override
 	public void saveData(String data) {
 		this.DataFromModel=data;
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#addClient(java.lang.String)
+	 */
 	@Override
 	public void addClient(String Client) {
 		display.asyncExec(new Runnable(){
@@ -409,6 +471,9 @@ public class ServerWindow extends BasicWindow implements View {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#removeClient(java.lang.String)
+	 */
 	@Override
 	public void removeClient(String Client) {
 		display.asyncExec(new Runnable(){
@@ -426,6 +491,9 @@ public class ServerWindow extends BasicWindow implements View {
 		});
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#setUserCommand(presenter.RemoteControlCommand)
+	 */
 	@Override
 	public void setUserCommand(RemoteControlCommand userCommand) {
 

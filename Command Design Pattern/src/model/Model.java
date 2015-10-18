@@ -4,9 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import algorithms.mazeGenerators.Searchable;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface Model.
+ *  @author Eran & Ziv
  */
 public interface Model {
 

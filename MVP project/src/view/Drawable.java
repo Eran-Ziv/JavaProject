@@ -1,6 +1,6 @@
 package view;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface Drawable.
  * This interface define the behavior of an object that can be displayed.
@@ -10,6 +10,7 @@ package view;
  * The getData() method will return a generic value for the displayer to use.
  *
  * @param <T> the generic type
+ *  @author Eran & Ziv
  */
 public interface Drawable<T> {
 

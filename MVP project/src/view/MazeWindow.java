@@ -32,32 +32,62 @@ import generic.LoadPrefernces;
 import generic.Preferences;
 import presenter.Command;
 
+/**
+ * The Class MazeWindow.
+ *  @author Eran & Ziv
+ */
 public class MazeWindow extends BasicWindow implements View {
 
+	/** The commands. */
 	protected HashMap<String, Command>  commands;
 
+	/** The Last user command. */
 	protected Command LastUserCommand =null;
 
+	/** The board widget. */
 	CommonBoard boardWidget;
 
+	/** The preferences. */
 	Preferences preferences;
 
 
+	/** The maze name. */
 	String mazeName=null;
 
+	/** The data recieved. */
 	Maze3d dataRecieved=null; 
 
+	/** The input. */
 	MazeProperties input;
 
+	/**
+	 * Instantiates a new maze window.
+	 *
+	 * @param display the display
+	 * @param shell the shell
+	 * @param title the title
+	 * @param width the width
+	 * @param height the height
+	 */
 	public MazeWindow(Display display,Shell shell,String title, int width, int height) {
 		super(display,shell,title,width,height);
 	}
 
+	/**
+	 * Instantiates a new maze window.
+	 *
+	 * @param title the title
+	 * @param width the width
+	 * @param height the height
+	 */
 	public MazeWindow(String title, int width, int height) {
 		super(title, width, height);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see view.BasicWindow#initWidgets()
+	 */
 	@Override
 	void initWidgets() {
 		shell.addListener(SWT.Close,new Listener(){
@@ -396,6 +426,11 @@ public class MazeWindow extends BasicWindow implements View {
 
 	}
 
+	/**
+	 * Sets the properties.
+	 *
+	 * @param filename the new properties
+	 */
 	protected void setProperties(String filename) {
 
 		FileInputStream in;
@@ -410,11 +445,18 @@ public class MazeWindow extends BasicWindow implements View {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see view.View#dirCommand(java.lang.String)
+	 */
 	@Override
 	public void dirCommand(String fileName) {
 		// not relevant for this view
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#displayModel(view.Drawable)
+	 */
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
 		boardWidget.won = false;
@@ -424,22 +466,38 @@ public class MazeWindow extends BasicWindow implements View {
 		boardWidget.displayProblem(draw);
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#displayCrossSectionBy(view.Drawable)
+	 */
 	@Override
 	public <T> void displayCrossSectionBy(Drawable<T> draw) {
 		// TODO Auto-generated method stub
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#displaySolution(algorithm.generic.Solution)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> void displaySolution(Solution<T> solution) {
 		boardWidget.displaySolution((Solution<Position>)solution);
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#setCommands(java.util.HashMap)
+	 */
 	@Override
 	public void setCommands(HashMap<String, Command> commands) {
 		this.commands=commands;
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#displayString(java.lang.String)
+	 */
 	@Override
 	public void displayString(String toPrint) {
 		if(!boardWidget.isDisposed()){
@@ -449,11 +507,19 @@ public class MazeWindow extends BasicWindow implements View {
 			messageBox.open();
 		}
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#getUserCommand()
+	 */
 	@Override
 	public Command getUserCommand() {
 
 		return LastUserCommand;
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#setUserCommand(presenter.Command)
+	 */
 	@Override
 	public void setUserCommand(Command command) {
 		LastUserCommand= command;
@@ -461,6 +527,10 @@ public class MazeWindow extends BasicWindow implements View {
 		notifyObservers("New command"); 
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#exit()
+	 */
 	@Override
 	public void exit() {
 		if(boardWidget!=null){
@@ -470,16 +540,30 @@ public class MazeWindow extends BasicWindow implements View {
 		}
 
 	}
+	
+	/* (non-Javadoc)
+	 * @see view.View#start()
+	 */
 	@Override
 	public void start() {
 		this.run();
 
 	}
 
+	/**
+	 * Gets the preferences.
+	 *
+	 * @return the preferences
+	 */
 	public Preferences getPreferences() {
 		return preferences;
 	}
 
+	/**
+	 * Sets the preferences.
+	 *
+	 * @param preferences the new preferences
+	 */
 	public void setPreferences(Preferences preferences) {
 		this.preferences = preferences;
 	}

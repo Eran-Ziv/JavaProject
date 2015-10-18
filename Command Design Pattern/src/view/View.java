@@ -5,9 +5,10 @@ import java.util.HashMap;
 import algorithm.generic.Solution;
 import controller.Command;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Interface View.
+ *  @author Eran & Ziv
  */
 public interface View {
 

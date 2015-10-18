@@ -10,8 +10,20 @@ import org.eclipse.swt.widgets.Shell;
 import presenter.RemoteControlProperties;
 
 
+
+/**
+ * The Class WriteServerPropertiesGUI.
+ *  @author Eran & Ziv
+ */
 public class WriteServerPropertiesGUI {
 	
+	/**
+	 * Write properties.
+	 *
+	 * @param display the display
+	 * @param shell the shell
+	 * @return the int
+	 */
 	public int writeProperties(Display display, Shell shell)
 	{
 		XMLEncoder e;
