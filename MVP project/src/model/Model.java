@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import algorithm.generic.Solution;
+import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Searchable;
 
 // TODO: Auto-generated Javadoc
@@ -45,7 +46,7 @@ public interface Model {
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @throws FileNotFoundException the file not found exception
 	 */
-	public void loadModel(String fileName, String name) throws IOException, FileNotFoundException;
+	public Maze3d loadModel(String fileName, String name) throws IOException, FileNotFoundException;
 	
 	/**
 	 * Solve model.

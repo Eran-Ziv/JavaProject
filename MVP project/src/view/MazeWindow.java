@@ -28,6 +28,7 @@ import boot.Run;
 import boot.RunCLI;
 import boot.RunGUI;
 import boot.WritePropertiesGUI;
+import generic.LoadPrefernces;
 import generic.Preferences;
 import presenter.Command;
 
@@ -236,10 +237,18 @@ public class MazeWindow extends BasicWindow implements View {
 		//button that solves the maze
 		//creates an instance of boardWidget
 		boardWidget=new MazeBoard(shell, SWT.NONE);// CommonBoard f(x)
-		boardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,3));
+		boardWidget.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,4));
 		Button solveMaze = new Button (shell ,SWT.PUSH);
 		solveMaze.setText("Solve the maze I give up");
-		solveMaze.setLayoutData(new GridData(SWT.NONE,SWT.NONE,false,false,1,1));
+		solveMaze.setLayoutData(new GridData(SWT.FILL,SWT.FILL,false,false,1,1));
+		
+		Button saveMaze = new Button (shell ,SWT.PUSH);
+		saveMaze.setText("Save maze");
+		saveMaze.setLayoutData(new GridData(SWT.FILL,SWT.FILL,false,false,1,1));
+		
+		Button loadMaze = new Button (shell ,SWT.PUSH);
+		loadMaze.setText("Load maze");
+		loadMaze.setLayoutData(new GridData(SWT.FILL,SWT.None,false,false,1,1));
 
 		generateButton.addSelectionListener(new SelectionListener() {
 
@@ -255,7 +264,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 				if(tempInput!=null)
 				{
-
+					mazeName=input.getMazeName();
 					input=tempInput;
 					String z = "" +input.getFloors();
 					String x = "" + input.getRows();
@@ -297,9 +306,9 @@ public class MazeWindow extends BasicWindow implements View {
 
 
 
-				if(input.getMazeName()!=null && !boardWidget.won){
+				if(mazeName!=null && !boardWidget.won){
 
-					String [] args= {"solve",input.getMazeName()};
+					String [] args= {"solve",mazeName};
 					Command command= commands.get("solve");
 					command.setArguments(args);
 					setUserCommand(command);
@@ -315,6 +324,76 @@ public class MazeWindow extends BasicWindow implements View {
 			}
 
 		});	
+
+		saveMaze.addSelectionListener(new SelectionListener(){
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+
+
+
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+
+
+				try{
+					mazeName=input.getMazeName();
+					String [] args= {"save", "maze" ,input.getMazeName(),input.getMazeName()+".txt"};
+					Command command= commands.get("save");
+					command.setArguments(args);
+					setUserCommand(command);
+					boardWidget.forceFocus();
+
+
+				}
+				catch (NullPointerException e) {
+					MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
+					messageBox.setText("Information");
+					messageBox.setMessage("There is no maze name");
+					messageBox.open();
+					
+					boardWidget.forceFocus();
+				}
+			}
+		});	
+		
+		loadMaze.addSelectionListener(new SelectionListener(){
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) {
+
+
+
+			}
+
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+
+
+				try{
+					ClassInputDialog dlg = new ClassInputDialog(shell,LoadPrefernces.class);
+					LoadPrefernces tempInput=(LoadPrefernces)dlg.open();
+					mazeName=tempInput.mazeName;
+					String [] args= {"load", "maze" ,tempInput.fileName,tempInput.mazeName};
+					Command command= commands.get("load");
+					command.setArguments(args);
+					setUserCommand(command);
+					
+
+
+				}
+				catch (NullPointerException e) {
+					MessageBox messageBox = new MessageBox(shell,SWT.ICON_INFORMATION|SWT.OK);
+					messageBox.setText("Information");
+					messageBox.setMessage("Can not load maze");
+					messageBox.open();
+					boardWidget.forceFocus();
+				}
+			}
+		});	
+
 	}
 
 	protected void setProperties(String filename) {

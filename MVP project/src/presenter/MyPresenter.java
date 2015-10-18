@@ -481,6 +481,10 @@ public class MyPresenter implements Presenter {
 			case Constant.MODEL_LOADED:
 
 				view.displayString(Constant.MODEL_LOADED);
+				Searchable<Position> maze3d = model.getNameToModel(args[1]);
+				Maze3dSearchableAdapter myMaze3d = (Maze3dSearchableAdapter) maze3d;
+				Maze3dDrawableAdapter maze3dDrew = new Maze3dDrawableAdapter(myMaze3d.getMaze());
+				view.displayModel(maze3dDrew);
 
 
 				break;

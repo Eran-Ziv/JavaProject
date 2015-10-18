@@ -301,7 +301,7 @@ public class MyModel extends Observable implements Model  {
 	 * @see model.Model#loadModel(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void loadModel(String fileName, String name) throws IOException, FileNotFoundException{
+	public Maze3d loadModel(String fileName, String name) throws IOException, FileNotFoundException{
 
 		ArrayList<Byte> myStream = new ArrayList<Byte>();
 		byte [] byteArray = new byte[1024];
@@ -322,8 +322,11 @@ public class MyModel extends Observable implements Model  {
 		Maze3d myMaze = new Maze3d(data);
 		nameToMaze.put(name, myMaze);
 		constantArgs[0] = Constant.MODEL_LOADED; 
+		constantArgs[1]= name;
 		setChanged();
 		notifyObservers(constantArgs);
+		
+		return myMaze;
 	}
 
 

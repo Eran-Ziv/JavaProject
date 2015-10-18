@@ -76,10 +76,11 @@ public class ClientModel extends Observable implements Model {
 
 
 	@Override
-	public void loadModel(String fileName, String name) throws IOException, FileNotFoundException {
+	public Maze3d loadModel(String fileName, String name) throws IOException, FileNotFoundException {
 		this.myMaze = null;
 		String data = name + " " + fileName;
 		this.myMaze = (Maze3d)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.LOAD_MAZE, data, "");
+		return this.myMaze;
 
 	}
 
