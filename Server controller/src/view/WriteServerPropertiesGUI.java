@@ -22,7 +22,7 @@ public class WriteServerPropertiesGUI {
 	    if (input != null) {
 	      // User clicked OK; set the text into the label
 	    	try {
-				e = new XMLEncoder(new FileOutputStream("properties.xml"));
+				e = new XMLEncoder(new FileOutputStream(".\\resources\\config\\properties.xml"));
 				e.writeObject(input);
 				e.flush();
 				e.close();

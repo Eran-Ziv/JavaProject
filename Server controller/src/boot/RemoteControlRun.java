@@ -9,17 +9,13 @@ import org.eclipse.swt.widgets.Shell;
 import presenter.Presenter;
 import view.ServerWindow;
 import view.WriteServerPropertiesGUI;
-/**
- * 
- * @author Alon
- *The main class used to execute the program
- */
+
 public class RemoteControlRun {
 
 	public static void main(String[] args) {
 		
 		WriteServerPropertiesGUI sp = new WriteServerPropertiesGUI(); 
-		Display display= new Display();
+		Display display= new Display(); 
 		Shell shell=new Shell(display); 
 		sp.writeProperties(display, shell); 
 		ServerWindow SE= new ServerWindow("Remote maze client",500,500,display,shell);
