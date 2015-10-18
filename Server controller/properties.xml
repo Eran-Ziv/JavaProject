@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.8.0_51" class="java.beans.XMLDecoder">
+<java version="1.8.0_25" class="java.beans.XMLDecoder">
  <object class="presenter.RemoteControlProperties">
   <void property="IP">
    <string>127.0.0.1</string>
   </void>
   <void property="numOfClients">
-   <int>10</int>
+   <int>12</int>
   </void>
   <void property="portOnWhichServerListens">
    <int>5400</int>
@@ -14,7 +14,7 @@
    <int>8090</int>
   </void>
   <void property="remoteControlPortListener">
-   <int>5600</int>
+   <int>6666</int>
   </void>
  </object>
 </java>

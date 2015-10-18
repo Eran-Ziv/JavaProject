@@ -99,7 +99,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				break;
 
 			case ServerConstant.GET_MODEL_SIZE_IN_MEMORY:
-				
+
 				readerFromClient.readLine();//empty
 				data = readerFromClient.readLine();
 				message=clientIP+ ","+clientPort+ "," +ServerConstant.GET_MODEL_SIZE_IN_MEMORY ;
@@ -159,7 +159,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				notifyObservers();
 				params = ParseLoadMaze(data);
 
-				outputCompressedToClient.writeObject(loadMaze(params[0], params[1]));
+				outputCompressedToClient.writeObject(loadMaze(params[1], params[0]));
 				outputCompressedToClient.flush();
 				setChanged();
 				notifyObservers();
@@ -176,8 +176,8 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				setChanged();
 				notifyObservers();
 				params = ParseSaveMaze(data);
-
-				outputCompressedToClient.writeObject(SaveMaze(params[0], params[1]));
+				String []args=SaveMaze(params[0], params[1]);
+				outputCompressedToClient.writeObject(args);
 				outputCompressedToClient.flush();
 				setChanged();
 				notifyObservers();
@@ -207,7 +207,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				break;
 
 			case ServerConstant.GET_CROSS_SECTION:
-				
+
 				readerFromClient.readLine();//empty
 				data = readerFromClient.readLine();
 				message=clientIP+ ","+clientPort+ "," +ServerConstant.GET_CROSS_SECTION;
@@ -223,7 +223,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				messages.remove(message);
 
 				break;
-				
+
 			default:
 				message=clientIP+ ","+clientPort+ "," +"Invalid command";
 				messages.add(message);
@@ -233,7 +233,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 				outputCompressedToClient.flush();
 
 			}
-			
+
 
 		} catch (Exception e1) {
 
@@ -246,15 +246,15 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 		setChanged();
 		notifyObservers();
 		messages.remove(last);
-		
+
 	}
 
 	private String[] ParseCroosMaze(String data) {
-		
+
 		return data.split(",");
 	}
 	private Object getCrossSection(String name, String dimention, int section) {
-		
+
 		Maze3d maze3d=server.nameToMaze.get(name);
 
 		if(maze3d == null){
@@ -297,7 +297,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			return null;
 		}
 	}
-	
+
 	private String [] SaveMaze(String name, String fileName) {
 
 
@@ -332,18 +332,20 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 	}
 
 	private String[] ParseSaveMaze(String data) {
-		return data.split(",");
+		return data.split(" ");
 	}
 
 	private Maze3d loadMaze(String fileName, String name) throws IOException {
-		
+
 		String path = ".\\resources\\mazes\\";
 		ArrayList<Byte> myStream = new ArrayList<Byte>();
 		byte [] byteArray = new byte[1024];
-		
+
 		MyDecompressorInputStream myDecompressor = new MyDecompressorInputStream(new FileInputStream(path+fileName));
+		server.myDecompressor=myDecompressor;
 		while(server.myDecompressor.read(byteArray) > 0){
 
+			
 			for (byte b : byteArray) {
 				myStream.add(b);
 			}
@@ -359,7 +361,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 	}
 
 	private String[] ParseLoadMaze(String data) {
-		return data.split(",");
+		return data.split(" ");
 
 	}
 
@@ -400,12 +402,12 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 	public Maze3d generateMaze(String name, String x, String y, String z, String generator ) {
 		try{
-			
-		if(server.nameToMaze.containsKey(name))
-			return server.nameToMaze.get(name);
 
-		Maze3d maze3d= null;
-		
+			if(server.nameToMaze.containsKey(name))
+				return server.nameToMaze.get(name);
+
+			Maze3d maze3d= null;
+
 			switch(generator){
 
 			case "DFS":
@@ -435,7 +437,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 		{
 			return null;
 		}
-		
+
 		if(server.mazeToSolution.containsKey(m))
 		{
 			ArrayList<State<Position>> Arraysolution = server.mazeToSolution.get(m).getSolution();
@@ -489,7 +491,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			if(arg.toString().contains("disconnect"))
 			{
 				Socket clientToDisconnect=activeConnections.get(arg.toString().substring(0, arg.toString().length()-"disconnect".length()-1));
-				
+
 				try{
 					clientToDisconnect.close();
 				}catch(Exception e)
