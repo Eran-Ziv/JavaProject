@@ -66,8 +66,8 @@ public class ClientModel extends Observable implements Model {
 
 		String data = name + " " + fileName;
 
-		String valid = (String)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.SAVE_MAZE, data, "");
-		constantArgs[0] = valid;
+		String []valid = (String[]) queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.SAVE_MAZE, data, "");
+		constantArgs[0] = valid[0];
 		constantArgs[1] = fileName;
 		setChanged();
 		notifyObservers(constantArgs);
@@ -79,6 +79,10 @@ public class ClientModel extends Observable implements Model {
 		this.myMaze = null;
 		String data = name + " " + fileName;
 		this.myMaze = (Maze3d)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.LOAD_MAZE, data, "");
+		constantArgs[0] = Constant.MODEL_LOADED;
+		constantArgs[1] = name;
+		setChanged();
+		notifyObservers(constantArgs);
 		return this.myMaze;
 
 	}
