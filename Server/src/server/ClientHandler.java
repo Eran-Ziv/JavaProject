@@ -5,13 +5,12 @@ import java.net.Socket;
 
 
 /**
- * The Interface ClientHandler.
- *  @author Eran & Ziv
+ * The Interface ClientHandler. This interface is describing a general handalling of a client.
  */
 public interface ClientHandler {
-	
+
 	/**
-	 * Handle client.
+	 * Handle client. This function will be implemented in order to determine the behavior of a recieved client.
 	 *
 	 * @param client the client
 	 */

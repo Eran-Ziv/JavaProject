@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 
 /**
  * The Class Maze2dDisplayerAdapter.
- *  @author Eran & Ziv
  */
 public class Maze2dDisplayerAdapter implements Displayer<int[][]> {
 

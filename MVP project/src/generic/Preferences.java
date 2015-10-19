@@ -6,16 +6,15 @@ import java.io.Serializable;
 
 
 /**
- * The Class Preferences.
- *  @author Eran & Ziv
+ * The Class Preferences. Represent the client Preferences.
  */
 public class Preferences implements Serializable{
 
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
-	
+
+
 
 	/**
 	 * The Enum MazeGenerator.
@@ -51,7 +50,7 @@ EUCLIDIAN_ASTAR,
 /** The bfs. */
 BFS
 	}
-	
+
 	/**
 	 * The Enum Access.
 	 */
@@ -80,25 +79,25 @@ BFS
 
 	/** The solver. */
 	public MazeSolver solver;
-	
+
 	/** The access. */
 	public Access access;
-	
-	
+
+
 
 	/**
 	 * Instantiates a new preferences.
 	 */
 	public Preferences() {
-		
+
 		this.poolSize = Constant.DEFAULT_POOL_SIZE;
 		this.ui = UI.CLI;
 		this.generator = MazeGenerator.DFS;
 		this.solver = MazeSolver.BFS;
 		this.access = Access.LOCAL;
 	}
-	
-	
+
+
 
 	/**
 	 * Instantiates a new preferences.
@@ -112,7 +111,7 @@ BFS
 	 */
 	public Preferences(int poolSize, String serverIP, int serverPort,
 			MazeGenerator generator, UI ui, MazeSolver solver) {
-		 
+
 		this.poolSize = poolSize;
 		this.serverIP = serverIP;
 		this.serverPort = serverPort;

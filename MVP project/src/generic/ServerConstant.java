@@ -1,12 +1,11 @@
 package generic;
 
-
+// TODO: Auto-generated Javadoc
 /**
  * The Class ServerConstant.
- *  @author Eran & Ziv
  */
 public class ServerConstant {
-	
+
 	/** The Constant GET_MODEL_SIZE_IN_MEMORY. */
 	public static final String GET_MODEL_SIZE_IN_MEMORY = "get file size in memory";
 	

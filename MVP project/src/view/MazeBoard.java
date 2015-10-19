@@ -20,9 +20,9 @@ import algorithm.generic.State;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 
+
 /**
- * The Class MazeBoard.
- *  @author Eran & Ziv
+ * The Class MazeBoard. A spesific implementation for a maze board, extending from CommonBoard {@see CommonBoard} this class is taking care of the operation of a maze board.
  */
 public class MazeBoard extends CommonBoard {
 
@@ -97,7 +97,7 @@ public class MazeBoard extends CommonBoard {
 				if(board!=null)
 					a.destructBoard(); // destory previous maze if exists 
 				Maze3d myMaze = maze.getData();
-				
+
 
 				boardRowsX=myMaze.getLength(); //gets maze rows and cols
 				boardColsY = myMaze.getWidth();
@@ -161,8 +161,8 @@ public class MazeBoard extends CommonBoard {
 						( board[i][j]).getGoal().dispose();
 					if(( board[i][j]).getCharacter()!=null)
 						( board[i][j]).getCharacter().dispose();
-						 if(( board[i][j]).getHint()!=null)
-							 ( board[i][j]).getHint().dispose();
+					if(( board[i][j]).getHint()!=null)
+						( board[i][j]).getHint().dispose();
 
 					if(character!=null)
 						character.dispose();
@@ -237,9 +237,9 @@ public class MazeBoard extends CommonBoard {
 
 			flag=true;
 			setVisible(false);
-			
-			
-			
+
+
+
 		}
 		else if(board!=null)
 			for(int i=0;i<board.length;i++)
@@ -351,7 +351,7 @@ public class MazeBoard extends CommonBoard {
 	private void scheduleTimer(Maze3dDrawableAdapter maze)
 	{
 		Maze3d myMaze = maze.getData();
-		
+
 		TimerTask  timerTask = new TimerTask() {
 
 			@Override
@@ -551,24 +551,31 @@ public class MazeBoard extends CommonBoard {
 					layout();
 					forceFocus();
 				}
-				
+
 			});
-			}
-			else{
-				this.userAskedForSolution = false;
+
+		}
+
+		else{
+			this.userAskedForSolution = false;
+			if(hints !=null)
+			{
 				for (int i = 0; i < hints.length; i++) {
 					for (int j = 0; j < hints[i].length; j++) {
-						for (int w = 0; w < hints[i][j].length; w++) {
+						for (int w = 0; w < hints[i][j].length; w++){
 							hints[i][j][w] = false;
+
 						}
-						
+
+
 					}
-					
+
 				}
 			}
+		}
 
-		
 	}
+
 
 }
 

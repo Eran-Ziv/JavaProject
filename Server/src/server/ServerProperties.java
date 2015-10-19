@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * The Class ServerProperties.
- *  @author Eran & Ziv
+ * The Class ServerProperties. Represents the server property.
  */
 public class ServerProperties implements Serializable {
 	
@@ -35,7 +34,7 @@ public class ServerProperties implements Serializable {
 		this.port=port;
 		this.numOfClients=numOfClients;
 	}
-	
+
 	/**
 	 * Gets the port.
 	 *

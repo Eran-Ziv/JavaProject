@@ -26,8 +26,17 @@ import view.MyCliView;
 
 
 
+
+/**
+ * The Class Run. This is the main program run.
+ */
 public class Run {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 
 
@@ -102,6 +111,11 @@ public class Run {
 
 	}
 
+	/**
+	 * Read preferences.
+	 *
+	 * @return the preferences
+	 */
 	public static Preferences readPreferences()
 	{
 		XMLDecoder d;

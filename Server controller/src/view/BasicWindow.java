@@ -7,8 +7,8 @@ import org.eclipse.swt.widgets.Shell;
 
 
 /**
- * The Class BasicWindow.
- *  @author Eran & Ziv
+ * The Class BasicWindow. The Class BasicWindow. This class represent a basic window with the main event loop, 
+ * the abstract method, initWidget() should be implemented in order to fill the window
  */
 public abstract class BasicWindow extends Observable implements Runnable{
 
@@ -47,12 +47,12 @@ public abstract class BasicWindow extends Observable implements Runnable{
 		shell.setText(title);
 		shell.setSize(width,height); 
 	}
-	
+
 	/**
 	 * Inits the widgets.
 	 */
 	abstract void initWidgets();
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
@@ -60,17 +60,17 @@ public abstract class BasicWindow extends Observable implements Runnable{
 	public void run() {
 		initWidgets();
 		shell.open();
-		
-		 while(!shell.isDisposed()){
 
-		    if(!display.readAndDispatch()){ 	
-		       display.sleep(); 			
-		    }
+		while(!shell.isDisposed()){
 
-		 } 
+			if(!display.readAndDispatch()){ 	
+				display.sleep(); 			
+			}
 
-		 display.dispose();
-		
+		} 
+
+		display.dispose();
+
 	}
 
 }

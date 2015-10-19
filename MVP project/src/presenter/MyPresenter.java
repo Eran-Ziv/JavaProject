@@ -17,11 +17,11 @@ import view.View;
 import model.Model;
 
 
+
 /**
  * The Class MyController.
  * Specific implementation of Controller {@see Controller}
  * Uses maze3d {@see Maze3d} for model.
- *  @author Eran & Ziv
  */
 public class MyPresenter implements Presenter {
 
@@ -68,6 +68,9 @@ public class MyPresenter implements Presenter {
 	}
 
 
+	/**
+	 * The Class SolveModelCommand.
+	 */
 	public class SolveModelCommand implements Command{
 
 		/** The args. */
@@ -99,6 +102,10 @@ public class MyPresenter implements Presenter {
 			}
 
 		}
+		
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -151,6 +158,9 @@ public class MyPresenter implements Presenter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -164,6 +174,7 @@ public class MyPresenter implements Presenter {
 	 */
 	public class DirCommand implements Command{
 
+		/** The args. */
 		String[] args;
 
 		/* (non-Javadoc)
@@ -184,6 +195,9 @@ public class MyPresenter implements Presenter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -196,6 +210,7 @@ public class MyPresenter implements Presenter {
 	 */
 	public class DisplayModelCommand implements Command{
 
+		/** The args. */
 		String[] args;
 
 		/* (non-Javadoc)
@@ -271,6 +286,9 @@ public class MyPresenter implements Presenter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -283,6 +301,7 @@ public class MyPresenter implements Presenter {
 	 */
 	public class SaveModelCommand implements Command{
 
+		/** The args. */
 		String[] args;
 
 		/* (non-Javadoc)
@@ -298,6 +317,9 @@ public class MyPresenter implements Presenter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -310,6 +332,7 @@ public class MyPresenter implements Presenter {
 	 */
 	public class LoadModelCommand implements Command{
 
+		/** The args. */
 		String[] args;
 		/* (non-Javadoc)
 		 * @see controller.Command#doCommand(java.lang.String[])
@@ -326,6 +349,10 @@ public class MyPresenter implements Presenter {
 				view.displayString("Invalid input");
 			}
 		}
+		
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -338,6 +365,7 @@ public class MyPresenter implements Presenter {
 	 */
 	public class ModelSizeInMemoryCommand implements Command{
 
+		/** The args. */
 		String[] args;
 
 		/* (non-Javadoc)
@@ -362,6 +390,9 @@ public class MyPresenter implements Presenter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -374,6 +405,7 @@ public class MyPresenter implements Presenter {
 	 */
 	public class ModelSizeInFileCommand implements Command{
 
+		/** The args. */
 		String[] args;
 
 		/* (non-Javadoc)
@@ -390,6 +422,9 @@ public class MyPresenter implements Presenter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -402,6 +437,7 @@ public class MyPresenter implements Presenter {
 	 */
 	public class ExitCommand implements Command{
 
+		/** The args. */
 		String[] args;
 
 		/* (non-Javadoc)
@@ -418,6 +454,9 @@ public class MyPresenter implements Presenter {
 			}
 		}
 
+		/* (non-Javadoc)
+		 * @see presenter.Command#setArguments(java.lang.String[])
+		 */
 		@Override
 		public void setArguments(String[] args) {
 			this.args = args;
@@ -425,12 +464,15 @@ public class MyPresenter implements Presenter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		
+
 		if(o instanceof View)
 		{
-			
+
 			if(arg!=null && !arg.equals(Constant.MODEL_ERROR))
 			{
 
@@ -441,7 +483,7 @@ public class MyPresenter implements Presenter {
 		}
 		else if(o instanceof Model){
 
-			
+
 			String [] args = (String[])arg;
 			switch (args[0]){
 
@@ -471,7 +513,7 @@ public class MyPresenter implements Presenter {
 
 				//view.displayString(Constant.MODEL_SOLVED);
 				if(model.getSolution(args[1]) != null){
-				view.displaySolution(model.getSolution(args[1]));
+					view.displaySolution(model.getSolution(args[1]));
 				}
 				else{
 					view.displayString("Solution is not ready");
@@ -512,7 +554,7 @@ public class MyPresenter implements Presenter {
 			case Constant.MODEL_ERROR:
 
 				view.displayString(Constant.MODEL_ERROR);
-				
+
 			case ServerConstant.DISCONNECT:
 				view.displayString(args[0] + " " + args[1]);
 
@@ -522,6 +564,9 @@ public class MyPresenter implements Presenter {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see presenter.Presenter#start()
+	 */
 	@Override
 	public void start() {
 

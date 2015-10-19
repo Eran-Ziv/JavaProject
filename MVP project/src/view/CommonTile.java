@@ -8,12 +8,11 @@ import org.eclipse.swt.widgets.Composite;
 
 
 /**
- * The Class CommonTile.
- *  @author Eran & Ziv
+ * The Class CommonTile. Represent all the common features for a maze tile.
  */
 public abstract class CommonTile extends Canvas implements Tile{
-	
-	
+
+
 	/** The cell image. */
 	Image cellImage; 
 	
@@ -22,10 +21,10 @@ public abstract class CommonTile extends Canvas implements Tile{
 	
 	/** The Hint. */
 	Image Hint=null; 
-	
+
 	/** The ch. */
 	CommonCharacter ch = null;  
-	
+
 	/** The goal. */
 	Image goal =null; 
 	
@@ -38,22 +37,22 @@ public abstract class CommonTile extends Canvas implements Tile{
 	public CommonTile(Composite parent, int style) {
 		super(parent, style);
 		addPaintListener(new PaintListener() {
-			
+
 			@Override
 			public void paintControl(PaintEvent e) {   
 				drawTile(e);
-		}
-	});
+			}
+		});
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see view.Tile#drawTile(org.eclipse.swt.events.PaintEvent)
 	 */
 	@Override
 	public abstract void drawTile(PaintEvent e);
-	
-	
-	 
+
+
+
 	/**
 	 * Sets the goal.
 	 *
@@ -62,7 +61,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	public  void setGoal(Image img){
 		this.goal=img;
 	}
-	
+
 	/**
 	 * Gets the goal.
 	 *
@@ -71,7 +70,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	public  Image getGoal(){
 		return this.goal;
 	}
-	
+
 	/**
 	 * Sets the cell image.
 	 *
@@ -80,7 +79,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	public void setCellImage(Image img){
 		this.cellImage=img;
 	}
-	
+
 	/**
 	 * Sets the character.
 	 *
@@ -89,7 +88,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	public  void setCharacter(CommonCharacter character){
 		this.ch=character;
 	}
-	
+
 	/**
 	 * Gets the image name.
 	 *
@@ -99,7 +98,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	{
 		return this.imageName;
 	}
-	
+
 	/**
 	 * Sets the image name.
 	 *
@@ -109,7 +108,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	{
 		this.imageName=name;
 	}
-	
+
 	/**
 	 * Gets the cell image.
 	 *
@@ -118,7 +117,7 @@ public abstract class CommonTile extends Canvas implements Tile{
 	public  Image getCellImage(){
 		return this.cellImage;
 	}
-	
+
 	/**
 	 * Gets the character.
 	 *
@@ -146,6 +145,6 @@ public abstract class CommonTile extends Canvas implements Tile{
 		Hint = hint;
 	}
 
-	
+
 
 }

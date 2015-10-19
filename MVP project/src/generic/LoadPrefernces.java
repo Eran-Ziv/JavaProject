@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * The Class LoadPrefernces.
- *  @author Eran & Ziv
+ * The Class LoadPrefernces. Load the client Prefernces. 
  */
 public class LoadPrefernces implements Serializable {
 
@@ -17,9 +16,6 @@ public class LoadPrefernces implements Serializable {
 
 	/** The maze name. */
 	public String mazeName;
-
-
-
 
 	/**
 	 * Instantiates a new load prefernces.

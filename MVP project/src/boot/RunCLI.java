@@ -8,15 +8,14 @@ import generic.Preferences;
 import model.ClientModel;
 import model.MyModel;
 import presenter.MyPresenter;
-
 import view.MyCliView;
 
+
 /**
- * The Class RunCLI.
- * @author Eran & Ziv
+ * The Class RunCLI. Runs an instance of the CLI from the main class {@see Run}
  */
 public class RunCLI {
-	
+
 
 	/**
 	 * Start program.
@@ -26,7 +25,7 @@ public class RunCLI {
 	public void startProgram(Preferences preferences ) {
 
 		switch(preferences.getAccess()){
-	case LOCAL:
+		case LOCAL:
 
 			MyModel model = new MyModel(preferences);
 			MyCliView view=new MyCliView(new PrintWriter(System.out),new BufferedReader(new InputStreamReader(System.in)));
@@ -35,22 +34,22 @@ public class RunCLI {
 			model.addObserver(p);
 			view.start();
 			break;
-		
-	case REMOTE_SERVER:
 
-		
+		case REMOTE_SERVER:
+
+
 			ClientModel clientModel = new ClientModel(preferences);
 			view=new MyCliView(new PrintWriter(System.out),new BufferedReader(new InputStreamReader(System.in)));
-			 p=new MyPresenter(view,clientModel);
+			p=new MyPresenter(view,clientModel);
 			view.addObserver(p);
 			clientModel.addObserver(p);
 			view.start();
 			break;
-		
+
 		default:
 			return;	
 		}
-	
+
 	}
 
 }

@@ -7,18 +7,11 @@ import java.io.IOException;
 import generic.Preferences;
 
 
-
 /** This class main has to run prior to running main Run. it will set the Default Properties.
- *  @author Eran & Ziv
  *
  */
 public class WriteProperties {
 
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
 	public static void main(String[] args) {
 		
 		XMLEncoder e;

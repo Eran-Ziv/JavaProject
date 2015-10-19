@@ -7,18 +7,20 @@ package presenter;
  * The command should be the tranclator between the view {@see View} and the model {@see Model},
  * the command is responsible for requesting a specific command from the model and send the output to the view.
  * Some commands should be writen in the view and will be displayed there.
- *  @author Eran & Ziv
  */
 public interface Command {
 
 	/**
 	 * Do command.
 	 * This method gets <args> parse them and makes to relevant tranclation.
-	 *
-	 * @param args the args
 	 */
 	public void doCommand();
-	
+
+	/**
+	 * Sets the arguments.
+	 *
+	 * @param args the new arguments
+	 */
 	public void setArguments(String [] args);
 
 

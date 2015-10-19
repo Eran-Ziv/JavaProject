@@ -11,8 +11,8 @@ import java.util.concurrent.Executors;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
+
 /** This class creates a generic TCP/IP Server. 
- *  @author Eran & Ziv
  *
  */
 public class MyTCPIPServer {
@@ -29,11 +29,17 @@ public class MyTCPIPServer {
 	 */
 	private volatile boolean stopped;
 
+	/**
+	 * Instantiates a new my tcpip server.
+	 *
+	 * @param serverProperties the server properties
+	 * @param clientHandler the client handler
+	 */
 	public MyTCPIPServer(ServerProperties serverProperties,ClientHandler clientHandler) {
 		this.serverProperties=serverProperties;
 		stopped=false;
 		this.clientHandler=clientHandler;
-		
+
 		// TODO Auto-generated constructor stub
 	}
 	/**	This method will start the TCP/IP Server.
@@ -54,7 +60,7 @@ public class MyTCPIPServer {
 					final Socket someClient=server.accept();
 					System.out.println("New client" + " port: " + someClient.getPort() + " IP: " + someClient.getInetAddress().getHostAddress());
 					threadPool.execute(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							try {
@@ -69,19 +75,23 @@ public class MyTCPIPServer {
 							}
 						}
 					});
-					
+
 				} catch (SocketTimeoutException e) {
 				}
 			}
 			threadPool.shutdownNow();
 			server.close();
-			
+
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		
+
+
 	}
+	
+	/**
+	 * Stopped server.
+	 */
 	public void stoppedServer()
 	{
 		stopped=true;

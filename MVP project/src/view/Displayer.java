@@ -5,8 +5,7 @@ package view;
  * The Interface Displayer.
  * The displayer gets a drawable object {@see Drawable} and extract the data.
  * Both Displayer and drawable interface should be implemented with an overlap,
- * Both must be with the same data type within the specific implementation.
- *  @author Eran & Ziv
+ * Both must be with the same data type within the spesific implementation.
  *
  * @param <T> the generic type
  */

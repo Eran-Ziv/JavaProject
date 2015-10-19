@@ -2,8 +2,7 @@ package view;
 
 
 /**
- * The Enum Direction.
- *  @author Eran & Ziv
+ * The Enum Direction. Pretty stright forward.
  */
 public enum Direction {
 	

@@ -32,9 +32,10 @@ import generic.LoadPrefernces;
 import generic.Preferences;
 import presenter.Command;
 
+
 /**
- * The Class MazeWindow.
- *  @author Eran & Ziv
+ * The Class MazeWindow. A spesific implementation of the game window, designing the window as we wish and implementing the View interface in order to use the GUI.
+ * In order to use CLI @see MyCliView.
  */
 public class MazeWindow extends BasicWindow implements View {
 
@@ -271,11 +272,11 @@ public class MazeWindow extends BasicWindow implements View {
 		Button solveMaze = new Button (shell ,SWT.PUSH);
 		solveMaze.setText("Solve the maze I give up");
 		solveMaze.setLayoutData(new GridData(SWT.FILL,SWT.FILL,false,false,1,1));
-		
+
 		Button saveMaze = new Button (shell ,SWT.PUSH);
 		saveMaze.setText("Save maze");
 		saveMaze.setLayoutData(new GridData(SWT.FILL,SWT.FILL,false,false,1,1));
-		
+
 		Button loadMaze = new Button (shell ,SWT.PUSH);
 		loadMaze.setText("Load maze");
 		loadMaze.setLayoutData(new GridData(SWT.FILL,SWT.None,false,false,1,1));
@@ -369,7 +370,7 @@ public class MazeWindow extends BasicWindow implements View {
 
 
 				try{
-					
+
 					String [] args= {"save", "maze" ,mazeName,mazeName+".txt"};
 					Command command= commands.get("save");
 					command.setArguments(args);
@@ -383,12 +384,12 @@ public class MazeWindow extends BasicWindow implements View {
 					messageBox.setText("Information");
 					messageBox.setMessage("There is no maze name");
 					messageBox.open();
-					
+
 					boardWidget.forceFocus();
 				}
 			}
 		});	
-		
+
 		loadMaze.addSelectionListener(new SelectionListener(){
 
 			@Override
@@ -410,7 +411,8 @@ public class MazeWindow extends BasicWindow implements View {
 					Command command= commands.get("load");
 					command.setArguments(args);
 					setUserCommand(command);
-					
+					boardWidget.forceFocus();
+
 
 
 				}
@@ -460,10 +462,9 @@ public class MazeWindow extends BasicWindow implements View {
 	@Override
 	public <T> void displayModel(Drawable<T> draw) {
 		boardWidget.won = false;
-	    boardWidget.setUserAskedForSolution(true);
 
 		boardWidget.setVisible(true);
-		//
+		boardWidget.setUserAskedForSolution(false);
 		boardWidget.displayProblem(draw);
 
 	}

@@ -2,8 +2,7 @@ package view;
 
 
 /**
- * The Class MazeProperties.
- *  @author Eran & Ziv
+ * The Class MazeProperties. Represents the Maze game properties, for example, the number of rows and in general all the needed parameters for a maze.
  */
 public class MazeProperties {
 	
@@ -18,8 +17,8 @@ public class MazeProperties {
 	
 	/** floor source in the maze. */
 	private int Floors;
-	
-	
+
+
 	/**
 	 * Instantiates a new maze properties.
 	 *
@@ -35,7 +34,7 @@ public class MazeProperties {
 		Columns = columns;
 		Floors = floors;
 	}
-	
+
 	/**
 	 * Instantiates a new maze properties.
 	 */
@@ -117,6 +116,6 @@ public class MazeProperties {
 	public void setFloors(int floors) {
 		Floors = floors;
 	}
-	
-	
+
+
 }

@@ -22,12 +22,10 @@ import generic.ServerConstant;
 
 
 /**
- * The Class ClientModel.
- *  @author Eran & Ziv
+ * The Class ClientModel. Implementing the Model {@see Model} in a remote server, all requests are directed to a remote server and responded with an answer.
+ * All the Model functunallity is in the server, for **every** request, this model will sent a request to the server.
  */
 public class ClientModel extends Observable implements Model {
-
-
 
 	/** The my maze. */
 	Maze3d myMaze;
@@ -35,14 +33,11 @@ public class ClientModel extends Observable implements Model {
 	/** The my solution. */
 	Solution<Position> mySolution;
 
-
-
 	/** The constant args. */
 	String [] constantArgs;
 	
 	/** The preferences. */
 	private Preferences preferences;
-
 
 	/**
 	 * Instantiates a new client model.
@@ -53,18 +48,13 @@ public class ClientModel extends Observable implements Model {
 
 		this.preferences = preferences;
 		this.constantArgs = new String[2];
-
 	}
-
-
-	
 
 	/* (non-Javadoc)
 	 * @see model.Model#getModelSizeInMemory(java.lang.String)
 	 */
 	@Override
 	public int getModelSizeInMemory(String name) throws IOException {
-
 
 		String data = name;
 
@@ -82,7 +72,6 @@ public class ClientModel extends Observable implements Model {
 		return (int)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.GET_MODEL_SIZE_IN_FILE, data, "");
 	}
 
-
 	/* (non-Javadoc)
 	 * @see model.Model#saveModel(java.lang.String, java.lang.String)
 	 */
@@ -91,13 +80,12 @@ public class ClientModel extends Observable implements Model {
 
 		String data = name + " " + fileName;
 
-		String []valid = (String[]) queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.SAVE_MAZE, data, "");
+		String [] valid = (String[])queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.SAVE_MAZE, data, "");
 		constantArgs[0] = valid[0];
 		constantArgs[1] = fileName;
 		setChanged();
 		notifyObservers(constantArgs);
 	}
-
 
 	/* (non-Javadoc)
 	 * @see model.Model#loadModel(java.lang.String, java.lang.String)
@@ -108,14 +96,12 @@ public class ClientModel extends Observable implements Model {
 		String data = name + " " + fileName;
 		this.myMaze = (Maze3d)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.LOAD_MAZE, data, "");
 		constantArgs[0] = Constant.MODEL_LOADED;
-		constantArgs[1] = name;
+		constantArgs[1]= name;
 		setChanged();
 		notifyObservers(constantArgs);
 		return this.myMaze;
 
 	}
-
-
 
 	/* (non-Javadoc)
 	 * @see model.Model#solveModel(java.lang.String)
@@ -138,7 +124,7 @@ public class ClientModel extends Observable implements Model {
 		default:
 			return;
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		Solution<Position> solution=(Solution<Position>)queryServer(preferences.getServerIP(),preferences.getServerPort(),ServerConstant.SOLVE_MAZE,name,property);
 		if(solution==null)
@@ -213,10 +199,6 @@ public class ClientModel extends Observable implements Model {
 		return (Solution<Position>)this.mySolution;
 	}
 
-
-
-
-
 	/* (non-Javadoc)
 	 * @see model.Model#getNameToModel(java.lang.String)
 	 */
@@ -224,15 +206,11 @@ public class ClientModel extends Observable implements Model {
 	@Override
 	public  Searchable<Position> getNameToModel(String name) {
 
-		Maze3d myMaze = (Maze3d)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.MAZE_EXISTS, name, "");
+
 		Maze3dSearchableAdapter myMazeAdapter = new Maze3dSearchableAdapter(myMaze);
 
 		return myMazeAdapter;
 	}
-
-
-
-
 
 	/* (non-Javadoc)
 	 * @see model.Model#CrossSectionBy(java.lang.String, java.lang.String, int)
@@ -247,20 +225,14 @@ public class ClientModel extends Observable implements Model {
 		return myMazeAdapter;
 	}
 
-
-
-
-
 	/* (non-Javadoc)
 	 * @see model.Model#exit()
 	 */
 	@Override
 	public void exit() throws IOException {
 		//Nothing to close
-
-
 	}
-	
+
 	/**
 	 * Query server.
 	 *
@@ -278,7 +250,7 @@ public class ClientModel extends Observable implements Model {
 		try {
 			System.out.println("Trying to connect server, IP: " + serverIP + " " + serverPort);
 			server = new Socket(serverIP,serverPort);
-			PrintWriter writerToServer=new PrintWriter(new OutputStreamWriter(server.getOutputStream()));
+			PrintWriter writerToServer=new PrintWriter((new OutputStreamWriter(server.getOutputStream())));
 			writerToServer.println(command);
 			writerToServer.flush();
 			writerToServer.println(property);
@@ -286,7 +258,7 @@ public class ClientModel extends Observable implements Model {
 			writerToServer.println(data);
 			writerToServer.flush();
 			ObjectInputStream inputDecompressed;
-			inputDecompressed = new ObjectInputStream((server.getInputStream()));
+			inputDecompressed = new ObjectInputStream(server.getInputStream());
 			result=inputDecompressed.readObject();
 			if(result.toString().contains("disconnect"))
 			{
@@ -298,7 +270,7 @@ public class ClientModel extends Observable implements Model {
 			server.close();
 		} catch (ClassNotFoundException | IOException  e) {
 			e.printStackTrace();
-			
+
 		}
 
 		return result;

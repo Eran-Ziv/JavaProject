@@ -7,7 +7,6 @@ import algorithms.mazeGenerators.Maze3d;
 
 /**
  * The Class Maze3dDisplayerAdapter.
- *  @author Eran & Ziv
  */
 public class Maze3dDisplayerAdapter implements Displayer<Maze3d> {
 
@@ -26,7 +25,7 @@ public class Maze3dDisplayerAdapter implements Displayer<Maze3d> {
 		this.out = out;
 	}
 
-	/** (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see view.Displayer#getDisplayer(view.Drawable)
 	 */
 	@Override

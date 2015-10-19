@@ -12,8 +12,7 @@ import view.ServerWindow;
 
 
 /**
- * The Class RunGui.
- *  @author Eran & Ziv
+ * The Class RunGui. Runs the GUI from the main run.
  */
 public class RunGui {
 

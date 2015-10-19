@@ -27,14 +27,15 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+import boot.RunGui;
+import boot.WriteServerPropertiesGUI;
 import presenter.RemoteControlCommand;
 import presenter.RemoteControlProperties;
-import boot.RunGui;
 
 
 /**
- * The Class ServerWindow.
- *  @author Eran & Ziv
+ * The Class ServerWindow. This class is an implemnetation of the view and an extension
+ *of the basic window,as part of the MVP structure
  */
 public class ServerWindow extends BasicWindow implements View {
 
@@ -180,9 +181,6 @@ public class ServerWindow extends BasicWindow implements View {
 		list.addSelectionListener(new SelectionListener() { //on selection show status
 			public void widgetSelected(SelectionEvent event) {
 				String[] selectedClients = list.getSelection(); //get all clients selcted
-				@SuppressWarnings("unused")
-				String outString = "";
-
 				if(selectedClients.length>1)
 				{// for each selected client
 					for (int loopIndex = 0; loopIndex < selectedClients.length; loopIndex++)
@@ -192,8 +190,8 @@ public class ServerWindow extends BasicWindow implements View {
 						command.setArguments(selectedClients[loopIndex]);
 						setUserCommand(command);
 
-						if(loopIndex!=selectedClients.length-1)
-							outString += selectedClients[loopIndex]+ "\n"; 
+						if(loopIndex!=selectedClients.length-1) {
+						} 
 
 					}
 				}
@@ -201,7 +199,6 @@ public class ServerWindow extends BasicWindow implements View {
 					RemoteControlCommand command = commandMap.get("connection status");
 					command.setArguments(selectedClients[0]);
 					setUserCommand(command);
-					outString=selectedClients[0] + "\n";
 				}
 				else
 					status.setText("");
@@ -241,8 +238,6 @@ public class ServerWindow extends BasicWindow implements View {
 
 			}
 		});
-
-
 	}
 
 
@@ -437,7 +432,7 @@ public class ServerWindow extends BasicWindow implements View {
 			public void run() {
 				if(!shell.isDisposed() && msg != null){
 					status.insert(msg);
-					
+
 				}
 			}	
 		});

@@ -6,8 +6,7 @@ import org.eclipse.swt.widgets.Composite;
 
 
 /**
- * The Class CommonCharacter.
- *  @author Eran & Ziv
+ * The Class CommonCharacter. epresent all the commons features for a characther in a maze.
  */
 public abstract class CommonCharacter extends Canvas implements Character {
 
@@ -16,8 +15,8 @@ public abstract class CommonCharacter extends Canvas implements Character {
 	
 	/** The cell y. */
 	int cellY = 0;
-	
-	
+
+
 	/**
 	 * Instantiates a new common character.
 	 *
@@ -26,18 +25,18 @@ public abstract class CommonCharacter extends Canvas implements Character {
 	 */
 	CommonCharacter(Composite parent, int style) {
 		super(parent, style);
-		// TODO Auto-generated constructor stub
+
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see view.Character#drawCharacter()
 	 */
 	@Override
 	public void drawCharacter() {
 		this.redraw();
-		
+
 	}
-	
+
 
 	/**
 	 * Gets the cell x.
@@ -101,6 +100,6 @@ public abstract class CommonCharacter extends Canvas implements Character {
 
 
 
-	
+
 
 }

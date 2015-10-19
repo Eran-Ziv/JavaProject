@@ -18,9 +18,13 @@ import io.MyCompressorOutputStream;
 import io.MyDecompressorInputStream;
 
 
+
+
+
+
 /**
- * The Class MazeServer.
- *  @author Eran & Ziv
+ * The Class MazeServer. This Class defines a TCP/IP Server 
+ * upon closing the Server it saves the data locally.
  */
 public class MazeServer extends MyTCPIPServer implements Runnable {
 
@@ -41,7 +45,7 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 
 	/** The my decompressor. */
 	MyDecompressorInputStream myDecompressor;
-	
+
 	/**
 	 * Instantiates a new maze server.
 	 *
@@ -59,14 +63,14 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 			mazeToSolution = new ConcurrentHashMap<Maze3d, Solution<Position>>();
 		}
 	}
-	
-	
+
+
 	/* (non-Javadoc)
 	 * @see server.MyTCPIPServer#stoppedServer()
 	 */
 	@Override
 	public void stoppedServer() {
-		
+
 		try {
 			FileOutputStream fos=new FileOutputStream(Constant.FILE_PATH);
 			GZIPOutputStream gzos=new GZIPOutputStream(fos);
@@ -79,13 +83,13 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 			e.getStackTrace();
 		}
 		super.stoppedServer();
-		
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	/**
 	 * Load.
 	 */
@@ -104,12 +108,12 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	
+
 	}
-	
-	
-	
-	
+
+
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
@@ -117,8 +121,8 @@ public class MazeServer extends MyTCPIPServer implements Runnable {
 	public void run() {
 		startServer();
 	}
-	
-	
-	
-	
+
+
+
+
 }

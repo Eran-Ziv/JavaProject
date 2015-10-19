@@ -46,8 +46,7 @@ import io.MyDecompressorInputStream;
 
 
 /**
- * The Class MyModel.
- *  @author Eran & Ziv
+ * The Class MyModel. This Model is a local implementation of the Model {@see Model}, all the requests from the user are being procceced locally.
  */
 public class MyModel extends Observable implements Model  { 
 
@@ -294,33 +293,33 @@ public class MyModel extends Observable implements Model  {
 			notifyObservers(constantArgs);
 			break;
 		}
-		 if(futureSolution!=null){
-				
-						 Futures.addCallback(futureSolution, new FutureCallback<Solution<Position>>() {
-				
-							 @Override
-							 public void onFailure(Throwable arg0) {
-								 constantArgs[0] = Constant.MODEL_ERROR; 
-								 setChanged();
-								 notifyObservers(constantArgs);
-							 }
-				
-				
-							 @Override
-							 public void onSuccess(Solution<Position> arg0) {
-								
-								 mazeToSolution.put(myMaze,arg0);
-								 nameToSolution.put(name, arg0);
-							 constantArgs[0] = Constant.MODEL_SOLVED;
-								 constantArgs[1] = name;
-								 setChanged();
-								 notifyObservers(constantArgs);
-							 }		
-						 });
-					 }
+		if(futureSolution!=null){
+
+			Futures.addCallback(futureSolution, new FutureCallback<Solution<Position>>() {
+
+				@Override
+				public void onFailure(Throwable arg0) {
+					constantArgs[0] = Constant.MODEL_ERROR; 
+					setChanged();
+					notifyObservers(constantArgs);
+				}
+
+
+				@Override
+				public void onSuccess(Solution<Position> arg0) {
+
+					mazeToSolution.put(myMaze,arg0);
+					nameToSolution.put(name, arg0);
+					constantArgs[0] = Constant.MODEL_SOLVED;
+					constantArgs[1] = name;
+					setChanged();
+					notifyObservers(constantArgs);
+				}		
+			});
+		}
 
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see model.Model#loadModel(java.lang.String, java.lang.String)
@@ -351,7 +350,7 @@ public class MyModel extends Observable implements Model  {
 		constantArgs[1]= name;
 		setChanged();
 		notifyObservers(constantArgs);
-		
+
 		return myMaze;
 	}
 
@@ -492,14 +491,14 @@ public class MyModel extends Observable implements Model  {
 			try {
 				Thread.currentThread().sleep(500);
 			} catch (InterruptedException e) {
-				
+
 				e.printStackTrace();
 			}
 			Futures.addCallback(futureMaze, new FutureCallback<Maze3d>() {
 
 				@Override
 				public void onFailure(Throwable arg0) {
-					
+
 					constantArgs[0] = Constant.MODEL_ERROR;
 					setChanged();
 					notifyObservers(constantArgs);
@@ -507,7 +506,7 @@ public class MyModel extends Observable implements Model  {
 
 				@Override
 				public void onSuccess(Maze3d arg0) {
-					
+
 					nameToMaze.put(name, arg0);
 					constantArgs[0] = Constant.MODEL_GENERATED;
 					constantArgs[1] = name;

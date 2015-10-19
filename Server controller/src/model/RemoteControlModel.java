@@ -13,8 +13,8 @@ import presenter.RemoteControlProperties;
 
 
 /**
- * The Class RemoteControlModel.
- *  @author Eran & Ziv
+ * The Class RemoteControlModel. This class is an implementation of the interface model
+ *	to be used in a MVP architecture 
  */
 public class RemoteControlModel extends Observable implements Model {
 
@@ -227,7 +227,7 @@ public class RemoteControlModel extends Observable implements Model {
 			setChanged();
 			notifyObservers();
 		}
-		
+
 
 	}
 

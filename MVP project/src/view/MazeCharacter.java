@@ -6,11 +6,10 @@ import org.eclipse.swt.widgets.Composite;
 
 
 /**
- * The Class MazeCharacter.
- *  @author Eran & Ziv
+ * The Class MazeCharacter. A spesific implementation of a Maze Character, taking care of the characther in the maze.
  */
 public class MazeCharacter extends CommonCharacter {
-	
+
 	/** The gifs. */
 	ImageLoader gifs = new ImageLoader();
 
@@ -19,7 +18,7 @@ public class MazeCharacter extends CommonCharacter {
 	
 	/** The frame index. */
 	int frameIndex = 0;
-	
+
 	/**
 	 * Instantiates a new maze character.
 	 *
@@ -36,7 +35,7 @@ public class MazeCharacter extends CommonCharacter {
 	 */
 	@Override
 	public ImageData[] getCharacterImagesArray() {
-		
+
 		return images;
 	}
 
@@ -54,7 +53,7 @@ public class MazeCharacter extends CommonCharacter {
 	 */
 	@Override
 	public int getCharacterImageIndex() {
-		
+
 		return frameIndex;
 	}
 

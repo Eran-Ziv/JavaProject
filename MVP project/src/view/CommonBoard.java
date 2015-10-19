@@ -16,8 +16,7 @@ import algorithm.generic.Solution;
 
 
 /**
- * The Class CommonBoard.
- *  @author Eran & Ziv
+ * The Class CommonBoard. All the commons of a board is implemented in this class, taking care of the key listiner and applying direction. 
  */
 public abstract class CommonBoard extends Composite implements Board {
 
@@ -177,10 +176,13 @@ public abstract class CommonBoard extends Composite implements Board {
 	@Override
 	public abstract void destructBoard();
 
-	/* (non-Javadoc)
-	 * @see view.Board#setUserAskedForSolution(boolean)
+	/**
+	 * Sets the user asked for solution.
+	 *
+	 * @param userAskedForSolution the new user asked for solution
 	 */
 	public abstract void setUserAskedForSolution(boolean userAskedForSolution);
+
 
 
 }

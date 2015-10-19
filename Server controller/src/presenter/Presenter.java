@@ -10,8 +10,7 @@ import view.View;
 
 
 /**
- * The Class Presenter.
- *  @author Eran & Ziv
+ * The Class Presenter. Connecting the requests from the View to the Model and vice versa.
  */
 public class Presenter implements Observer {
 
@@ -188,7 +187,7 @@ public class Presenter implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 
-		
+
 		if(o instanceof View){
 
 			myView.getCommand().doCommand();
@@ -202,11 +201,11 @@ public class Presenter implements Observer {
 				switch(args[0]){
 
 				case Constants.CANNOT_REMOVE_CLIENT:
-					
+
 					if(args[1] == null)
 						myView.Display(args[0]);
 					else
-					myView.Display(args[1]);
+						myView.Display(args[1]);
 					break;
 
 				case Constants.CANNOT_START_SERVER:
@@ -214,14 +213,14 @@ public class Presenter implements Observer {
 					if(args[1] == null)
 						myView.Display(args[0]);
 					else
-					myView.Display(args[1]);
+						myView.Display(args[1]);
 					break;
 
 				case Constants.SERVER_START:
 					if(args[1] == null)
 						myView.Display(args[0]);
 					else
-					myView.DisplayStatus(args[0] + " " +args[1]);
+						myView.DisplayStatus(args[0] + " " +args[1]);
 					break;
 
 				case Constants.CANNOT_DISCONNECT_SERVER:
@@ -229,20 +228,20 @@ public class Presenter implements Observer {
 					if(args[1] == null)
 						myView.Display(args[0]);
 					else
-					myView.Display(args[1]);
+						myView.Display(args[1]);
 					break;
 
 				case Constants.DISCONNECT_SERVER:
 
-					
-						myView.Display(args[0]);
+
+					myView.Display(args[0]);
 					break;
 				case Constants.CLIENT_STATUS:
 
 					if(args[1] != null)
 						myView.DisplayStatus(args[0]+ " " + args[1]);
 					else
-					myView.Display(args[0]);
+						myView.Display(args[0]);
 					break;
 
 				case Constants.CLIENT_ADDED:
@@ -254,22 +253,22 @@ public class Presenter implements Observer {
 
 					myView.removeClient(args[1]);
 					break;
-					
+
 				case Constants.CLIENT_UPDATE:
 					if(args[1] == null)
 						myView.DisplayStatus(args[0]);
 					else
 						myView.DisplayStatus(args[0] + "\n" + args[1]);
-					
+
 					break;
-					
+
 
 				case Constants.EXIT:
 
 					if(args[1] == null)
 						myView.Display(args[0]);
 					else
-					myView.Display(args[1]);
+						myView.Display(args[1]);
 					break;
 
 				}

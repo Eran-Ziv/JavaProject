@@ -12,12 +12,11 @@ import presenter.Command;
 
 
 /**
- * The Class MyCliView.
- *  @author Eran & Ziv
+ * The Class MyCliView. A spesific implementation of the View {@see View} interface, implementing a CLI view.
  */
 public class MyCliView extends Observable implements View {
 
-	
+
 	/** The my maze3d displayer. */
 	private Maze3dDisplayerAdapter myMaze3dDisplayer;
 	
@@ -32,8 +31,8 @@ public class MyCliView extends Observable implements View {
 	
 	/** The out. */
 	public  PrintWriter out;
-	
-	
+
+
 	/**
 	 * Instantiates a new my cli view.
 	 *
@@ -46,7 +45,7 @@ public class MyCliView extends Observable implements View {
 		myMaze2dDisplayer = new Maze2dDisplayerAdapter(out);
 		myMaze3dDisplayer = new Maze3dDisplayerAdapter(out);
 	}
-	
+
 	/**
 	 * Gets the runing.
 	 *
@@ -55,7 +54,7 @@ public class MyCliView extends Observable implements View {
 	public boolean getRuning(){
 		return myCli.isRuning();
 	}
-	
+
 	/**
 	 * Sets the runing.
 	 *
@@ -64,7 +63,7 @@ public class MyCliView extends Observable implements View {
 	public void setRuning(boolean runing){
 		myCli.setRuning(runing);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see view.View#dirCommand(java.lang.String)
 	 */
@@ -126,7 +125,7 @@ public class MyCliView extends Observable implements View {
 	 */
 	@Override
 	public void displayString(String toPrint) {
-		
+
 		out.println(toPrint);
 		out.flush();
 
@@ -137,7 +136,7 @@ public class MyCliView extends Observable implements View {
 	 */
 	@Override
 	public Command getUserCommand() {
-		
+
 		return command;
 	}
 
@@ -149,7 +148,7 @@ public class MyCliView extends Observable implements View {
 		Thread thread = new Thread(myCli);
 		thread.start();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see view.View#setUserCommand(presenter.Command)
 	 */
@@ -164,9 +163,9 @@ public class MyCliView extends Observable implements View {
 	 */
 	@Override
 	public void setCommands(HashMap<String, Command> commands) {
-		
+
 		myCli.setCommands(commands);
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -174,12 +173,12 @@ public class MyCliView extends Observable implements View {
 	 */
 	@Override
 	public void exit() {
-		
+
 		myCli.setRuning(false);		
 	}
 
-	
-	
-	
+
+
+
 
 }

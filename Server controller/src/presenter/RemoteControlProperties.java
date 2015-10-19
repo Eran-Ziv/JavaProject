@@ -4,30 +4,29 @@ import java.io.Serializable;
 
 
 /**
- * The Class RemoteControlProperties.
- *  @author Eran & Ziv
+ * The Class RemoteControlProperties. Represents the Remote controller Properties.
  */
 public class RemoteControlProperties implements Serializable {
-	
-	
+
+
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** The Port for server clients. */
 	private int PortForServerClients;
 	
 	/** The port on which server listens. */
 	private int portOnWhichServerListens;
-	
+
 	/** The num of clients. */
 	private int numOfClients;
 	
 	/** The Remote control port listener. */
 	private int RemoteControlPortListener;
-	
+
 	/** The ip. */
 	private String IP;
-	
+
 	/**
 	 * Gets the port on which server listens.
 	 *
@@ -36,7 +35,7 @@ public class RemoteControlProperties implements Serializable {
 	public int getPortOnWhichServerListens() {
 		return portOnWhichServerListens;
 	}
-	
+
 	/**
 	 * Sets the port on which server listens.
 	 *
@@ -45,8 +44,8 @@ public class RemoteControlProperties implements Serializable {
 	public void setPortOnWhichServerListens(int portOnWhichServerListens) {
 		this.portOnWhichServerListens = portOnWhichServerListens;
 	}
-	
-	
+
+
 	/**
 	 * Instantiates a new remote control properties.
 	 */
@@ -68,7 +67,7 @@ public class RemoteControlProperties implements Serializable {
 		this.numOfClients=numOfClients;
 		this.RemoteControlPortListener=RemoteControlPortListener;
 	}
-	
+
 	/**
 	 * Gets the remote control port listener.
 	 *
@@ -77,7 +76,7 @@ public class RemoteControlProperties implements Serializable {
 	public int getRemoteControlPortListener() {
 		return RemoteControlPortListener;
 	}
-	
+
 	/**
 	 * Sets the remote control port listener.
 	 *
@@ -86,7 +85,7 @@ public class RemoteControlProperties implements Serializable {
 	public void setRemoteControlPortListener(int RemoteControlPortListener) {
 		this.RemoteControlPortListener = RemoteControlPortListener;
 	}
-	
+
 	/**
 	 * Gets the port server clients.
 	 *
@@ -95,7 +94,7 @@ public class RemoteControlProperties implements Serializable {
 	public int getPortServerClients() {
 		return PortForServerClients;
 	}
-	
+
 	/**
 	 * Sets the port server clients.
 	 *
@@ -104,7 +103,7 @@ public class RemoteControlProperties implements Serializable {
 	public void setPortServerClients(int port) {
 		this.PortForServerClients = port;
 	}
-	
+
 	/**
 	 * Gets the num of clients.
 	 *
@@ -113,7 +112,7 @@ public class RemoteControlProperties implements Serializable {
 	public int getNumOfClients() {
 		return numOfClients;
 	}
-	
+
 	/**
 	 * Sets the num of clients.
 	 *

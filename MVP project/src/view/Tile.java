@@ -4,8 +4,7 @@ import org.eclipse.swt.events.PaintEvent;
 
 
 /**
- * The Interface Tile.
- *  @author Eran & Ziv
+ * The Interface Tile. Representing a tile in the bord game.
  */
 public interface Tile {
 	

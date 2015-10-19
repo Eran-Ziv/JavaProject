@@ -8,8 +8,8 @@ import org.eclipse.swt.widgets.Shell;
 
 
 /**
- * The Class BasicWindow.
- *  @author Eran & Ziv
+ * The Class BasicWindow. This class represent a basic window with the main event loop, 
+ * the abstract method, initWidget() should be implemented in order to fill the window
  */
 public abstract class BasicWindow extends Observable implements Runnable{
 
@@ -18,7 +18,7 @@ public abstract class BasicWindow extends Observable implements Runnable{
 	
 	/** The shell. */
 	Shell shell;
-	
+
 	/**
 	 * Instantiates a new basic window.
 	 *
@@ -31,10 +31,10 @@ public abstract class BasicWindow extends Observable implements Runnable{
 	public BasicWindow(Display display,Shell shell,String title, int width, int height) {
 		this.display=display;
 		this.shell=shell;
-		shell.setText(title); //set window text 
-		shell.setSize(width,height); //set window heights
+		shell.setText(title);  
+		shell.setSize(width,height); 
 	}
-	
+
 	/**
 	 * Instantiates a new basic window.
 	 *
@@ -43,17 +43,17 @@ public abstract class BasicWindow extends Observable implements Runnable{
 	 * @param height the height
 	 */
 	public BasicWindow(String title, int width, int height) {
-		display=new Display(); // creates display
-		shell=new Shell(display); //creates a window inside the display
-		shell.setText(title); //set window text 
-		shell.setSize(width,height); //set window heights
+		display=new Display(); 
+		shell=new Shell(display); 
+		shell.setText(title); 
+		shell.setSize(width,height);
 	}
-	
+
 	/**
 	 * Inits the widgets.
 	 */
-	abstract void initWidgets(); // a function that will be later implemented and will have all widgets inside the windows
-	
+	abstract void initWidgets(); 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
@@ -61,19 +61,18 @@ public abstract class BasicWindow extends Observable implements Runnable{
 	public void run() {
 		initWidgets();
 		shell.open();
-		// main event loop
-		 while(!shell.isDisposed()){ // while window isn't closed
 
-		    // 1. read events, put then in a queue.
-		    // 2. dispatch the assigned listener
-		    if(!display.readAndDispatch()){ 	// if the queue is empty
-		       display.sleep(); 			// sleep until an event occurs 
-		    }
+		while(!shell.isDisposed()){ 
 
-		 } // shell is disposed
 
-		 display.dispose(); // dispose OS components
-		// System.exit(0);
+			if(!display.readAndDispatch()){ 	
+				display.sleep(); 			
+			}
+
+		} 
+
+		display.dispose(); 
+
 	}
 
 	/**

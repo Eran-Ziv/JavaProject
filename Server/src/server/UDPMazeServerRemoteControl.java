@@ -15,29 +15,31 @@ import server.ServerProperties;
 
 
 /**
- * The Class UDPMazeServerRemoteControl.
- *  @author Eran & Ziv
+ * The Class UDPMazeServerRemoteControl. This class is a UDP Server for the remote control - communication with the remote will be in udp and
+ * 	will initiate a TCP clients Server. 
+ * it's Observable by the MazeClientHandler for the handler to send it messages and updates what the Maze Server is doing at the moment.
+ * It implements Observer since it can signal to disconnect client if the remote wants to.
  */
 public class UDPMazeServerRemoteControl extends Observable implements Observer,Runnable{
-	
+
 	/** The handler. */
 	MazeClientHandler handler;
-	
+
 	/** The sender ip. */
 	InetAddress senderIP;
-	
+
 	/** The sender port. */
 	int senderPort;
 
 	/** The server socket. */
 	DatagramSocket serverSocket;
-	
+
 	/** The clients server. */
 	MazeServer clientsServer;
-	
+
 	/** The properties. */
 	ServerProperties properties;
-	
+
 	/** The executor. */
 	ExecutorService executor=Executors.newSingleThreadExecutor();
 	
@@ -49,7 +51,7 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 	public UDPMazeServerRemoteControl(ServerProperties properties) {
 		this.properties=properties;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
@@ -65,17 +67,17 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 		waitForStartSignal();
 
 		initiateClientsServer();
-		
+
 		handleClientsServer();
-		
+
 	}
-	
+
 	/**
 	 * Wait for start signal.
 	 */
 	private void waitForStartSignal()
 	{
-		
+
 		byte[] receiveData=new byte[1024];
 		String input=null;
 		if(clientsServer==null)
@@ -92,11 +94,11 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}while(!input.startsWith("start server"));
 		}
 	}
-	
+
 	/**
 	 * Initiate clients server.
 	 */
@@ -108,23 +110,23 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 		try {
 			serverSocket.receive(receivePacket);
 			buffer=new String(receivePacket.getData());//expect it to be: String= numOfClients+" "+PortToServeClients
-			
+
 			for(int i=0;i<buffer.length();i++)
 				if(Character.isDigit(buffer.charAt(i)) || buffer.charAt(i)==',')
-						input+=buffer.charAt(i);
+					input+=buffer.charAt(i);
 				else
 					break;
-			
+
 			String message = "Numebr of clients: " + input.split(",")[0]+ " port to server clients " + input.split(",")[1] + "\n";
 			System.out.println(message);
-			
+
 			DatagramPacket sendPacket=new DatagramPacket(message.getBytes(),message.length(),senderIP,senderPort);
 			try {
 				serverSocket.send(sendPacket);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
+
 			ServerProperties clientsServerProperties=new ServerProperties(Integer.parseInt(input.split(",")[1]),Integer.parseInt(input.split(",")[0]));
 			handler=new MazeClientHandler(this);
 			handler.addObserver(this);
@@ -137,9 +139,9 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 	}
-	
+
 	/**
 	 * Handle clients server.
 	 */
@@ -162,7 +164,7 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 					input="";
 					for(int i=0;i<buffer.length();i++)
 						if(Character.isDigit(buffer.charAt(i)) || buffer.charAt(i)==',' || buffer.charAt(i)=='.' || Character.isLetter(buffer.charAt(i)))
-								input+=buffer.charAt(i);
+							input+=buffer.charAt(i);
 						else
 							break;
 					setChanged();
@@ -177,8 +179,8 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					
-					
+
+
 					executor.shutdownNow();
 					clientsServer.stoppedServer();
 					clientsServer=null;
@@ -189,7 +191,7 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			/*
 			 * String to get bytes to sendData
 			 * DatagramPacket sendPacket=new DatagramPacket(sendData,sendData.length,senderIP,senderPort);
@@ -200,7 +202,7 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 		clientsServer=null;
 		executor.shutdownNow();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
@@ -221,6 +223,6 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 			}
 		}
 	}
-	
-	
+
+
 }

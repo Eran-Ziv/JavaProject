@@ -9,8 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 
 
 /**
- * The Class MazeTile.
- *  @author Eran & Ziv
+ * The Class MazeTile. A spesific implementation of a Maze gamr tile, taking care of all the needed information for a tile in the maze.
  */
 public class MazeTile extends CommonTile{
 
@@ -37,7 +36,7 @@ public class MazeTile extends CommonTile{
 		if(this.cellImage!=null)
 			this.cellImage.dispose();
 		this.cellImage=image;
-		
+
 		redraw();
 	}
 
@@ -64,10 +63,10 @@ public class MazeTile extends CommonTile{
 			e.gc.drawImage(img,0,0,data3.width,data3.height,0,0,getSize().x,getSize().y);
 		}
 		if(Hint!=null){ //display hint if it has been given
-	    	   ImageData data2=Hint.getImageData();
-	    	   e.gc.drawImage(Hint,0,0,data2.width,data2.height,0,0,width,height);
-	       } 
-		
+			ImageData data2=Hint.getImageData();
+			e.gc.drawImage(Hint,0,0,data2.width,data2.height,0,0,width,height);
+		} 
+
 		if(goal!=null){ // draw the goal if it is on the tile
 
 			ImageData data4= goal.getImageData();
