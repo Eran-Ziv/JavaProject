@@ -372,7 +372,7 @@ public class ServerWindow extends BasicWindow implements View {
 		XMLDecoder d;
 		RemoteControlProperties p=null;
 		try {
-			FileInputStream in=new FileInputStream("properties.xml");
+			FileInputStream in=new FileInputStream(".\\resources\\config\\properties.xml");
 			d=new XMLDecoder(in);
 			p=(RemoteControlProperties)d.readObject();
 			System.out.println(p);

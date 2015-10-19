@@ -20,46 +20,46 @@ public class Preferences implements Serializable{
 	 * The Enum MazeGenerator.
 	 */
 	public enum MazeGenerator{
-		
+
 		/** The dfs. */
 		DFS,
-/** The random. */
-RANDOM
+		/** The random. */
+		RANDOM
 	}
 
 	/**
 	 * The Enum UI.
 	 */
 	public enum UI{
-		
+
 		/** The cli. */
 		CLI,
-/** The gui. */
-GUI
+		/** The gui. */
+		GUI
 	}
 
 	/**
 	 * The Enum MazeSolver.
 	 */
 	public enum MazeSolver{
-		
+
 		/** The manhattan astar. */
 		MANHATTAN_ASTAR,
-/** The euclidian astar. */
-EUCLIDIAN_ASTAR,
-/** The bfs. */
-BFS
+		/** The euclidian astar. */
+		EUCLIDIAN_ASTAR,
+		/** The bfs. */
+		BFS
 	}
 
 	/**
 	 * The Enum Access.
 	 */
 	public enum Access{
-		
+
 		/** The remote server. */
 		REMOTE_SERVER, 
- /** The local. */
- LOCAL
+		/** The local. */
+		LOCAL
 	}
 
 	/** The pool size. */

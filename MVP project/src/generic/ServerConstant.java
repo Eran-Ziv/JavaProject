@@ -1,6 +1,6 @@
 package generic;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class ServerConstant.
  */
