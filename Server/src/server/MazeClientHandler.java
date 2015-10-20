@@ -17,6 +17,7 @@ import java.util.Observer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+
 import algorithm.generic.Solution;
 import algorithm.generic.State;
 import algorithms.demo.Maze2dSearchableAdapter;
@@ -97,7 +98,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			String[] params;
 			BufferedReader readerFromClient=new BufferedReader(new InputStreamReader(client.getInputStream()));
 			String command=readerFromClient.readLine();
-			ObjectOutputStream outputCompressedToClient=new ObjectOutputStream(client.getOutputStream());
+			ObjectOutputStream outputCompressedToClient=new ObjectOutputStream( client.getOutputStream());
 			outputCompressedToClient.flush();
 
 
@@ -230,15 +231,18 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 
 			case ServerConstant.GET_CROSS_SECTION:
 
-				readerFromClient.readLine();//empty
+				String data1=readerFromClient.readLine();//empty
 				data = readerFromClient.readLine();
+				
+				
 				message=clientIP+ ","+clientPort+ "," +ServerConstant.GET_CROSS_SECTION;
 				messages.add(message);
 				setChanged();
 				notifyObservers();
 				params = ParseCroosMaze(data);
+				String []args= ParseCroosMaze(data1);
 
-				outputCompressedToClient.writeObject(getCrossSection(params[0], params[1],Integer.parseInt(params[2])));
+				outputCompressedToClient.writeObject(getCrossSection(params[0], args[0],Integer.parseInt(args[1])));
 				outputCompressedToClient.flush();
 				setChanged();
 				notifyObservers();
@@ -279,7 +283,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 	 */
 	private String[] ParseCroosMaze(String data) {
 
-		return data.split(",");
+		return data.split(" ");
 	}
 	
 	/**
@@ -327,6 +331,7 @@ public class MazeClientHandler extends Observable implements ClientHandler,Obser
 			}
 
 			Maze2dSearchableAdapter myMazeAdapter = new Maze2dSearchableAdapter(maze2d);
+			
 			return myMazeAdapter;
 
 		}catch (ArrayIndexOutOfBoundsException | NullPointerException a){

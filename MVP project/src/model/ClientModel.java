@@ -7,11 +7,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Observable;
-
 import algorithm.generic.Solution;
 import algorithms.demo.Maze2dSearchableAdapter;
 import algorithms.demo.Maze3dSearchableAdapter;
-import algorithms.mazeGenerators.Maze2d;
 import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.Searchable;
@@ -219,8 +217,12 @@ public class ClientModel extends Observable implements Model {
 	@Override
 	public Searchable<Position> CrossSectionBy(String name, String dimention, int section) {
 
-		Maze2d myMaze = (Maze2d)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.GET_CROSS_SECTION, name, dimention + " "  + section);
-		Maze2dSearchableAdapter myMazeAdapter = new Maze2dSearchableAdapter(myMaze);
+		//Maze2d myMaze = (Maze2d)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.GET_CROSS_SECTION, name, dimention + " "  + section);
+		Maze2dSearchableAdapter myMazeAdapter = (Maze2dSearchableAdapter)queryServer(preferences.serverIP, preferences.serverPort, ServerConstant.GET_CROSS_SECTION, name, dimention + " "  + section);
+		constantArgs[0] = Constant.MODEL_GENERATED;
+		constantArgs[1] = name;
+		setChanged();
+		notifyObservers(constantArgs);
 
 		return myMazeAdapter;
 	}

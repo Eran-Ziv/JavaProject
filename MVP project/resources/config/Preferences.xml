@@ -5,31 +5,21 @@
    <string>poolSize</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>9</int>
+    <int>12</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
    <string>serverIP</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <string>1.1.1.1</string>
+    <string>127.0.0.1</string>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
    <string>serverPort</string>
    <void method="set">
     <object idref="Preferences0"/>
-    <int>2</int>
-   </void>
-  </void>
-  <void class="generic.Preferences" method="getField">
-   <string>ui</string>
-   <void method="set">
-    <object idref="Preferences0"/>
-    <object class="java.lang.Enum" method="valueOf">
-     <class>generic.Preferences$UI</class>
-     <string>GUI</string>
-    </object>
+    <int>8090</int>
    </void>
   </void>
   <void class="generic.Preferences" method="getField">
@@ -39,6 +29,16 @@
     <object class="java.lang.Enum" method="valueOf">
      <class>generic.Preferences$MazeSolver</class>
      <string>MANHATTAN_ASTAR</string>
+    </object>
+   </void>
+  </void>
+  <void class="generic.Preferences" method="getField">
+   <string>access</string>
+   <void method="set">
+    <object idref="Preferences0"/>
+    <object class="java.lang.Enum" method="valueOf">
+     <class>generic.Preferences$Access</class>
+     <string>REMOTE_SERVER</string>
     </object>
    </void>
   </void>

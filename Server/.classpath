@@ -5,8 +5,8 @@
 	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/guava-10.0.jar"/>
-	<classpathentry kind="lib" path="lib/my algorithms.jar"/>
 	<classpathentry kind="lib" path="lib/swt.jar"/>
 	<classpathentry kind="lib" path="lib/MVP Project.jar"/>
+	<classpathentry kind="lib" path="lib/My Algorithms.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

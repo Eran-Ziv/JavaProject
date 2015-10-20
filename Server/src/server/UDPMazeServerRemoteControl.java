@@ -60,7 +60,7 @@ public class UDPMazeServerRemoteControl extends Observable implements Observer,R
 		try {
 			serverSocket=new DatagramSocket(properties.getPort());
 		} catch (SocketException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

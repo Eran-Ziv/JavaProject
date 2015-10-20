@@ -1,5 +1,6 @@
 package algorithms.demo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import algorithm.generic.State;
@@ -8,11 +9,16 @@ import algorithms.mazeGenerators.Maze3d;
 import algorithms.mazeGenerators.Position;
 import algorithms.mazeGenerators.Searchable;
 
+
 /**
  * The Class Maze3dSearchableAdapter.
  */
-public class Maze3dSearchableAdapter implements Searchable<Position> {
+public class Maze3dSearchableAdapter implements Searchable<Position> ,Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/** The maze. */
 	private Maze3d maze;
 

@@ -1,7 +1,13 @@
 package algorithms.mazeGenerators;
 
-public class Maze2d {
+import java.io.Serializable;
 
+public class Maze2d implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int[][] myMaze;
 	int length;
 	int width;
